@@ -162,12 +162,12 @@ jobs:
       - name: View current docker images
         run: docker images
 
-      # - name: Push Docker images to GitHub Container Registry
-      #   # only push if on master branch AND there's a new version to push
-      #   if: ${{ github.ref == 'refs/heads/master' && env.NEXT_VERSION != env.LATEST_GIT_TAG }}
-      #   run: |
-      #     docker push ${{ env.GHCR_IMAGE }}:latest
-      #     docker push ${{ env.GHCR_IMAGE }}:${{ env.NEXT_VERSION }}
+      - name: Push Docker images to GitHub Container Registry
+        # only push if on master branch AND there's a new version to push
+        if: ${{ github.ref == 'refs/heads/master' && env.NEXT_VERSION != env.LATEST_GIT_TAG }}
+        run: |
+          docker push ${{ env.GHCR_IMAGE }}:latest
+          docker push ${{ env.GHCR_IMAGE }}:${{ env.NEXT_VERSION }}
 
       - name: store NEXT_VERSION and LATEST_GIT_TAG to github output
         id: dockerBuild-output
