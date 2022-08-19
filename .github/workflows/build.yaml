@@ -180,7 +180,7 @@ jobs:
   semantic-release:
     needs: docker-build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
     steps:
       - uses: actions/checkout@v2
 
