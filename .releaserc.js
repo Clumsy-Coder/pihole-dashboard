@@ -13,6 +13,7 @@ module.exports = {
         assets: ['CHANGELOG.md', 'package.json', 'package-lock.json'],
       },
     ],
+    'semantic-release-export-data',
   ],
   // use https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-conventionalcommits
   // release rules: https://github.com/semantic-release/commit-analyzer/blob/master/lib/default-release-rules.js
