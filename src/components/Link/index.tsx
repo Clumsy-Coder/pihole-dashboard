@@ -97,7 +97,7 @@ export type LinkProps = {
    */
   href: NextLinkProps['href'];
   linkAs?: NextLinkProps['as']; // Useful when the as prop is shallow by styled().
-  noLinkStyle: boolean | false;
+  noLinkStyle?: boolean;
 } & Omit<NextLinkComposedProps, 'to' | 'linkAs' | 'href'> &
   Omit<MuiLinkProps, 'href'>;
 
@@ -176,5 +176,9 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(props,
     />
   );
 });
+
+Link.defaultProps = {
+  noLinkStyle: false,
+};
 
 export default Link;
