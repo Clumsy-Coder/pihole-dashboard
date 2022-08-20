@@ -1,10 +1,13 @@
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import AppBar from '@components/AppBar';
+import { drawerWidth } from '@components/Drawer';
 import darkTheme from '@utils/darkTheme';
 import createEmotionCache from '@utils/emotionCache';
 
@@ -30,7 +33,11 @@ const App = ({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <AppBar />
-      <Component {...pageProps} />
+      <Toolbar /> {/* Used as a spacer for the AppBar. Has no functional use */}
+      {/* offset the entire main content by the drawerWidth set in AppBar.tsx */}
+      <Box component='main' sx={{ ml: { lg: `${drawerWidth}px` } }}>
+        <Component {...pageProps} />
+      </Box>
     </ThemeProvider>
   </CacheProvider>
 );
