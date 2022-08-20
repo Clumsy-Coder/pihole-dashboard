@@ -197,7 +197,7 @@ jobs:
       - run: npm install --production=false
 
       - name: semantic-release
-        run: npx semantic-release --dry-run ${{github.ref != 'refs/heads/master'}} --ci ${{github.ref == 'refs/heads/master'}}
+        run: npx semantic-release --ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ####################################################################################################
