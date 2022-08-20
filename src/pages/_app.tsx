@@ -4,6 +4,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
+import AppBar from '@components/AppBar';
 import darkTheme from '@utils/darkTheme';
 import createEmotionCache from '@utils/emotionCache';
 
@@ -28,6 +29,7 @@ const App = ({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
     </Head>
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
+      <AppBar />
       <Component {...pageProps} />
     </ThemeProvider>
   </CacheProvider>
