@@ -60,15 +60,19 @@ jobs:
         run: npm run lint
 
   ################################################################################################
-  # extract semantic-release project next version and store them as github outputs.
-  # Will be used for building docker images
-  extract-envs:
+  # build docker image
+  docker-build:
+    # needs: extract-envs
     needs: install
     runs-on: ubuntu-latest
     outputs:
-      NEXT_VERSION: ${{ steps.next-version.outputs.NEXT_VERSION }}
+      NEXT_VERSION: ${{ steps.dockerBuild-output.outputs.NEXT_VERSION }}
+      new-release-published: ${{ steps.get-next-version.outputs.new-release-published }}
+      new-release-version: ${{ steps.get-next-version.outputs.new-release-version }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - uses: actions/cache@v3
         id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
@@ -80,45 +84,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      # applies new version to package.json
-      # if there's no new version, package.json version will remain unchanged
-      - name: extract next version and apply to package.json
-        run: npx semantic-release -d | grep 'Release note' | grep -Po '(\d+)\.(\d+)\.(\d+)' | xargs npm version --allow-same-version --no-git-tag-version
+      - name: Extract next semantic-release version
+        # run: npx semantic-release --dry-run --branches="*"
+        run: npx semantic-release --dry-run
+        id: get-next-version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: store NEXT_VERSION as env
+      # needed incase semantic-release doesn't run on branches other than 'master' or 'development'
+      - name: Set NEXT_VERSION if there's NO new release
+        if: |
+          steps.get-next-version.outputs.new-release-published == '' ||
+          steps.get-next-version.outputs.new-release-published == 'false'
+        run: node -p "require('./package').version" |  awk '{print "NEXT_VERSION=" $1}' >> $GITHUB_ENV
+
+      - name: Set NEXT_VERSION if there's a NEW release
+        if: steps.get-next-version.outputs.new-release-published == 'true'
         run: |
-          node -p "require('./package').version" |  awk '{print "NEXT_VERSION=" $1}' >> $GITHUB_ENV
-          echo ${{ env.NEXT_VERSION }}
-
-      - name: store NEXT_VERSION to github output
-        id: next-version
-        run: echo "::set-output name=NEXT_VERSION::${{ env.NEXT_VERSION }}"
-
-  ################################################################################################
-  # build docker image
-  # uses envs extracted from job "extract-env"
-  # uses envs from global env
-  docker-build:
-    needs: extract-envs
-    runs-on: ubuntu-latest
-    outputs:
-      NEXT_VERSION: ${{ steps.dockerBuild-output.outputs.NEXT_VERSION }}
-      LATEST_GIT_TAG: ${{ steps.dockerBuild-output.outputs.LATEST_GIT_TAG }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+          ${{ needs.extract-envs.outputs.new-release-version }}
+          echo "NEXT_VERSION=${{ needs.extract-envs.outputs.NEXT_VERSION }}" >> $GITHUB_ENV
 
       - name: Set Environment Variables
         run: |
           echo "BUILD_DATE=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
           echo "GIT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
           echo "GIT_REF=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)" >> $GITHUB_ENV
-          echo "NEXT_VERSION=${{ needs.extract-envs.outputs.NEXT_VERSION }}" >> $GITHUB_ENV
-          echo "LATEST_GIT_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
           echo "GHCR_IMAGE=$(echo 'console.log("ghcr.io/${{ github.repository }}".toLowerCase())' | node -)" >> $GITHUB_ENV
+
+      - run: echo $GITHUB_ENV
 
       - name: Create .env.local for NextJS
         run: |
@@ -164,16 +157,10 @@ jobs:
 
       - name: Push Docker images to GitHub Container Registry
         # only push if on master branch AND there's a new version to push
-        if: ${{ github.ref == 'refs/heads/master' && env.NEXT_VERSION != env.LATEST_GIT_TAG }}
+        if: steps.get-next-version.outputs.new-release-published == 'true'
         run: |
           docker push ${{ env.GHCR_IMAGE }}:latest
           docker push ${{ env.GHCR_IMAGE }}:${{ env.NEXT_VERSION }}
-
-      - name: store NEXT_VERSION and LATEST_GIT_TAG to github output
-        id: dockerBuild-output
-        run: |
-          echo "::set-output name=NEXT_VERSION::${{ env.NEXT_VERSION }}"
-          echo "::set-output name=LATEST_GIT_TAG::${{ env.LATEST_GIT_TAG }}"
 
   ################################################################################################
 
