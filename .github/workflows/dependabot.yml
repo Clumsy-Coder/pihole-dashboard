@@ -1,12 +1,16 @@
 name: Dependabot automerge
 on: [push, pull_request]
+# description: Automerge dependabot pull requests
 
 jobs:
-  automerge:
+  automerge-pr:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
       contents: write
+    if: |
+      startsWith(github.event.pull_request.title, 'build(deps):') ||
+      startsWith(github.event.pull_request.title, 'build(devDep):')
     steps:
       - uses: fastify/github-action-merge-dependabot@v3.0.0
         with:
