@@ -39,7 +39,7 @@
     "@types/node": "18.7.9",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
-    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "@typescript-eslint/eslint-plugin": "^5.34.0",
     "@typescript-eslint/parser": "^5.33.1",
     "conventional-changelog": "^3.1.25",
     "eslint": "^8.22.0",
@@ -50,7 +50,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-tsdoc": "^0.2.16",
     "prettier": "^2.7.1",
-    "semantic-release": "^19.0.3",
+    "semantic-release": "^19.0.4",
     "semantic-release-export-data": "^1.0.0",
     "typescript": "4.7.4"
   }
