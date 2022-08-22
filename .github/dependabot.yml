@@ -12,3 +12,4 @@ updates:
     commit-message:
       prefix: 'build(deps): '
       prefix-development: 'build(devDep): '
+    target-branch: 'development'
