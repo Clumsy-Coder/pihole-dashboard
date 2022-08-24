@@ -28,6 +28,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.4",
+    "axios": "^0.27.2",
     "clsx": "^1.2.1",
     "ip-address": "^8.1.0",
     "next": "^12.3.0",
