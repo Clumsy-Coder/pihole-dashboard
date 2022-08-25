@@ -34,6 +34,7 @@ const App = ({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
       <CssBaseline />
       <AppBar />
       <Toolbar /> {/* Used as a spacer for the AppBar. Has no functional use */}
+      <br /> {/* Add a little space between the appbar and the main content  */}
       {/* offset the entire main content by the drawerWidth set in AppBar.tsx */}
       <Box component='main' sx={{ ml: { lg: `${drawerWidth}px` } }}>
         <Component {...pageProps} />
