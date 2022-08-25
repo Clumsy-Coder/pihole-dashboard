@@ -69,5 +69,6 @@ module.exports = {
     'react/react-in-jsx-scope': 'off', // https://stackoverflow.com/a/61160875/3053548
     'jsx-quotes': ['error', 'prefer-single'],
     // 'object-curly-newline': ["error", { "multiline": true }
+    'prettier/prettier': 'warn',
   },
 };
