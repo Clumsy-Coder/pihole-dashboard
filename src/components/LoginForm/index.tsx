@@ -2,11 +2,12 @@ import { ChangeEvent, Component, FormEvent, KeyboardEvent } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import crypto from 'crypto';
 import { Address4 } from 'ip-address';
 
-import { PostRequestData } from '@pages/api/auth/login';
+import { PostRequestData, PostResponseData } from '@pages/api/auth/login';
+import Typography from '@mui/material/Typography';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface IProps {}
@@ -23,6 +24,7 @@ interface IState extends PostRequestData {
    */
   isIpValid: boolean;
   isPortValid: boolean;
+  authError: string;
   authLoading: boolean;
 }
 
@@ -38,6 +40,7 @@ class LoginForm extends Component<IProps, IState> {
       port: '80',
       isIpValid: true,
       isPortValid: true,
+      authError: '',
       authLoading: false,
     };
   }
@@ -135,7 +138,7 @@ class LoginForm extends Component<IProps, IState> {
 
     event.preventDefault();
 
-    this.setState({ authLoading: true });
+    this.setState({ authLoading: true, authError: '' });
 
     axios
       .post('/api/auth/login', {
@@ -145,18 +148,19 @@ class LoginForm extends Component<IProps, IState> {
       })
       .then((res) => {
         console.log(res);
-        this.setState({ authLoading: false });
+        this.setState({ authLoading: false, authError: '' });
       })
       .catch((err: AxiosError<PostResponseData>) => {
         console.log(err);
         this.setState({
           authLoading: false,
+          authError: err.response?.data.message ?? '',
         });
       });
   };
 
   render() {
-    const { authLoading, isPortValid, isIpValid, password, port } = this.state;
+    const { authLoading, authError, isPortValid, isIpValid, password, port } = this.state;
 
     return (
       <form method='POST' action='/api/auth/login' onSubmit={this.handleSubmit}>
@@ -222,6 +226,11 @@ class LoginForm extends Component<IProps, IState> {
             >
               Log in
             </LoadingButton>
+          </Grid>
+          <Grid item alignSelf='center' sx={{ display: authError.length ? 12 : 'none' }}>
+            <Grid>
+              <Typography color='error'>{authError}</Typography>
+            </Grid>
           </Grid>
         </Grid>
       </form>
