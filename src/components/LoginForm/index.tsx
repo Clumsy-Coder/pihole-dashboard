@@ -1,5 +1,5 @@
 import { ChangeEvent, Component, FormEvent, KeyboardEvent } from 'react';
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
@@ -23,6 +23,7 @@ interface IState extends PostRequestData {
    */
   isIpValid: boolean;
   isPortValid: boolean;
+  authLoading: boolean;
 }
 
 /**
@@ -37,6 +38,7 @@ class LoginForm extends Component<IProps, IState> {
       port: '80',
       isIpValid: true,
       isPortValid: true,
+      authLoading: false,
     };
   }
 
@@ -133,18 +135,28 @@ class LoginForm extends Component<IProps, IState> {
 
     event.preventDefault();
 
+    this.setState({ authLoading: true });
+
     axios
       .post('/api/auth/login', {
         ipAddress,
         password,
         port,
       })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        console.log(res);
+        this.setState({ authLoading: false });
+      })
+      .catch((err: AxiosError<PostResponseData>) => {
+        console.log(err);
+        this.setState({
+          authLoading: false,
+        });
+      });
   };
 
   render() {
-    const { isPortValid, isIpValid, password, port } = this.state;
+    const { authLoading, isPortValid, isIpValid, password, port } = this.state;
 
     return (
       <form method='POST' action='/api/auth/login' onSubmit={this.handleSubmit}>
@@ -201,14 +213,15 @@ class LoginForm extends Component<IProps, IState> {
             />
           </Grid>
           <Grid item>
-            <Button
+            <LoadingButton
               fullWidth
               variant='contained'
               type='submit'
               disabled={!isIpValid || password.length === 0 || !isPortValid}
+              loading={authLoading}
             >
               Log in
-            </Button>
+            </LoadingButton>
           </Grid>
         </Grid>
       </form>
