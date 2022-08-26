@@ -9,6 +9,17 @@ const nextConfig = {
   // for running in docker. 
   // https://github.com/vercel/next.js/tree/canary/examples/with-docker#in-existing-projects
   output: 'standalone', 
+  // loading svg
+  // obtained from https://github.com/vercel/next.js/blob/canary/examples/svg-components/next.config.js
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      use: ['@svgr/webpack'],
+    })
+
+    return config
+  },
 }
 
 module.exports = nextConfig
