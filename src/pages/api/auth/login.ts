@@ -24,6 +24,10 @@ export interface PostRequestData {
   port: string | 80;
 }
 
+export interface PostResponseData {
+  message: string;
+}
+
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
@@ -38,7 +42,7 @@ export interface PostRequestData {
  * @param res - HTTP response provided by NextJS
  * @returns undefined
  */
-const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
+const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponseData>) => {
   const { ipAddress: serverIp, password, port } = req.body as PostRequestData;
 
   // validate serverIp
