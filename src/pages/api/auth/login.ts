@@ -17,6 +17,11 @@ export interface PostRequestData {
    * Stored as a sha256 hash
    */
   password: string;
+  /**
+   * Pi-hole port number
+   * Default is 80
+   */
+  port: string | 80;
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
@@ -34,25 +39,32 @@ export interface PostRequestData {
  * @returns undefined
  */
 const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { ipAddress: serverIp, password } = req.body as PostRequestData;
+  const { ipAddress: serverIp, password, port } = req.body as PostRequestData;
 
   // validate serverIp
   if (!Address4.isValid(serverIp)) {
     res.status(400).json({ message: 'invalid IP address' });
     return;
   }
+
+  // validate port number
+  if (port === '' || !Number.isInteger(+port)) {
+    res.status(400).json({ message: `invalid port number. '${port}'` });
+    return;
+  }
+
   // check if password works with the api
   const hash = crypto.createHash('sha256').update(password).digest('hex');
 
   // check if credentials work
   // if it works, data should be returned
   // if it doesn't work, empty array is returned
-  const result = await axios.get(`http://${serverIp}/admin/api_db.php`, {
-    params: {
-      status: true,
-      auth: hash,
-    },
-  });
+    const result = await axios.get(`http://${serverIp}:${port}/admin/api_db.php`, {
+      params: {
+        status: true,
+        auth: hash,
+      },
+    });
 
   // if user provided invalid credentials
   if (Array.isArray(result.data)) {
