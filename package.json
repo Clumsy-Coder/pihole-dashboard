@@ -29,6 +29,7 @@
     "@mui/icons-material": "^5.10.3",
     "@mui/lab": "^5.0.0-alpha.96",
     "@mui/material": "^5.10.4",
+    "@reduxjs/toolkit": "^1.8.5",
     "axios": "^0.27.2",
     "clsx": "^1.2.1",
     "ip-address": "^8.1.0",
