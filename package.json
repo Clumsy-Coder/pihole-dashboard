@@ -3,7 +3,7 @@
   "version": "1.0.0-development.1",
   "private": true,
   "scripts": {
-    "dev": "npm run generateEnv && next dev",
+    "dev": "npm run generateEnv && echo 'SECRET_COOKIE_PASSWORD=cteBV25ymu4HnVAvhDVf46JbGxZePA6Q' >> .env.local && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "npm run lint:tsc && npm run lint:eslint",
