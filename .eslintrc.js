@@ -70,5 +70,6 @@ module.exports = {
     'jsx-quotes': ['error', 'prefer-single'],
     // 'object-curly-newline': ["error", { "multiline": true }
     'prettier/prettier': 'warn',
+    'max-classes-per-file': 'off',
   },
 };
