@@ -2,7 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Address4 } from 'ip-address';
 import crypto from 'crypto';
-import axios from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { ErrorResponse, InternalServerError, UnreachableResponse } from '@lib/AxiosError';
 
 /**
  * Data sent by the user.
@@ -27,6 +28,32 @@ export interface PostRequestData {
 export interface PostResponseData {
   message: string;
 }
+
+// throw different types of errors, depending on the situation
+// obtained from
+//    https://medium.com/geekculture/how-to-strongly-type-try-catch-blocks-in-typescript-4681aff406b9
+axios.interceptors.response.use(
+  // onFulfilled
+  (response: AxiosResponse<PostRequestData>) => response,
+  // onRejected
+  (response: AxiosResponse<string, PostRequestData>) => {
+    // The request was made but no response was received
+    if (response.request) {
+      return Promise.reject(
+        new UnreachableResponse(
+          response.data || 'Pi-hole not reachable. Try a different IP address or port',
+          response.status || 400,
+        ),
+      );
+    }
+    if (response.status >= 500) {
+      return Promise.reject(new InternalServerError(response.data, response.status || 500));
+    }
+
+    // Something happened in setting up the request that triggered an error
+    return new ErrorResponse(response.data, response.status || 500);
+  },
+);
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
@@ -63,25 +90,30 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
   // check if credentials work
   // if it works, data should be returned
   // if it doesn't work, empty array is returned
-    const result = await axios.get(`http://${serverIp}:${port}/admin/api_db.php`, {
+  await axios
+    .get(`http://${serverIp}:${port}/admin/api_db.php`, {
       params: {
         status: true,
         auth: hash,
       },
+      timeout: 10000, // the request shouldn't take longer than 1 seconds
+    })
+    .then((response: AxiosResponse<PostResponseData>) => {
+      // if user provided invalid credentials
+      if (Array.isArray(response.data)) {
+        res.status(400).json({ message: 'invalid credentials' });
+        return;
+      }
+
+      // user is authenticated
+      res.status(200).json({
+        message: 'logged in',
+      });
+    })
+    .catch((error: AxiosError<ErrorResponse>) => {
+      res.status(error.status ? Number(error.status) : 500).json({ message: error.message });
     });
-
-  // if user provided invalid credentials
-  if (Array.isArray(result.data)) {
-    res.status(400).json({ message: 'invalid credentials' });
-    return;
-  }
-
   // TODO: create encrypted cookie session to store ipAddress and password. Check iron-session
-
-  // user is authenticated
-  res.status(200).json({
-    message: 'logged in',
-  });
 };
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
