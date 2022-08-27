@@ -25,7 +25,15 @@ export interface PostRequestData {
   port: string | 80;
 }
 
+/**
+ * Data sent as a Response
+ */
 export interface PostResponseData {
+  /**
+   * Message sent to the requester.
+   * Could be a success message.
+   * Could be a error message.
+   */
   message: string;
 }
 
