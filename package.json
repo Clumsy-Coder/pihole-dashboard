@@ -35,7 +35,8 @@
     "iron-session": "^6.2.0",
     "next": "^12.3.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "signale": "^1.4.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.1",
@@ -45,6 +46,7 @@
     "@types/node": "18.7.14",
     "@types/react": "18.0.18",
     "@types/react-dom": "18.0.6",
+    "@types/signale": "^1.4.4",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "@typescript-eslint/parser": "^5.36.2",
     "conventional-changelog": "^3.1.25",
