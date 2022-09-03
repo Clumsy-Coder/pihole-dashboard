@@ -7,6 +7,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { ErrorResponse, InternalServerError, UnreachableResponse } from '@lib/AxiosError';
 import { IAuthSession, sessionOptions } from '@lib/AuthSession';
+import logger from '@utils/logger';
 
 /**
  * Data sent by the user.
@@ -41,17 +42,37 @@ axios.interceptors.response.use(
     const unreachableMsg = 'Pi-hole not reachable. Try a different IP address or port';
     const { code } = error;
     const status = error.response?.status ?? 500;
+    const axiosErrorLogger = logger.scope('/api/auth/login', 'axios response', 'ERROR');
 
     // The request was made but no response was received
     if (error.request) {
+      // logger.info(`error.request`, error.request);
+      axiosErrorLogger.info({
+        // prefix: 'axios.interceptors.response /api/auth/login',
+        message: `returning error UnreachableResponse { message: '${unreachableMsg} status: ${
+          status || 400
+        }'}`,
+      });
       return Promise.reject(new UnreachableResponse(unreachableMsg, status || 400));
     }
     // response was received, but has a status code in range of 500
     if (error.response) {
+      axiosErrorLogger.info({
+        // prefix: 'axios.interceptors.response /api/auth/login',
+        message: `returning error InternalServerError { message: '${error.response.data}, status: ${
+          status || 500
+        }'}`,
+      });
       return Promise.reject(new InternalServerError(error.response.data, status || 500));
     }
 
     // Something happened in setting up the request that triggered an error
+    axiosErrorLogger.info({
+      // prefix: 'axios.interceptors.response /api/auth/login',
+      message: `returning error ErrorResponse { message: '${
+        error.message || unreachableMsg
+      }, status: ${status || 500}' }`,
+    });
     return Promise.reject(new ErrorResponse(error.message || 'Error response', status || 500));
   },
 );
@@ -69,19 +90,23 @@ axios.interceptors.response.use(
  *
  * @param req - HTTP request provided by NextJS
  * @param res - HTTP response provided by NextJS
- * @returns undefined
  */
 const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponseData>) => {
   const { ipAddress, password, port } = req.body as PostRequestData;
+  const postLogger = logger.scope('/api/auth/login', 'POST');
 
   // validate serverIp
   if (!Address4.isValid(ipAddress)) {
+    postLogger.error(`invalid IP address`);
+    postLogger.complete(`sending response 'invalid IP address. ${ipAddress}'`);
     res.status(400).json({ message: 'invalid IP address' });
     return;
   }
 
   // validate port number
   if (port === '' || !Number.isInteger(+port)) {
+    postLogger.error(`invalid port number`);
+    postLogger.complete(`sending response 'invalid port number. '${port}'`);
     res.status(400).json({ message: `invalid port number. '${port}'` });
     return;
   }
@@ -103,10 +128,14 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
     .then(async (response: AxiosResponse<PostResponseData>) => {
       // if user provided invalid credentials
       if (Array.isArray(response.data)) {
+        postLogger.error(`invalid credentials`);
+        postLogger.complete(`sending response 'invalid credentials'`);
+        // console.log(`sending to user: 'invalid credentials'`);
         res.status(400).json({ message: 'invalid credentials' });
         return;
       }
 
+      postLogger.info(`saving credentials as encrypted cookie`);
       // create encrypted cookie session to store ipAddress, port and password. Check iron-session
       // obtained from https://github.com/vercel/next.js/blob/canary/examples/with-iron-session/pages/api/login.ts
       req.session.authSession = {
@@ -117,14 +146,22 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
       await req.session.save();
 
       // user is authenticated
+      postLogger.complete(`sending response { message: 'success'}`);
       res.status(200).json({
         message: 'success',
       });
     })
     .catch((error: AxiosError<ErrorResponse>) => {
+      postLogger.error(
+        `error returned when sending HTTP request to 'http://${ipAddress}:${port}/admin/api_db.php'`,
+      );
+      postLogger.info(`upstream response message: '${error.message}'`);
+      postLogger.complete(
+        `sending response: { message: '${error.message}', status: ${error.status ?? 500} }`,
+      );
+
       res.status(error.status ? Number(error.status) : 500).json({ message: error.message });
     });
-  // TODO: create encrypted cookie session to store ipAddress and password. Check iron-session
 };
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
@@ -148,6 +185,7 @@ const requestHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     }
     default: {
+      logger.error({ prefix: `/api/auth/login`, message: `invalid HTTP method type '${method}'` });
       res.setHeader('Allow', ['POST']);
       res.status(405).end(`Method ${method} Not Allowed`);
     }
