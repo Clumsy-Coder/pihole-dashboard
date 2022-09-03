@@ -2,10 +2,11 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import crypto from 'crypto';
 import { Address4 } from 'ip-address';
+import { withIronSessionApiRoute } from 'iron-session/next';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { ErrorResponse, InternalServerError, UnreachableResponse } from '@lib/AxiosError';
-import { IAuthSession } from '@lib/AuthSession';
+import { IAuthSession, sessionOptions } from '@lib/AuthSession';
 
 /**
  * Data sent by the user.
@@ -61,6 +62,7 @@ axios.interceptors.response.use(
  * Login for user.
  *
  * check if IPv4 is valid
+ * check if port number is valid
  * check if IPv4 and password works with Pi-hole api
  * if authentication failed, return response status 400
  * if authentication is successful, create session cookie (IP address and password) encrypted
@@ -70,10 +72,10 @@ axios.interceptors.response.use(
  * @returns undefined
  */
 const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponseData>) => {
-  const { ipAddress: serverIp, password, port } = req.body as PostRequestData;
+  const { ipAddress, password, port } = req.body as PostRequestData;
 
   // validate serverIp
-  if (!Address4.isValid(serverIp)) {
+  if (!Address4.isValid(ipAddress)) {
     res.status(400).json({ message: 'invalid IP address' });
     return;
   }
@@ -91,23 +93,32 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
   // if it works, data should be returned
   // if it doesn't work, empty array is returned
   await axios
-    .get(`http://${serverIp}:${port}/admin/api_db.php`, {
+    .get(`http://${ipAddress}:${port}/admin/api_db.php`, {
       params: {
         status: true,
         auth: hash,
       },
-      timeout: 10000, // the request shouldn't take longer than 1 seconds
+      timeout: 1000, // the request shouldn't take longer than 1 seconds
     })
-    .then((response: AxiosResponse<PostResponseData>) => {
+    .then(async (response: AxiosResponse<PostResponseData>) => {
       // if user provided invalid credentials
       if (Array.isArray(response.data)) {
         res.status(400).json({ message: 'invalid credentials' });
         return;
       }
 
+      // create encrypted cookie session to store ipAddress, port and password. Check iron-session
+      // obtained from https://github.com/vercel/next.js/blob/canary/examples/with-iron-session/pages/api/login.ts
+      req.session.authSession = {
+        ipAddress,
+        port,
+        password: hash,
+      };
+      await req.session.save();
+
       // user is authenticated
       res.status(200).json({
-        message: 'logged in',
+        message: 'success',
       });
     })
     .catch((error: AxiosError<ErrorResponse>) => {
@@ -127,7 +138,7 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
  * @remarks
  * HTTP method allowed: `POST`
  */
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const requestHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method = '' } = req;
 
   // limit which HTTP methods are allowed
@@ -142,3 +153,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 };
+
+export default withIronSessionApiRoute(requestHandler, sessionOptions);
