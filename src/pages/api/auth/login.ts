@@ -4,26 +4,12 @@ import { Address4 } from 'ip-address';
 import crypto from 'crypto';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { ErrorResponse, InternalServerError, UnreachableResponse } from '@lib/AxiosError';
+import { IAuthSession } from '@lib/AuthSession';
 
 /**
  * Data sent by the user.
  */
-export interface PostRequestData {
-  /**
-   * Pi-hole IPv4 address
-   */
-  ipAddress: string;
-  /**
-   * Pi-hole authentication password.
-   * Stored as a sha256 hash
-   */
-  password: string;
-  /**
-   * Pi-hole port number
-   * Default is 80
-   */
-  port: string | 80;
-}
+export type PostRequestData = IAuthSession;
 
 /**
  * Data sent as a Response
