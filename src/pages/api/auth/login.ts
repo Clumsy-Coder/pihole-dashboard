@@ -26,27 +26,32 @@ export interface PostResponseData {
 
 // throw different types of errors, depending on the situation
 // obtained from
+//    https://rapidapi.com/guides/handle-axios-errors
 //    https://medium.com/geekculture/how-to-strongly-type-try-catch-blocks-in-typescript-4681aff406b9
+//    https://rapidapi.com/guides/handle-axios-errors
+//    https://dev.to/charlintosh/setting-up-axios-interceptors-react-js-typescript-12k5
+//    https://stackoverflow.com/a/73062433/3053548
+//    https://dev.to/darkmavis1980/how-to-use-axios-interceptors-to-handle-api-error-responses-2ij1
 axios.interceptors.response.use(
   // onFulfilled
   (response: AxiosResponse<PostRequestData>) => response,
   // onRejected
-  (response: AxiosResponse<string, PostRequestData>) => {
+  (error: AxiosError<string, PostRequestData>) => {
+    const unreachableMsg = 'Pi-hole not reachable. Try a different IP address or port';
+    const { code } = error;
+    const status = error.response?.status ?? 500;
+
     // The request was made but no response was received
-    if (response.request) {
-      return Promise.reject(
-        new UnreachableResponse(
-          response.data || 'Pi-hole not reachable. Try a different IP address or port',
-          response.status || 400,
-        ),
-      );
+    if (error.request) {
+      return Promise.reject(new UnreachableResponse(unreachableMsg, status || 400));
     }
-    if (response.status >= 500) {
-      return Promise.reject(new InternalServerError(response.data, response.status || 500));
+    // response was received, but has a status code in range of 500
+    if (error.response) {
+      return Promise.reject(new InternalServerError(error.response.data, status || 500));
     }
 
     // Something happened in setting up the request that triggered an error
-    return new ErrorResponse(response.data, response.status || 500);
+    return Promise.reject(new ErrorResponse(error.message || 'Error response', status || 500));
   },
 );
 
