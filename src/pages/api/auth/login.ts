@@ -2,12 +2,13 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import crypto from 'crypto';
 import { Address4 } from 'ip-address';
-import { withIronSessionApiRoute } from 'iron-session/next';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { ErrorResponse, InternalServerError, UnreachableResponse } from '@lib/AxiosError';
-import { IAuthSession, sessionOptions } from '@lib/AuthSession';
+import { IAuthSession, withSessionRoute } from '@lib/AuthSession';
 import logger from '@utils/logger';
+
+// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 /**
  * Data sent by the user.
@@ -40,7 +41,7 @@ axios.interceptors.response.use(
   // onRejected
   (error: AxiosError<string, PostRequestData>) => {
     const unreachableMsg = 'Pi-hole not reachable. Try a different IP address or port';
-    const { code } = error;
+    // const { code } = error;
     const status = error.response?.status ?? 500;
     const axiosErrorLogger = logger.scope('/api/auth/login', 'axios response', 'ERROR');
 
@@ -192,4 +193,4 @@ const requestHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default withIronSessionApiRoute(requestHandler, sessionOptions);
+export default withSessionRoute(requestHandler);
