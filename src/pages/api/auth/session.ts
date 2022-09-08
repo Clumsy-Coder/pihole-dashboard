@@ -47,7 +47,7 @@ const handleGet = (req: NextApiRequest, res: NextApiResponse<IAuthSession>) => {
  * Default method to run when executing this http api endpoint
  *
  * @remarks
- * HTTP API endpoint `/api/auth/login`
+ * HTTP API endpoint `/api/auth/session`
  *
  * @remarks
  * HTTP method allowed: `GET`
