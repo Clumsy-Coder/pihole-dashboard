@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import crypto from 'crypto';
 import { Address4 } from 'ip-address';
+import { useRouter } from 'next/router';
 
 import { SessionState, usePostAuthSessionMutation } from '@redux/AuthSession';
 
@@ -19,6 +20,7 @@ const LoginForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [authMessage, setAuthMessage] = useState<SessionState['message']>('');
   const [postAuthSession, { isLoading }] = usePostAuthSessionMutation();
+  const router = useRouter();
 
   /**
    * Check if IPv4 address is valid.
@@ -100,6 +102,8 @@ const LoginForm: React.FC = () => {
 
     try {
       await postAuthSession({ ipAddress, password, port }).unwrap();
+      // eslint-disable-next-line no-console
+      router.push('/').catch(console.error);
     } catch (err: unknown) {
       setAuthMessage((err as { data: { message: string } }).data.message);
     }
