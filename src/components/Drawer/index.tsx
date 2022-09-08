@@ -6,8 +6,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 
+import AuthDrawerListItem from '@components/Drawer/authDrawerItems';
 import { IpageLinks, pageLinks } from '@components/Drawer/pageLinks';
 import Link from '@components/Link';
+import { useGetAuthSessionQuery } from '@redux/AuthSession';
 
 /**
  * Width of Drawer in pixels.
@@ -17,34 +19,56 @@ import Link from '@components/Link';
 export const drawerWidth = 200;
 
 /**
+ * Render basic Drawer List Items that don't require user Authentication
+ */
+const BasicDrawerListItems: React.FC = () => {
+  const { about, githubRepo } = pageLinks;
+  const drawerLinks: IpageLinks[] = [about, githubRepo];
+
+  return (
+    <>
+      {/* eslint-disable-next-line object-curly-newline */}
+      {drawerLinks.map(({ linkName, url, icon }) => (
+        // using Material-UI ListItem as button to navigate NextJS pages
+        // https://dev.to/ivandotv/using-next-js-link-component-with-material-ui-buttons-and-menu-items-3m6a
+        <ListItem button component={Link} href={url} key={linkName} rel='noreferrer'>
+          <ListItemIcon>{icon}</ListItemIcon>
+          <ListItemText primary={linkName} />
+        </ListItem>
+      ))}
+    </>
+  );
+};
+
+/**
  * Drawer items to render when opening the Drawer
  *
  * @returns Drawer items to be rendered
  */
 export const DrawerList = () => {
-  const { home, about, login, githubRepo } = pageLinks;
-  const drawerLinks: IpageLinks[] = [home, about, login, githubRepo];
+  const { login } = pageLinks;
+  const { data = { ipAddress: '', port: '' } } = useGetAuthSessionQuery();
+
+  /**
+   * Login button used as a Drawer List Item
+   */
+  const loginListItem = () => (
+    <ListItem button component={Link} href={login.url} key={login.linkName} rel='noreferrer'>
+      <ListItemIcon>{login.icon}</ListItemIcon>
+      <ListItemText primary={login.linkName} />
+    </ListItem>
+  );
+
   return (
     <>
       <Toolbar />
       <Divider />
       <List>
-        {/* eslint-disable-next-line object-curly-newline */}
-        {drawerLinks.map(({ linkName, url, icon }) => (
-          // using Material-UI ListItem as button to navigate NextJS pages
-          // https://dev.to/ivandotv/using-next-js-link-component-with-material-ui-buttons-and-menu-items-3m6a
-          <ListItem
-            button
-            component={Link}
-            href={url}
-            key={linkName}
-            rel='noreferrer'
-            // onClick={onClick}
-          >
-            <ListItemIcon>{icon}</ListItemIcon>
-            <ListItemText primary={linkName} />
-          </ListItem>
-        ))}
+        <>
+          {data.ipAddress.length ? <AuthDrawerListItem /> : loginListItem()}
+          <Divider />
+          <BasicDrawerListItems />
+        </>
       </List>
     </>
   );
@@ -61,9 +85,10 @@ interface CustomProps extends DrawerProps {
  * Drawer items are rendered separately.
  * Will show content differently when logged in
  *
- * @param props.open is drawer open
- * @param props.onClose function to call when closing the Drawer
+ * @param props - component props. Check `CustomProps`
  * @returns JSX component
+ *
+ * @see {@link CustomProps}
  */
 const Drawer = (props: CustomProps) => {
   const { open: isDrawerOpen, onClose: handleDrawerToggle, ...otherProps } = props;
