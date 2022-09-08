@@ -1,116 +1,84 @@
-import { ChangeEvent, Component, FormEvent, KeyboardEvent } from 'react';
+import { ChangeEvent, FormEvent, KeyboardEvent, useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import axios, { AxiosError } from 'axios';
+import Typography from '@mui/material/Typography';
 import crypto from 'crypto';
 import { Address4 } from 'ip-address';
 
-import { PostRequestData, PostResponseData } from '@pages/api/auth/login';
-import Typography from '@mui/material/Typography';
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface IProps {}
-
-/**
- * Login Component state props
- */
-interface IState extends PostRequestData {
-  /**
-   * Whether the Ipv4 address provided is valid.
-   * Using npm package 'ip-address' to verify
-   *
-   * @see {@link https://github.com/beaugunderson/ip-address}
-   */
-  isIpValid: boolean;
-  isPortValid: boolean;
-  authError: string;
-  authLoading: boolean;
-}
+import { SessionState, usePostAuthSessionMutation } from '@redux/AuthSession';
 
 /**
  * Render Login component
  */
-class LoginForm extends Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      ipAddress: '',
-      password: '',
-      port: '80',
-      isIpValid: true,
-      isPortValid: true,
-      authError: '',
-      authLoading: false,
-    };
-  }
+const LoginForm: React.FC = () => {
+  const [isIpValid, setIpValid] = useState(true);
+  const [isPortValid, setPortValid] = useState(true);
+  const [ipAddress, setIpAddress] = useState('');
+  const [port, setPort] = useState('80');
+  const [password, setPassword] = useState('');
+  const [authMessage, setAuthMessage] = useState<SessionState['message']>('');
+  const [postAuthSession, { isLoading }] = usePostAuthSessionMutation();
 
   /**
-   * Check if Component state property 'ipAddress' is a valid IPv4 address.
-   * If it's valid, then set Component state property 'isIpValid' to true,
-   * If it's not valid, then set Component state property 'isIpValid' to false,
+   * Check if IPv4 address is valid.
+   * If it's valid, set isIpValid to true.
+   * If it's NOT valid, set isIpValid to false
    *
-   * Uses npm package 'ip-address to check it's a property IPv4 address
-   * @see {@link https://github.com/beaugunderson/ip-address}
+   * Run when there's a change in IP address textfiled
    */
-  validateIp = () => {
-    const { ipAddress } = this.state;
-
+  const validateIp = () => {
     if (Address4.isValid(ipAddress)) {
-      this.setState({ isIpValid: true });
+      setIpValid(true);
     } else {
-      this.setState({ isIpValid: false });
+      setIpValid(false);
     }
   };
 
   /**
-   * Check if component state property 'port' is a valid number
+   * Check port number is valid
+   * If it's valid, set isPortValid to true
+   * If it's NOT valid, set isPortValid to false
    *
-   * If it's valid, then set Component state property 'isPortValid' to true
-   * If it's not valid, then set Component state property 'isPortValid' to false
-   *
+   * Run when there's a change in port number textfield
    */
-  validatePort = () => {
-    const { port } = this.state;
-
+  const validatePort = () => {
     if (port === '') {
-      this.setState({ isPortValid: false });
+      setPortValid(false);
     } else if (Number.isInteger(+port) && +port > 0) {
-      this.setState({ isPortValid: true });
+      setPortValid(true);
     } else {
-      this.setState({ isPortValid: false });
+      setPortValid(false);
     }
   };
 
   /**
-   * Set Component state values when input text changes.
-   * Sets Component state property 'ipAddress'
-   * Sets Component state property 'password'
+   * Set 'ipAddress', 'port', 'password' when their respective textfields change.
    *
-   * @param event - Event when changing input value
+   * Call 'validateIp' when setting ipAddress
+   * Call 'validatePort' when setting port
    */
-  onChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     if (name === 'ipAddress') {
-      this.setState({ ipAddress: value }, this.validateIp);
+      setIpAddress(value);
+      validateIp();
     } else if (name === 'password') {
       // store password as a hash. NEVER in plain text
       const hash = value.length > 0 ? crypto.createHash('sha256').update(value).digest('hex') : '';
-      this.setState({ password: hash });
+      setPassword(hash);
     } else if (name === 'port') {
-      this.setState({ port: value }, this.validatePort);
+      setPort(value);
+      validatePort();
     }
   };
 
   /**
-   * Check if the key pressed is a number. Block everything else.
-   * To be used ONLY on Textfield for 'port'
-   *
-   * @param event - Event when key is pressed
+   * Check which key is pressed when typing in port number textfield.
+   * Allow numbers, block anything else
    */
-  // eslint-disable-next-line class-methods-use-this
-  portOnKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+  const portOnKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
     const { which } = event;
 
     // check the ascii value
@@ -126,116 +94,91 @@ class LoginForm extends Component<IProps, IState> {
     }
   };
 
-  /**
-   * Call api '/api/auth/login' to authenticate
-   * If the authentication was successful, then redirect page to 'dashboard' (home page)
-   * If the authentication has failed, display an error message
-   *
-   * @param event - Event when submitting form
-   */
-  handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    const { ipAddress, password, port } = this.state;
-
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setAuthMessage('');
 
-    this.setState({ authLoading: true, authError: '' });
-
-    axios
-      .post('/api/auth/login', {
-        ipAddress,
-        password,
-        port,
-      })
-      .then((res) => {
-        console.log(res);
-        this.setState({ authLoading: false, authError: '' });
-      })
-      .catch((err: AxiosError<PostResponseData>) => {
-        console.log(err);
-        this.setState({
-          authLoading: false,
-          authError: err.response?.data.message ?? '',
-        });
-      });
+    try {
+      await postAuthSession({ ipAddress, password, port }).unwrap();
+    } catch (err: unknown) {
+      setAuthMessage((err as { data: { message: string } }).data.message);
+    }
   };
 
-  render() {
-    const { authLoading, authError, isPortValid, isIpValid, password, port } = this.state;
-
-    return (
-      <form method='POST' action='/api/auth/login' onSubmit={this.handleSubmit}>
-        <Grid container direction='column' spacing={2}>
-          <Grid item>
-            <Grid container direction='row' spacing={2}>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  required
-                  autoFocus
-                  type='text'
-                  id='pihole-server-ip'
-                  name='ipAddress'
-                  placeholder='192.168.1.22'
-                  label='Pi-Hole IPv4 address'
-                  error={!isIpValid}
-                  {...(!isIpValid ? { helperText: 'Invalid IPv4 Address' } : {})}
-                  onBlur={this.validateIp}
-                  onChange={this.onChange}
-                  autoComplete='off'
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  required
-                  type='text'
-                  id='pihole-server-port'
-                  name='port'
-                  placeholder='80'
-                  label='Pi-Hole port number'
-                  onChange={this.onChange}
-                  autoComplete='off'
-                  fullWidth
-                  inputProps={{ inputMode: 'numeric', pattern: '\\d*' }}
-                  error={!isPortValid}
-                  {...(!isPortValid ? { helperText: 'Must be a number' } : {})}
-                  value={port}
-                  onBlur={this.validatePort}
-                  onKeyPress={this.portOnKeyPress}
-                />
-              </Grid>
+  return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    <form method='POST' action='/api/auth/login' onSubmit={handleSubmit}>
+      <Grid container direction='column' spacing={2}>
+        <Grid item>
+          <Grid container direction='row' spacing={2}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                required
+                autoFocus
+                type='text'
+                id='pihole-server-ip'
+                name='ipAddress'
+                placeholder='192.168.1.22'
+                label='Pi-Hole IPv4 address'
+                error={!isIpValid}
+                {...(!isIpValid ? { helperText: 'Invalid IPv4 Address' } : {})}
+                onBlur={validateIp}
+                onChange={onChange}
+                autoComplete='off'
+                fullWidth
+              />
             </Grid>
-          </Grid>
-          <Grid item>
-            <TextField
-              required
-              type='password'
-              id='pihole-password'
-              name='password'
-              label='Password'
-              onChange={this.onChange}
-              fullWidth
-            />
-          </Grid>
-          <Grid item>
-            <LoadingButton
-              fullWidth
-              variant='contained'
-              type='submit'
-              disabled={!isIpValid || password.length === 0 || !isPortValid}
-              loading={authLoading}
-            >
-              Log in
-            </LoadingButton>
-          </Grid>
-          <Grid item alignSelf='center' sx={{ display: authError.length ? 12 : 'none' }}>
-            <Grid>
-              <Typography color='error'>{authError}</Typography>
+            <Grid item xs={12} md={6}>
+              <TextField
+                required
+                type='text'
+                id='pihole-server-port'
+                name='port'
+                placeholder='80'
+                label='Pi-Hole port number'
+                onChange={onChange}
+                autoComplete='off'
+                fullWidth
+                inputProps={{ inputMode: 'numeric', pattern: '\\d*' }}
+                error={!isPortValid}
+                {...(!isPortValid ? { helperText: 'Must be a number' } : {})}
+                value={port}
+                onBlur={validatePort}
+                onKeyPress={portOnKeyPress}
+              />
             </Grid>
           </Grid>
         </Grid>
-      </form>
-    );
-  }
-}
+        <Grid item>
+          <TextField
+            required
+            type='password'
+            id='pihole-password'
+            name='password'
+            label='Password'
+            onChange={onChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item>
+          <LoadingButton
+            fullWidth
+            variant='contained'
+            type='submit'
+            disabled={!ipAddress.length || !isIpValid || password.length === 0 || !isPortValid}
+            loading={isLoading}
+          >
+            Log in
+          </LoadingButton>
+        </Grid>
+        <Grid item alignSelf='center' sx={{ display: authMessage.length ? 12 : 'none' }}>
+          <Grid>
+            <Typography color='error'>{authMessage}</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+    </form>
+  );
+};
 
 export default LoginForm;
