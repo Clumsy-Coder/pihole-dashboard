@@ -50,7 +50,7 @@ const handleGet = (req: NextApiRequest, res: NextApiResponse<IAuthSession>) => {
  * HTTP API endpoint `/api/auth/login`
  *
  * @remarks
- * HTTP method allowed: `POST`
+ * HTTP method allowed: `GET`
  */
 const mainHandler = (req: NextApiRequest, res: NextApiResponse) => {
   const { method = '' } = req;
