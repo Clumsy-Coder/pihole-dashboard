@@ -5,9 +5,11 @@ import { ThemeProvider } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { Provider } from 'react-redux';
 
 import AppBar from '@components/AppBar';
 import { drawerWidth } from '@components/Drawer';
+import store from '@redux/store';
 import darkTheme from '@utils/darkTheme';
 import createEmotionCache from '@utils/emotionCache';
 
@@ -26,21 +28,23 @@ interface MyAppProps extends AppProps {
 }
 
 const App = ({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) => (
-  <CacheProvider value={emotionCache}>
-    <Head>
-      <meta name='viewport' content='initial-scale=1, width=device-width' />
-    </Head>
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <AppBar />
-      <Toolbar /> {/* Used as a spacer for the AppBar. Has no functional use */}
-      <br /> {/* Add a little space between the appbar and the main content  */}
-      {/* offset the entire main content by the drawerWidth set in AppBar.tsx */}
-      <Box component='main' sx={{ ml: { lg: `${drawerWidth}px` } }}>
-        <Component {...pageProps} />
-      </Box>
-    </ThemeProvider>
-  </CacheProvider>
+  <Provider store={store}>
+    <CacheProvider value={emotionCache}>
+      <Head>
+        <meta name='viewport' content='initial-scale=1, width=device-width' />
+      </Head>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <AppBar />
+        <Toolbar /> {/* Used as a spacer for the AppBar. Has no functional use */}
+        <br /> {/* Add a little space between the appbar and the main content  */}
+        {/* offset the entire main content by the drawerWidth set in AppBar.tsx */}
+        <Box component='main' sx={{ ml: { lg: `${drawerWidth}px` } }}>
+          <Component {...pageProps} />
+        </Box>
+      </ThemeProvider>
+    </CacheProvider>
+  </Provider>
 );
 
 export default App;
