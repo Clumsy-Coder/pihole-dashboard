@@ -4,7 +4,10 @@ import GithubIcon from '@mui/icons-material/GitHub';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 import QueryIcon from '@mui/icons-material/QueryStats';
+
+import { deleteAuthSessionUrl } from '@utils/url/api';
 
 /**
  * Appbar link structure.
@@ -39,6 +42,11 @@ export const pageLinks: Record<string, IpageLinks> = {
     linkName: 'Login',
     url: '/login',
     icon: <LoginIcon />,
+  },
+  logout: {
+    linkName: 'Logout',
+    url: deleteAuthSessionUrl,
+    icon: <LogoutIcon />,
   },
   queryLog: {
     linkName: 'Query Log',
