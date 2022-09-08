@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
@@ -9,6 +10,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import Drawer, { drawerWidth } from '@components/Drawer';
 import Link from '@components/Link';
+import { useGetAuthSessionQuery } from '@redux/AuthSession';
+
 // import { pageLinks, IpageLinks } from '@utils/pageLinks';
 
 // const renderToolbarLinks = () => {
@@ -40,6 +43,7 @@ import Link from '@components/Link';
  */
 const AppBar = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const { data = { ipAddress: '', port: '' }, isFetching = true } = useGetAuthSessionQuery();
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!isDrawerOpen);
@@ -78,6 +82,16 @@ const AppBar = () => {
           </Link>
           {/* ---------------------------------------------------------------------------------- */}
           {/* {renderToolbarLinks} */}
+          {/* ---------------------------------------------------------------------------------- */}
+          {/* Display Ip address and port number if user is Authenticated */}
+          <>
+            <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ display: { xs: !isFetching && data.ipAddress.length ? 'flex' : 'none' } }}>
+              <Tooltip title='Pi-Hole IP address and port'>
+                <Chip label={`Pi-Hole: ${data.ipAddress}:${data.port}`} />
+              </Tooltip>
+            </Box>
+          </>
           {/* ---------------------------------------------------------------------------------- */}
         </Toolbar>
       </MuiAppBar>
