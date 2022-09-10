@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/return-await */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // this file is a wrapper with defaults to be used in both API routes and `getServerSideProps` functions
 import type { IronSessionOptions } from 'iron-session';
 import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next';
@@ -31,6 +35,7 @@ const ironSessionTTL = 30 * 60;
  * Iron session configs
  */
 export const sessionOptions: IronSessionOptions = {
+  // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
   password: process.env.SECRET_COOKIE_PASSWORD as string,
   cookieName: 'iron-session/pihole/auth',
   ttl: ironSessionTTL,
@@ -108,4 +113,64 @@ export function withSessionSsr<P extends Record<string, unknown> = Record<string
   ) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>,
 ) {
   return withIronSessionSsr(handler, sessionOptions);
+}
+
+/**
+ * NextJS getServerSideProps wrapping function used to redirect to Login page IF the user is not logged in.
+ *
+ * @internal
+ * @remarks  must use function `withSessionSsr` to use iron-session cookies
+ * @example
+ * ```typescript
+ * withSessionSsr(withAuth(handler));
+ * ```
+ *
+ * obtained from https://stackoverflow.com/a/70737180/3053548
+ *
+ * @param gssp - callback function to call IF the user is logged in
+ */
+// const withAuth = (gssp: GetServerSideProps) => {
+const withAuth = (gssp: any) => {
+  return async (context: GetServerSidePropsContext) => {
+    const { req } = context;
+    const { authSession } = req.session;
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!authSession) {
+      return {
+        redirect: {
+          destination: '/login',
+          statusCode: 302,
+        },
+      };
+    }
+
+    return await gssp(context);
+  };
+};
+
+/**
+ * Wrapping function to be used for a protected page route
+ *
+ * If the user is NOT logged in, it will be redirected to the Login page
+ *
+ * obtained from https://stackoverflow.com/a/70737180/3053548
+ *
+ * @example
+ * ```typescript
+ * const page = () => (<div>page</div>)
+ *
+ * export const getServerSideProps = withAuthSsr((context: GetServerSidePropsContext) => {
+ *   return {
+ *     props: {},
+ *   }
+ * })
+ * ```
+ */
+export function withAuthSsr<P extends Record<string, unknown> = Record<string, unknown>>(
+  handler: (
+    context: GetServerSidePropsContext,
+  ) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>,
+) {
+  return withSessionSsr(withAuth(handler));
 }
