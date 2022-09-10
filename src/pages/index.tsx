@@ -1,6 +1,7 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import { withAuthSsr } from '@lib/AuthSession';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
@@ -62,5 +63,14 @@ const Home: NextPage = () => {
     </div>
   );
 };
+
+// use wrapping function to check if user is authenticated.
+// if the user is NOT authenticated, redirect to the login page
+// obtained from https://stackoverflow.com/a/70737180/3053548
+export const getServerSideProps: GetServerSideProps = withAuthSsr(() => {
+  return {
+    props: {},
+  };
+});
 
 export default Home;
