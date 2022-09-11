@@ -91,7 +91,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # needed incase semantic-release doesn't run on branches other than 'master' or 'development'
+      # needed in case semantic-release doesn't run on branches other than 'master' or 'development'
       - name: Set NEXT_VERSION if there's NO new release
         if: |
           steps.get-next-version.outputs.new-release-published == '' ||
@@ -119,6 +119,7 @@ jobs:
         run: |
           printf 'NEXT_PUBLIC_BUILD_VERSION=%s\n' '${{ env.NEXT_VERSION }}' >> .env.local
           printf 'NEXT_PUBLIC_BUILD_ID=%s\n' $(echo ${{ github.sha }} | cut -c -7) >> .env.local
+          printf 'SECRET_COOKIE_PASSWORD=%s\n' '${{ secrets.SECRET_COOKIE_PASSWORD }}' >> .env.local
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
