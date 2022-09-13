@@ -1,6 +1,6 @@
 {
   "name": "pihole-dashboard",
-  "version": "1.0.0-development.1",
+  "version": "1.0.0-development.2",
   "private": true,
   "scripts": {
     "dev": "npm run generateEnv && echo 'SECRET_COOKIE_PASSWORD=cteBV25ymu4HnVAvhDVf46JbGxZePA6Q' >> .env.local && next dev",
