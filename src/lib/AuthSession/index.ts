@@ -5,7 +5,12 @@
 // this file is a wrapper with defaults to be used in both API routes and `getServerSideProps` functions
 import type { IronSessionOptions } from 'iron-session';
 import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next';
-import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiHandler } from 'next';
+import {
+  GetServerSidePropsContext,
+  GetServerSidePropsResult,
+  NextApiHandler,
+  NextApiRequest,
+} from 'next';
 
 /**
  * Iron session data format to be used
@@ -72,6 +77,32 @@ declare module 'iron-session' {
 export function withSessionRoute(handler: NextApiHandler) {
   return withIronSessionApiRoute(handler, sessionOptions);
 }
+
+/**
+ * Check if the user is authenticated. This is meant to be used on a API endpoint
+ *
+ * @example
+ * ```typescript
+ * // /api/summary
+ *
+ * import { withSessionRoute, isApiAuthenticated } from '@lib/AuthSession
+ *
+ * const requestHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+ *   if(!isApiAuthenticated(req)) { res.status(401).send('Not Authorized') }
+ * }
+ *
+ * withSessionRoute(requestHandler)
+ * ```
+ *
+ * @param req - NextApiRequest
+ * @returns boolean - true if the user is authenticated. false otherwise
+ */
+export const isApiAuthenticated = (req: NextApiRequest) => {
+  const { authSession } = req.session;
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  return authSession !== undefined;
+};
 
 /**
  * Wrapping function used for getServerSideProps function on client side
