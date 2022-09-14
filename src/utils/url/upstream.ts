@@ -1,7 +1,7 @@
 // upstream API obtained from
 // https://discourse.pi-hole.net/t/pi-hole-api/1863
 
-export const upstreamBaseApiUrl = '/api.php';
+export const upstreamBaseApiUrl = '/admin/api.php';
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
