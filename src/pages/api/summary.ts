@@ -3,8 +3,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { withSessionRoute, isApiAuthenticated } from '@lib/AuthSession';
 import logger from '@utils/logger';
-import { summaryRaw as summaryRawUrl } from '@utils/url/upstream';
-import { ISummaryRaw } from '@utils/url/upstream.types';
+import { summaryRaw as summaryRawUrl, summary as summaryUrl } from '@utils/url/upstream';
+import { ISummary, ISummaryRaw } from '@utils/url/upstream.types';
 
 /**
  * API endpoint query parameters
@@ -30,6 +30,11 @@ interface ErrorMessage {
 export type IGetSummaryRawResponseData = ISummaryRaw;
 
 /**
+ * Summary 'formatted' data to return
+ */
+export type IGetSummaryResponseData = ISummary;
+
+/**
  * GET endpoint for /api/summary
  *
  * @remarks
@@ -50,6 +55,37 @@ const handleGetSummaryRaw = (
 
   axios
     .get<ISummaryRaw>(requestUrl)
+    .then((response) => {
+      getLogger.info('data obtained from upstream');
+      getLogger.complete(`sending response: `, response.data);
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
+      getLogger.error(`error returned when sending HTTP request to '${requestUrl}'`);
+      res.status(500).json({ message: JSON.stringify(error) });
+    });
+};
+
+/**
+ * GET endpoint for /api/summary
+ *
+ * @remarks
+ * Returns data in formatted form
+ *
+ * Must be authenticated
+ * @param req - HTTP request provided by NextJS
+ * @param res - HTTP response provided by NextJS
+ */
+const handleGetSummary = (
+  req: NextApiRequest,
+  res: NextApiResponse<IGetSummaryResponseData | ErrorMessage>,
+) => {
+  const getLogger = logger.scope('/api/summary', 'GET', 'formatted');
+  const { ipAddress, port } = req.session.authSession;
+  const requestUrl = `http://${ipAddress}:${port}/${summaryUrl()}`;
+
+  axios
+    .get<ISummary>(requestUrl)
     .then((response) => {
       getLogger.info('data obtained from upstream');
       getLogger.complete(`sending response: `, response.data);
@@ -90,8 +126,10 @@ const requestHandler = (req: NextApiRequest, res: NextApiResponse) => {
       if (raw) {
         handleGetSummaryRaw(req, res);
         break;
+      } else {
+        handleGetSummary(req, res);
+        break;
       }
-      break;
     }
     default: {
       logger.error({ prefix: `/api/summary`, message: `invalid HTTP method type '${method}'` });
