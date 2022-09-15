@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { IAuthSession } from '@lib/AuthSession';
-import apiSlice, { TagTypes } from '@redux/apiSlice';
+import apiSlice, { TagTypes, HttpQueryType } from '@redux/apiSlice';
 import { getAuthSessionUrl, postAuthSessionUrl, deleteAuthSessionUrl } from '@utils/url/api';
 
 /**
@@ -20,7 +20,7 @@ const authSessionApi = apiSlice.injectEndpoints({
     getAuthSession: build.query<IAuthSession, void>({
       query: () => ({
         url: getAuthSessionUrl,
-        method: 'GET',
+        method: HttpQueryType.GET,
       }),
       transformResponse: (response: IAuthSession) => {
         return { ...response, password: '' };
@@ -31,7 +31,7 @@ const authSessionApi = apiSlice.injectEndpoints({
     postAuthSession: build.mutation<Pick<SessionState, 'message'>, IAuthSession>({
       query: ({ ipAddress, port, password }) => ({
         url: postAuthSessionUrl,
-        method: 'POST',
+        method: HttpQueryType.POST,
         body: { ipAddress, port, password },
       }),
       invalidatesTags: [{ type: TagTypes.AUTH }],
@@ -44,7 +44,7 @@ const authSessionApi = apiSlice.injectEndpoints({
     deleteAuthSession: build.mutation<Pick<SessionState, 'message'>, void>({
       query: () => ({
         url: deleteAuthSessionUrl,
-        method: 'DELETE',
+        method: HttpQueryType.DELETE,
       }),
       invalidatesTags: [TagTypes.AUTH],
     }),
