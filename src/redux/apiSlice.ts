@@ -6,6 +6,19 @@ export enum TagTypes {
   SUMMARY_RAW = 'SUMMARY_RAW',
 }
 
+/**
+ * HTTP query types.
+ * Used by Redux Toolkit Query API
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods}
+ */
+export enum HttpQueryType {
+  GET = 'GET',
+  POST = 'POST',
+  DELETE = 'DELETE',
+  PATCH = 'PATCH',
+}
+
 const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
