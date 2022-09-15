@@ -7,7 +7,7 @@ export enum TagTypes {
 const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
-  tagTypes: [TagTypes.AUTH],
+  tagTypes: Object.values(TagTypes),
   endpoints: () => ({}),
   refetchOnFocus: true,
   refetchOnReconnect: true,
