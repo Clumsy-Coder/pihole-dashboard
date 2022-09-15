@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { withSessionRoute, isApiAuthenticated } from '@lib/AuthSession';
 import logger from '@utils/logger';
+import { getUnauthorizedUrl as unauthorizedUrl } from '@utils/url/api';
 import { summaryRaw as summaryRawUrl, summary as summaryUrl } from '@utils/url/upstream';
 import { ISummary, ISummaryRaw } from '@utils/url/upstream.types';
 
@@ -109,9 +110,7 @@ const handleGetSummary = (
 const requestHandler = (req: NextApiRequest, res: NextApiResponse) => {
   // exit if the user is NOT authenticated
   if (!isApiAuthenticated(req)) {
-    logger.error({ prefix: `/api/summary`, message: `user is not Authenticated` });
-    logger.complete({ prefix: `/api/summary`, message: `aborting` });
-    res.status(401).send('Not Authorized');
+    res.redirect(`/api/${unauthorizedUrl}`);
 
     return;
   }
