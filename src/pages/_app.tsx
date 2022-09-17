@@ -37,9 +37,17 @@ const App = ({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
         <CssBaseline />
         <AppBar />
         <Toolbar /> {/* Used as a spacer for the AppBar. Has no functional use */}
-        <br /> {/* Add a little space between the appbar and the main content  */}
-        {/* offset the entire main content by the drawerWidth set in AppBar.tsx */}
-        <Box component='main' sx={{ ml: { lg: `${drawerWidth}px` } }}>
+        {/* obtained from https://mui.com/material-ui/react-drawer/#responsive-drawer */}
+        <Box
+          component='main'
+          sx={{
+            flexGrow: 1,
+            p: 1,
+            width: { lg: `calc(100% - ${drawerWidth}px)` },
+            /* offset the entire main content by the drawerWidth set in AppBar.tsx */
+            ml: { lg: `${drawerWidth}px` },
+          }}
+        >
           <Component {...pageProps} />
         </Box>
       </ThemeProvider>
