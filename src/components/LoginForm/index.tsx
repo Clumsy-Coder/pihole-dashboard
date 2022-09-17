@@ -130,6 +130,7 @@ const LoginForm: React.FC = () => {
                 onChange={onChange}
                 autoComplete='off'
                 fullWidth
+                inputProps={{ inputMode: 'numeric' }}
               />
             </Grid>
             <Grid item xs={12} md={6}>
