@@ -1,5 +1,8 @@
 // upstream API obtained from
 // https://discourse.pi-hole.net/t/pi-hole-api/1863
+//
+// To be able to fetch from endpoint that requires Authentication
+// https://discourse.pi-hole.net/t/how-to-auth-when-accessing-the-pihole-api-from-python/4254/2
 
 export const upstreamBaseApiUrl = '/admin/api.php';
 
