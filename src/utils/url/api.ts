@@ -30,3 +30,14 @@ export const getSummaryUrl = 'summary';
  * URL for fetching Pi-hole summary with raw data
  */
 export const getSummaryRawUrl = 'summary?raw=true';
+
+//-------------------------------------------------------------------------------------------------
+
+/**
+ * URL for fetching Pi-hole number of queries that have been forwarded and the target
+ * @remarks Authorization required
+ * @remarks full URL `/api/forwardedDestinations`
+ */
+export const getForwardedDestinationsUrl = 'forwardedDestinations';
+
+//-------------------------------------------------------------------------------------------------
