@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import AppBar from '@components/AppBar';
 import { drawerWidth } from '@components/Drawer';
 import store from '@redux/store';
-import darkTheme from '@utils/darkTheme';
+import { muiDarkTheme } from '@utils/darkTheme';
 import createEmotionCache from '@utils/emotionCache';
 
 // rendering server and client side CSS
@@ -33,7 +33,7 @@ const App = ({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
       <Head>
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={muiDarkTheme}>
         <CssBaseline />
         <AppBar />
         <Toolbar /> {/* Used as a spacer for the AppBar. Has no functional use */}
