@@ -2,7 +2,7 @@ import * as React from 'react';
 import createEmotionServer from '@emotion/server/create-instance';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
-import darkTheme from '@utils/darkTheme';
+import { muiDarkTheme } from '@utils/darkTheme';
 import createEmotionCache from '@utils/emotionCache';
 
 // rendering server and client side CSS
@@ -23,7 +23,7 @@ export default class MyDocument extends Document<MyDocumentProps> {
       <Html lang='en'>
         <Head>
           {/* PWA primary color */}
-          <meta name='theme-color' content={darkTheme.palette.primary.main} />
+          <meta name='theme-color' content={muiDarkTheme.palette.primary.main} />
           <link rel='shortcut icon' href='/static/favicon.ico' />
           <link
             rel='stylesheet'
