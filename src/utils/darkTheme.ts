@@ -4,10 +4,9 @@ import { createTheme } from '@mui/material/styles';
 // https://mui.com/material-ui/customization/dark-mode/
 // https://mui.com/material-ui/customization/theming/
 // https://mui.com/material-ui/customization/palette/
-const darkTheme = createTheme({
+export const muiDarkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
 });
 
-export default darkTheme;
