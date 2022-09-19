@@ -378,7 +378,7 @@ export interface ITopClients {
      * Value is number of queries
      *
      * @example
-     * ```
+     * ```json
      * {
      *    "desktop.local|192.168.1.2": 1440,
      *    "android-a4.local|192.168.1.3": 609,
@@ -393,6 +393,32 @@ export interface ITopClients {
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
+
+/**
+ * Data format needed when fetching 'getForwardDestinations'
+ * Data needed for generating the forward destination queries
+ */
+export interface IForwardedDestinations {
+  forward_destinations: {
+    /**
+     * Key is the destination forwarded to
+     * Value is the percentage being forward to
+     *
+     * @example
+     * ```json
+     * "forward_destinations": {
+     *   "blocked|blocked": 19.21,
+     *   "cached|cached": 11.38,
+     *   "other|other": 0.53,
+     *   "localhost#5335|127.0.0.1#5335": 67.44,
+     *   "192.168.1.254#53|192.168.1.254#53": 1.45
+     * }
+     * ```
+     */
+    string: number;
+  };
+}
+
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
