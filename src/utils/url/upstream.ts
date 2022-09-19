@@ -67,3 +67,17 @@ export const topItems = (numEntries = 10) => `${upstreamBaseApiUrl}?topItems=${n
  * @returns API URL for upstream API
  */
 export const topClients = (numEntries = 10) => `${upstreamBaseApiUrl}?topClients=${numEntries}`;
+
+// ////////////////////////////////////////////////////////////////////////////////////////////// //
+
+/**
+ * API url to fetch 'getForwardDestinations' from upstream API.
+ * Data needed for generating forwarded destination queries
+ *
+ * @see {@link IForwardDestination } Data format returned
+ * @remarks Authorization required
+ * @returns API URL for upstream API
+ */
+export const forwardedDestinations = () => `${upstreamBaseApiUrl}?getForwardDestinations`;
+
+// ////////////////////////////////////////////////////////////////////////////////////////////// //
