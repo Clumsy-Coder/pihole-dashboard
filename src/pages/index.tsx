@@ -1,10 +1,9 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
-import type { GetServerSideProps, NextPage } from 'next';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 
 import Summary from '@components/Summary';
-import { withAuthSsr } from '@lib/AuthSession';
 import { useGetSummaryQuery } from '@redux/Summary';
 
 const Home: NextPage = () => {
@@ -26,14 +25,5 @@ const Home: NextPage = () => {
     </Box>
   );
 };
-
-// use wrapping function to check if user is authenticated.
-// if the user is NOT authenticated, redirect to the login page
-// obtained from https://stackoverflow.com/a/70737180/3053548
-export const getServerSideProps: GetServerSideProps = withAuthSsr(() => {
-  return {
-    props: {},
-  };
-});
 
 export default Home;
