@@ -43,7 +43,7 @@ import { useGetAuthSessionQuery } from '@redux/AuthSession';
  */
 const AppBar = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const { data = { ipAddress: '', port: '' }, isFetching = true } = useGetAuthSessionQuery();
+  const { data = { ipAddress: '', port: '' }, isLoading = true } = useGetAuthSessionQuery();
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!isDrawerOpen);
@@ -86,7 +86,7 @@ const AppBar = () => {
           {/* Display Ip address and port number if user is Authenticated */}
           <>
             <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { xs: !isFetching && data.ipAddress.length ? 'flex' : 'none' } }}>
+            <Box sx={{ display: { xs: !isLoading && data.ipAddress.length ? 'flex' : 'none' } }}>
               <Tooltip title='Pi-Hole IP address and port'>
                 <Chip label={`Pi-Hole: ${data.ipAddress}:${data.port}`} />
               </Tooltip>
