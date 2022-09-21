@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
+import { useRouter } from 'next/router';
 
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -43,7 +44,20 @@ import { useGetAuthSessionQuery } from '@redux/AuthSession';
  */
 const AppBar = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const { data = { ipAddress: '', port: '' }, isLoading = true } = useGetAuthSessionQuery();
+  const router = useRouter();
+  const { data = { ipAddress: '', port: '' }, isLoading = true } = useGetAuthSessionQuery(
+    undefined,
+    { pollingInterval: 2 * 1000 },
+  );
+
+  // redirect to Login page if the AuthSession has expired
+  useEffect(() => {
+    if (data.ipAddress.length === 0 && !isLoading) {
+      if (!(router.pathname === '/login' || router.pathname === '/about')) {
+        router.replace('/login').catch(console.error);
+      }
+    }
+  }, [data, router, isLoading]);
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!isDrawerOpen);
