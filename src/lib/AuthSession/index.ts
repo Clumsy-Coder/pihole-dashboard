@@ -3,7 +3,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // this file is a wrapper with defaults to be used in both API routes and `getServerSideProps` functions
-import type { IronSessionOptions } from 'iron-session';
 import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next';
 import {
   GetServerSidePropsContext,
@@ -11,6 +10,8 @@ import {
   NextApiHandler,
   NextApiRequest,
 } from 'next';
+
+import { sessionOptions } from '@lib/AuthSession/Config';
 
 /**
  * Iron session data format to be used
@@ -30,28 +31,6 @@ export interface IAuthSession {
    */
   password: string;
 }
-
-/**
- * Time the cookie will be valid for in seconds.
- */
-const ironSessionTTL = 30 * 60;
-
-/**
- * Iron session configs
- */
-export const sessionOptions: IronSessionOptions = {
-  // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
-  password: process.env.SECRET_COOKIE_PASSWORD as string,
-  cookieName: 'iron-session/pihole/auth',
-  ttl: ironSessionTTL,
-  // https://github.com/vvo/iron-session#ironoptions
-  cookieOptions: {
-    // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
-    secure: process.env.NODE_ENV === 'production',
-    // https://github.com/vvo/iron-session#session-cookies
-    // maxAge: undefined // session expires when closing window/tab.
-  },
-};
 
 // This is where we specify the typings of req.session.*
 declare module 'iron-session' {
