@@ -2,6 +2,7 @@ import Grid from '@mui/material/Grid';
 import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
 import { GetServerSidePropsContext, NextPage } from 'next';
+import Head from 'next/head';
 
 import PiholeLogo from '@svg/pihole-logo.svg';
 import LoginForm from '@components/LoginForm';
@@ -13,6 +14,12 @@ import { withSessionSsr } from '@lib/AuthSession/index';
  */
 const PageLogin: NextPage = () => (
   <Grid container direction='column' justifyContent='center' alignItems='center' spacing={2}>
+    <Head>
+      <title>Pi-hole - Login</title>
+      <meta name='description' content='Pi-hole Login page' />
+      <link rel='icon' href='/favicon.ico' />
+    </Head>
+
     <Grid item>
       {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
       <SvgIcon component={PiholeLogo} sx={{ fontSize: 200 }} inheritViewBox />
