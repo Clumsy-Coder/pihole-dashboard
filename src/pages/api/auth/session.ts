@@ -1,7 +1,6 @@
-import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { IAuthSession, sessionOptions } from '@lib/AuthSession';
+import { IAuthSession, withSessionRoute } from '@lib/AuthSession';
 import logger from '@utils/logger';
 
 /**
@@ -72,4 +71,4 @@ const mainHandler = (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default withIronSessionApiRoute(mainHandler, sessionOptions);
+export default withSessionRoute(mainHandler);
