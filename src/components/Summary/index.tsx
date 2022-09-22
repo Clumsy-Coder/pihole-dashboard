@@ -1,7 +1,9 @@
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { green, blue, red, orange } from '@mui/material/colors';
 import Grid from '@mui/material/Grid';
+import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 
 import { ISummary } from '@utils/url/upstream.types';
@@ -36,8 +38,35 @@ const Summary: React.FC<Props> = (props: Props) => {
     unique_clients: uniqueClients,
   } = data;
 
+  if (isLoading) {
+    return (
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={3} sm={6}>
+          <Box sx={{ height: 117 }}>
+            <Skeleton variant='rounded' height='inherit' />
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={3} sm={6}>
+          <Box sx={{ height: 117 }}>
+            <Skeleton variant='rounded' height='inherit' />
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={3} sm={6}>
+          <Box sx={{ height: 117 }}>
+            <Skeleton variant='rounded' height='inherit' />
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={3} sm={6}>
+          <Box sx={{ height: 117 }}>
+            <Skeleton variant='rounded' height='inherit' />
+          </Box>
+        </Grid>
+      </Grid>
+    );
+  }
+
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={2}>
       <Grid item xs={12} sm={6} md={3}>
         <Card sx={{ backgroundColor: green[900] }}>
           <CardContent>
