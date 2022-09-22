@@ -399,24 +399,22 @@ export interface ITopClients {
  * Data needed for generating the forward destination queries
  */
 export interface IForwardedDestinations {
-  forward_destinations: {
-    /**
-     * Key is the destination forwarded to
-     * Value is the percentage being forward to
-     *
-     * @example
-     * ```json
-     * "forward_destinations": {
-     *   "blocked|blocked": 19.21,
-     *   "cached|cached": 11.38,
-     *   "other|other": 0.53,
-     *   "localhost#5335|127.0.0.1#5335": 67.44,
-     *   "192.168.1.254#53|192.168.1.254#53": 1.45
-     * }
-     * ```
-     */
-    string: number;
-  };
+  /**
+   * Key is the destination forwarded to
+   * Value is the percentage being forward to
+   *
+   * @example
+   * ```json
+   * "forward_destinations": {
+   *   "blocked|blocked": 19.21,
+   *   "cached|cached": 11.38,
+   *   "other|other": 0.53,
+   *   "localhost#5335|127.0.0.1#5335": 67.44,
+   *   "192.168.1.254#53|192.168.1.254#53": 1.45
+   * }
+   * ```
+   */
+  forward_destinations: Record<string, number>;
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
