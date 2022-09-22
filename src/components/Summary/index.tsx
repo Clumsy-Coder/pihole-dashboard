@@ -8,6 +8,7 @@ import { ISummary } from '@utils/url/upstream.types';
 
 interface Props {
   data: ISummary | undefined;
+  isLoading: boolean;
 }
 
 const Summary: React.FC<Props> = (props: Props) => {
@@ -25,7 +26,7 @@ const Summary: React.FC<Props> = (props: Props) => {
     domains_being_blocked: '--',
     unique_clients: '--',
   };
-  const { data = defaultData } = props;
+  const { data = defaultData, isLoading = true } = props;
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const {
     dns_queries_today: dnsQueriesToday,
