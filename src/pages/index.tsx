@@ -7,7 +7,9 @@ import Summary from '@components/Summary';
 import { useGetSummaryQuery } from '@redux/Summary';
 
 const Home: NextPage = () => {
-  const { data: summaryData } = useGetSummaryQuery(undefined, { pollingInterval: 2 * 1000 });
+  const { data: summaryData, isLoading: summaryIsLoading } = useGetSummaryQuery(undefined, {
+    pollingInterval: 2 * 1000,
+  });
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -19,7 +21,7 @@ const Home: NextPage = () => {
 
       <Grid container spacing={2}>
         <Grid xs={12}>
-          <Summary data={summaryData} />
+          <Summary data={summaryData} isLoading={summaryIsLoading} />
         </Grid>
       </Grid>
     </Box>
