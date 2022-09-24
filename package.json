@@ -3,7 +3,7 @@
   "version": "1.0.0-development.2",
   "private": true,
   "scripts": {
-    "dev": "npm run generateEnv && echo 'SECRET_COOKIE_PASSWORD=cteBV25ymu4HnVAvhDVf46JbGxZePA6Q' >> .env.local && next dev",
+    "dev": "npm run generateEnv && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "npm run lint:tsc && npm run lint:eslint",
@@ -13,7 +13,7 @@
     "repoLatestTag": "git describe --tags --abbrev=0 2> /dev/null || npm pkg get version | sed 's/\"//g'",
     "generateVersion": "echo $(npm run -s repoLatestTag)-dev-\"$(npm run -s repoStatus)\"",
     "generateBuildId": "git rev-parse head | cut -c 1-7 2> /dev/null || echo 'development'",
-    "generateEnv": "echo 'NEXT_PUBLIC_BUILD_VERSION='$(npm run -s generateVersion) > .env.local && echo 'NEXT_PUBLIC_BUILD_ID='$(npm run -s generateBuildId) >> .env.local",
+    "generateEnv": "./generateEnvs.sh",
     "docker:imagename": "echo 'imagename'",
     "docker:tagname": "echo $(npm run -s repoLatestTag)-dev-$(npm run -s generateBuildId)-$(npm run -s repoStatus)",
     "docker:build": "npm run generateEnv && docker build -t $(npm run -s docker:imagename):$(npm run -s docker:tagname) -f ./dockerfile .",
