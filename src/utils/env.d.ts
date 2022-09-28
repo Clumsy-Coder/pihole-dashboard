@@ -56,5 +56,12 @@ declare namespace NodeJS {
      * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
      */
     NEXT_PUBLIC_POLLING_FORWARDED_DESTINATIONS: number;
+
+    /**
+     * Fetch polling time when fetching data from api `/api/queryTypes`
+     *
+     * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
+     */
+    NEXT_PUBLIC_POLLING_QUERY_TYPES: number;
   }
 }
