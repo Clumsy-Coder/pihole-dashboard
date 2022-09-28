@@ -41,3 +41,12 @@ export const getSummaryRawUrl = 'summary?raw=true';
 export const getForwardedDestinationsUrl = 'forwardedDestinations';
 
 //-------------------------------------------------------------------------------------------------
+
+/**
+ * URL for fetching Pi-hole Query types
+ * @remarks Authorization required
+ * @remarks full URL `/api/queryTypes`
+ */
+export const getQueryTypesUrl = 'queryTypes';
+
+//-------------------------------------------------------------------------------------------------
