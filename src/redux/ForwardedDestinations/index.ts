@@ -2,7 +2,7 @@ import apiSlice, { TagTypes, HttpQueryType } from '@redux/apiSlice';
 import { getForwardedDestinationsUrl } from '@utils/url/api';
 import { IForwardedDestinations } from '@utils/url/upstream.types';
 
-const summaryApi = apiSlice.injectEndpoints({
+const forwardedDestinationsApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
     getForwardedDestinations: build.query<IForwardedDestinations, void>({
@@ -16,4 +16,4 @@ const summaryApi = apiSlice.injectEndpoints({
 });
 
 // eslint-disable-next-line import/prefer-default-export
-export const { useGetForwardedDestinationsQuery } = summaryApi;
+export const { useGetForwardedDestinationsQuery } = forwardedDestinationsApi;
