@@ -35,6 +35,7 @@ export const config = {
     // api routes
     '/api/summary',
     '/api/forwardedDestinations',
+    '/api/queryTypes',
 
     // page routes
     '/',
