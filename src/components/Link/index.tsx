@@ -149,7 +149,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(props,
   });
 
   const isExternal =
-    typeof href === 'string' && (href.indexOf('http') === 0 || href.indexOf('mailto:') === 0);
+    typeof href === 'string' && (href.startsWith('http') || href.startsWith('mailto:'));
 
   if (isExternal) {
     if (noLinkStyle) {
@@ -159,7 +159,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(props,
     return <MuiLink className={className} href={href} ref={ref} {...other} />;
   }
 
-  const linkAs = linkAsProp || as;
+  const linkAs = linkAsProp ?? as;
   const nextjsProps = { to: href, linkAs, replace, scroll, shallow, prefetch, locale };
 
   if (noLinkStyle) {
