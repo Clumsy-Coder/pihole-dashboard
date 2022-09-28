@@ -35,5 +35,26 @@ declare namespace NodeJS {
      * @see {@link https://github.com/vvo/iron-session#ironoptions}
      */
     SECURE_COOKIE_TTL: number;
+
+    /**
+     * Fetch polling time when fetching data from api `/api/auth/session`
+     *
+     * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
+     */
+    NEXT_PUBLIC_POLLING_AUTH_SESSION: number;
+
+    /**
+     * Fetch polling time when fetching data from api `/api/summary`
+     *
+     * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
+     */
+    NEXT_PUBLIC_POLLING_SUMMARY: number;
+
+    /**
+     * Fetch polling time when fetching data from api `/api/forwardedDestinations`
+     *
+     * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
+     */
+    NEXT_PUBLIC_POLLING_FORWARDED_DESTINATIONS: number;
   }
 }
