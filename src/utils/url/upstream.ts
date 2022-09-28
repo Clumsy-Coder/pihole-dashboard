@@ -81,3 +81,15 @@ export const topClients = (numEntries = 10) => `${upstreamBaseApiUrl}?topClients
 export const forwardedDestinations = () => `${upstreamBaseApiUrl}?getForwardDestinations`;
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
+
+/**
+ * API url to fetch `getQueryTypes` from upstream API
+ * Data needed for generating Query Types
+ *
+ * @see {@link IQueryTypes }
+ * @remarks Authorization required
+ * @returns API URL for upstream API
+ */
+export const queryTypes = () => `${upstreamBaseApiUrl}?getQueryTypes`;
+
+// ////////////////////////////////////////////////////////////////////////////////////////////// //
