@@ -72,7 +72,6 @@ const ForwardedDestinationsChart: React.FC<Props> = (props: Props) => {
             innerRadius={0.5}
             padAngle={0.7}
             cornerRadius={3}
-            sortByValue
             valueFormat={(value) => `${value}%`}
             //
             // style
