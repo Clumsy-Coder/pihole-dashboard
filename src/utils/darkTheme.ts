@@ -140,6 +140,7 @@ export const nivoChartsDarkTheme: NivoTheme = {
     text: {
       fill: `#000000`,
       fontWeight: 'bold',
+      fontSize: 13,
     },
   },
 };
