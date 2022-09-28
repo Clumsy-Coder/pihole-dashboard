@@ -6,7 +6,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import { ResponsivePie } from '@nivo/pie';
 
-import { nivoChartsDarkTheme } from '@utils/darkTheme';
+import { nivoChartsDarkTheme, chartThemeColours } from '@utils/darkTheme';
 import { IForwardedDestinations } from '@utils/url/upstream.types';
 
 interface Props {
@@ -44,11 +44,11 @@ const ForwardedDestinationsChart: React.FC<Props> = (props: Props) => {
   const { data, isLoading } = props;
 
   const formatData = (entries: IForwardedDestinations = defaultData): PieChartDataFormat[] => {
-    return Object.entries(entries.forward_destinations).map(([key, value]) => ({
+    return Object.entries(entries.forward_destinations).map(([key, value], i) => ({
       id: key.split('|')[0],
       label: key.split('|')[0],
       value,
-      // color: chartThemeColours[i % chartThemeColours.length],
+      color: chartThemeColours[i % chartThemeColours.length],
     }));
   };
 
@@ -77,6 +77,7 @@ const ForwardedDestinationsChart: React.FC<Props> = (props: Props) => {
             // style
             theme={nivoChartsDarkTheme}
             borderWidth={0}
+            colors={{ datum: 'data.color' }}
             //
             // arc labels
             arcLabelsSkipAngle={15}
