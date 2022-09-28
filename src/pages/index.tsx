@@ -9,11 +9,11 @@ import { useGetForwardedDestinationsQuery } from '@redux/ForwardedDestinations';
 
 const Home: NextPage = () => {
   const { data: summaryData, isLoading: summaryIsLoading } = useGetSummaryQuery(undefined, {
-    pollingInterval: 2 * 1000,
+    pollingInterval: process.env.NEXT_PUBLIC_POLLING_SUMMARY,
   });
   const { data: forwardedDestinationData, isLoading: forwardedDestinationsIsLoading } =
     useGetForwardedDestinationsQuery(undefined, {
-      pollingInterval: 2 * 1000,
+      pollingInterval: process.env.NEXT_PUBLIC_POLLING_FORWARDED_DESTINATIONS,
     });
 
   return (
