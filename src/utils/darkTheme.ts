@@ -24,7 +24,7 @@ export const chartThemeColours = [
   '#00c0ef',
   '#f39c12',
   '#0073b7',
-  '#001f3f',
+  '#ef476f',
   '#39cccc',
   '#3d9970',
   '#01ff70',
