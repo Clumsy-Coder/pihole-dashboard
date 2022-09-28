@@ -418,5 +418,40 @@ export interface IForwardedDestinations {
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
+
+/**
+ * Data format needed when fetching `queryTypes`
+ * Data needed for generating the `Query Types`
+ */
+export interface IQueryTypes {
+  /**
+   * Key is Query type
+   * Value is the percentage of the queries
+   *
+   * @example
+   * ```json
+   * "querytypes": {
+   *   "A (IPv4)": 68.93,
+   *   "AAAA (IPv6)": 10.53,
+   *   "ANY": 0,
+   *   "SRV": 0.01,
+   *   "SOA": 0.06,
+   *   "PTR": 2.12,
+   *   "TXT": 0.04,
+   *   "NAPTR": 0,
+   *   "MX": 0,
+   *   "DS": 2.43,
+   *   "RRSIG": 0,
+   *   "DNSKEY": 1.2,
+   *   "NS": 0.03,
+   *   "OTHER": 0.09,
+   *   "SVCB": 0,
+   *   "HTTPS": 14.56
+   * }
+   * ```
+   */
+  querytypes: Record<string, number>;
+}
+
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
