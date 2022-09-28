@@ -84,7 +84,7 @@ export const nivoChartsDarkTheme: NivoTheme = {
       },
     },
     text: {
-      fontSize: 11,
+      fontSize: 13,
       fill: '#333333',
     },
     ticks: {
