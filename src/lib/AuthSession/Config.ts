@@ -11,9 +11,9 @@ export const ironSessionTTL = 30 * 60;
  */
 export const sessionOptions: IronSessionOptions | IronSessionOptionsEdge = {
   // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
-  password: process.env.SECRET_COOKIE_PASSWORD as string,
+  password: process.env.SECRET_COOKIE_PASSWORD,
   cookieName: 'iron-session/pihole/auth',
-  ttl: ironSessionTTL,
+  ttl: process.env.SECURE_COOKIE_TTL,
   // https://github.com/vvo/iron-session#ironoptions
   cookieOptions: {
     // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
