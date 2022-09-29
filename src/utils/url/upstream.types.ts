@@ -327,42 +327,82 @@ export interface IOverTimeData10minutes {
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
+ * Data format for top allowed domains
+ *
+ * @example
+ * ```json
+ * "www.msftncsi.com": 3185,
+ * ```
+ */
+export type ITopPermittedQueries = Record<string, number>;
+
+/**
+ * Data format for top blocked domains
+ *
+ * @example
+ * ```json
+ * "xp.itunes-apple.com.akadns.net": 1791,
+ * ```
+ */
+export type ITopBlockedQueries = Record<string, number>;
+
+/**
  * Data formatted needed when fetching 'topItems'
  * Data needed for generating the Top Domain and Top Advertisers Lists
+ *
+ * @example
+ * ```json
+ * {
+ *   "top_queries": {
+ *     "www.msftncsi.com": 3185,
+ *     "www.expressapisv2.net": 2611,
+ *     "es.ring.com": 1380,
+ *     "www.google.com": 525,
+ *     "api.wakatime.com": 499
+ *   },
+ *   "top_ads": {
+ *     "xp.itunes-apple.com.akadns.net": 1791,
+ *     "api2.branch.io": 1409,
+ *     "e.reddit.com": 380,
+ *     "trk.pinterest.com": 234,
+ *     "app-measurement.com": 230
+ *   }
+ * }
+ * ```
  */
 export interface ITopItems {
   /**
    * Top queries returned.
    *
    * Could contain non-ads or ads queries
+   *
+   * @example
+   * ```json
+   * "top_queries": {
+   *   "www.msftncsi.com": 3185,
+   *   "www.expressapisv2.net": 2611,
+   *   "es.ring.com": 1380,
+   *   "www.google.com": 525,
+   *   "api.wakatime.com": 499
+   * },
+   * ```
    */
-  top_queries: {
-    /**
-     * Key is the domain
-     * Value is number of queries
-     *
-     * @example
-     * ```
-     * { 'pi-hole.net': 80 }
-     * ```
-     */
-    string: number;
-  };
+  top_queries: ITopPermittedQueries;
   /**
-   * Top ads returned
+   * Top ads returned (blocked only)
    *
    * @example
    * ```
-   * { 'www.googleadservices.com': 80 }
+   * "top_ads": {
+   *   "xp.itunes-apple.com.akadns.net": 1791,
+   *   "api2.branch.io": 1409,
+   *   "e.reddit.com": 380,
+   *   "trk.pinterest.com": 234,
+   *   "app-measurement.com": 230
+   * }
    * ```
    */
-  top_ads: {
-    /**
-     * Key is the domain
-     * Value is number of queries
-     */
-    string: number;
-  };
+  top_ads: ITopBlockedQueries;
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
