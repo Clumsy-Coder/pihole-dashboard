@@ -50,3 +50,17 @@ export const getForwardedDestinationsUrl = 'forwardedDestinations';
 export const getQueryTypesUrl = 'queryTypes';
 
 //-------------------------------------------------------------------------------------------------
+
+/**
+ * URL for fetching Pi-hole `Top Permitted queries`
+ *
+ * @remarks Authorization required
+ * @remarks full URL `/api/topPermittedQueries`
+ */
+export const getTopPermittedQueriesUrl = 'queries/topPermitted';
+
+//-------------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------------
