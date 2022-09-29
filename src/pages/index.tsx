@@ -11,17 +11,15 @@ import { useGetQueryTypesQuery } from '@redux/QueryTypes';
 import { useGetSummaryQuery } from '@redux/Summary';
 
 const Home: NextPage = () => {
-  const { data: summaryData, isLoading: summaryIsLoading } = useGetSummaryQuery(undefined, {
+  const summaryQuery = useGetSummaryQuery(undefined, {
     pollingInterval: process.env.NEXT_PUBLIC_POLLING_SUMMARY,
   });
-  const { data: forwardedDestinationData, isLoading: forwardedDestinationsIsLoading } =
-    useGetForwardedDestinationsQuery(undefined, {
-      pollingInterval: process.env.NEXT_PUBLIC_POLLING_FORWARDED_DESTINATIONS,
-    });
-  const { data: queryTypesData, isLoading: queryTypesIsLoading } = useGetQueryTypesQuery(
-    undefined,
-    { pollingInterval: process.env.NEXT_PUBLIC_POLLING_QUERY_TYPES },
-  );
+  const forwardedDestinations = useGetForwardedDestinationsQuery(undefined, {
+    pollingInterval: process.env.NEXT_PUBLIC_POLLING_FORWARDED_DESTINATIONS,
+  });
+  const queryTypes = useGetQueryTypesQuery(undefined, {
+    pollingInterval: process.env.NEXT_PUBLIC_POLLING_QUERY_TYPES,
+  });
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -33,15 +31,15 @@ const Home: NextPage = () => {
 
       <Grid container spacing={2}>
         <Grid xs={12}>
-          <Summary data={summaryData} isLoading={summaryIsLoading} />
+          <Summary data={summaryQuery.data} isLoading={summaryQuery.isLoading} />
         </Grid>
         <Grid xs={12} md={6}>
-          <QueryTypes data={queryTypesData} isLoading={queryTypesIsLoading} />
+          <QueryTypes data={queryTypes.data} isLoading={queryTypes.isLoading} />
         </Grid>
         <Grid xs={12} md={6}>
           <ForwardedDestinations
-            data={forwardedDestinationData}
-            isLoading={forwardedDestinationsIsLoading}
+            data={forwardedDestinations.data}
+            isLoading={forwardedDestinations.isLoading}
           />
         </Grid>
       </Grid>
