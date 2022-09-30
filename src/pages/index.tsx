@@ -7,10 +7,14 @@ import ForwardedDestinations from '@components/Charts/ForwardDestinations';
 import QueryTypes from '@components/Charts/QueryTypes';
 import Summary from '@components/Summary';
 import TopPermittedQueries from '@components/Tables/TopPermittedQueries';
+import TopBlockedQueriesTable from '@components/Tables/TopBlockedQueries';
 import { useGetForwardedDestinationsQuery } from '@redux/ForwardedDestinations';
 import { useGetQueryTypesQuery } from '@redux/QueryTypes';
 import { useGetSummaryQuery } from '@redux/Summary';
-import { useGetTopPermittedQueriesQuery } from '@redux/Queries/TopQueries';
+import {
+  useGetTopPermittedQueriesQuery,
+  useGetTopBlockedQueriesQuery,
+} from '@redux/Queries/TopQueries';
 
 const Home: NextPage = () => {
   const summaryQuery = useGetSummaryQuery(undefined, {
@@ -25,6 +29,10 @@ const Home: NextPage = () => {
   const topPermittedQueries = useGetTopPermittedQueriesQuery(
     process.env.NEXT_PUBLIC_NUM_ENTRIES_TOP_PERMITTED_QUERIES,
     { pollingInterval: process.env.NEXT_PUBLIC_POLLING_TOP_PERMITTED_QUERIES },
+  );
+  const topBlockedQueries = useGetTopBlockedQueriesQuery(
+    process.env.NEXT_PUBLIC_NUM_ENTRIES_TOP_BLOCKED_QUERIES,
+    { pollingInterval: process.env.NEXT_PUBLIC_POLLING_TOP_BLOCKED_QUERIES },
   );
 
   return (
@@ -52,6 +60,12 @@ const Home: NextPage = () => {
           <TopPermittedQueries
             data={topPermittedQueries.data}
             isLoading={topPermittedQueries.isLoading}
+          />
+        </Grid>
+        <Grid xs={12} md={6}>
+          <TopBlockedQueriesTable
+            data={topBlockedQueries.data}
+            isLoading={topBlockedQueries.isLoading}
           />
         </Grid>
       </Grid>
