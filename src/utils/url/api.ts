@@ -61,6 +61,14 @@ export const getTopPermittedQueriesUrl = 'queries/topPermitted';
 
 //-------------------------------------------------------------------------------------------------
 
+/**
+ * URL for fetching Pi-hole `Top Blocked queries`
+ *
+ * @remarks Authorization required
+ * @remarks full URL `/api/queries/topBlocked`
+ */
+export const getTopBlockedQueriesUrl = 'queries/topBlocked';
+
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
