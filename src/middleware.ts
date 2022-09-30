@@ -37,6 +37,7 @@ export const config = {
     '/api/forwardedDestinations',
     '/api/queryTypes',
     '/api/queries/topPermitted',
+    '/api/queries/topBlocked',
 
     // page routes
     '/',
