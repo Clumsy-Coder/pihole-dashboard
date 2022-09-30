@@ -1,6 +1,6 @@
 import apiSlice, { TagTypes, HttpQueryType } from '@redux/apiSlice';
-import { getTopPermittedQueriesUrl } from '@utils/url/api';
-import { ITopPermittedQueries } from '@utils/url/upstream.types';
+import { getTopPermittedQueriesUrl, getTopBlockedQueriesUrl } from '@utils/url/api';
+import { ITopPermittedQueries, ITopBlockedQueries } from '@utils/url/upstream.types';
 
 const topQueriesApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
@@ -12,8 +12,15 @@ const topQueriesApi = apiSlice.injectEndpoints({
       }),
       providesTags: () => [{ type: TagTypes.QUERY_TOP_PERMITTED }],
     }),
+    getTopBlockedQueries: build.query<ITopBlockedQueries, number>({
+      query: (numEntries = 10) => ({
+        url: `${getTopBlockedQueriesUrl}?numEntries=${numEntries}`,
+        method: HttpQueryType.GET,
+      }),
+      providesTags: () => [{ type: TagTypes.QUERY_TOP_BLOCKED }],
+    }),
   }),
 });
 
 // eslint-disable-next-line import/prefer-default-export
-export const { useGetTopPermittedQueriesQuery } = topQueriesApi;
+export const { useGetTopPermittedQueriesQuery, useGetTopBlockedQueriesQuery } = topQueriesApi;
