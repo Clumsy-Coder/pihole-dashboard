@@ -3,10 +3,10 @@ import Grid from '@mui/material/Unstable_Grid2';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
-import ForwardedDestinations from '@components/Charts/ForwardDestinations';
-import QueryTypes from '@components/Charts/QueryTypes';
+import ForwardedDestinationsChart from '@components/Charts/ForwardDestinations';
+import QueryTypesChart from '@components/Charts/QueryTypes';
 import Summary from '@components/Summary';
-import TopPermittedQueries from '@components/Tables/TopPermittedQueries';
+import TopPermittedQueriesTable from '@components/Tables/TopPermittedQueries';
 import TopBlockedQueriesTable from '@components/Tables/TopBlockedQueries';
 import { useGetForwardedDestinationsQuery } from '@redux/ForwardedDestinations';
 import { useGetQueryTypesQuery } from '@redux/QueryTypes';
@@ -48,16 +48,16 @@ const Home: NextPage = () => {
           <Summary data={summaryQuery.data} isLoading={summaryQuery.isLoading} />
         </Grid>
         <Grid xs={12} md={6}>
-          <QueryTypes data={queryTypes.data} isLoading={queryTypes.isLoading} />
+          <QueryTypesChart data={queryTypes.data} isLoading={queryTypes.isLoading} />
         </Grid>
         <Grid xs={12} md={6}>
-          <ForwardedDestinations
+          <ForwardedDestinationsChart
             data={forwardedDestinations.data}
             isLoading={forwardedDestinations.isLoading}
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <TopPermittedQueries
+          <TopPermittedQueriesTable
             data={topPermittedQueries.data}
             isLoading={topPermittedQueries.isLoading}
           />
