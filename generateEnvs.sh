@@ -29,3 +29,7 @@ echo "NEXT_PUBLIC_POLLING_TOP_PERMITTED_QUERIES=10000" >> .env.local          # 
 echo "NEXT_PUBLIC_POLLING_TOP_BLOCKED_QUERIES=10000" >> .env.local            # time in milliseconds
 echo "NEXT_PUBLIC_NUM_ENTRIES_TOP_PERMITTED_QUERIES=10" >> .env.local
 echo "NEXT_PUBLIC_NUM_ENTRIES_TOP_BLOCKED_QUERIES=10" >> .env.local
+
+# Top clients and Top clients blocked
+echo "NEXT_PUBLIC_POLLING_TOP_CLIENTS_ALLOWED_QUERIES=10000" >> .env.local    # time in milliseconds
+echo "NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_ALLOWED_QUERIES=10" >> .env.local
