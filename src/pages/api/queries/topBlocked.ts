@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { withSessionRoute } from '@lib/AuthSession';
 import logger from '@utils/logger';
-import { topItems as topItemsUrl } from '@utils/url/upstream';
+import { topItemsUrl } from '@utils/url/upstream';
 import { ITopBlockedQueries, ITopItems } from '@utils/url/upstream.types';
 import { getTopBlockedQueriesUrl as apiUrl } from '@utils/url/api';
 

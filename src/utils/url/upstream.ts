@@ -16,9 +16,7 @@ export const upstreamBaseApiUrl = '/admin/api.php';
  * @see {@link ISummaryRaw} Data format returned
  * @returns API URL for upstream API
  */
-export const summaryRaw = () => `${upstreamBaseApiUrl}?summaryRaw`;
-
-// ////////////////////////////////////////////////////////////////////////////////////////////// //
+export const summaryRawUrl = () => `${upstreamBaseApiUrl}?summaryRaw`;
 
 /**
  * API url to fetch 'summary' to upstream API.
@@ -28,7 +26,7 @@ export const summaryRaw = () => `${upstreamBaseApiUrl}?summaryRaw`;
  * @see {@link ISummary} Data format returned
  * @returns API URL for upstream API
  */
-export const summary = () => `${upstreamBaseApiUrl}?summary`;
+export const summaryUrl = () => `${upstreamBaseApiUrl}?summary`;
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
@@ -40,7 +38,7 @@ export const summary = () => `${upstreamBaseApiUrl}?summary`;
  * @see {@link IOverTimeData10minutes} Data format returned
  * @returns API URL for upstream API
  */
-export const overTimeData10mins = () => `${upstreamBaseApiUrl}?overTimeData10mins`;
+export const overTimeData10minsUrl = () => `${upstreamBaseApiUrl}?overTimeData10mins`;
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
@@ -53,20 +51,20 @@ export const overTimeData10mins = () => `${upstreamBaseApiUrl}?overTimeData10min
  * @param numEntries - Number of entries to return. Default is 10
  * @returns API URL for upstream API
  */
-export const topItems = (numEntries = 10) => `${upstreamBaseApiUrl}?topItems=${numEntries}`;
+export const topItemsUrl = (numEntries = 10) => `${upstreamBaseApiUrl}?topItems=${numEntries}`;
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
- * API url to fetch 'getQuerySources' to upstream API.
+ * API url to fetch 'topClients' to upstream API.
  * Data needed for generating the Top Clients list
  *
  * @remarks Authorization required
- * @see {@link IGetQuerySources} Data format returned
+ * @see {@link ITopClients} Data format returned
  * @param numEntries - Number of entries to return. Default is 10
  * @returns API URL for upstream API
  */
-export const topClients = (numEntries = 10) => `${upstreamBaseApiUrl}?topClients=${numEntries}`;
+export const topClientsUrl = (numEntries = 10) => `${upstreamBaseApiUrl}?topClients=${numEntries}`;
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
@@ -78,7 +76,7 @@ export const topClients = (numEntries = 10) => `${upstreamBaseApiUrl}?topClients
  * @remarks Authorization required
  * @returns API URL for upstream API
  */
-export const forwardedDestinations = () => `${upstreamBaseApiUrl}?getForwardDestinations`;
+export const forwardedDestinationsUrl = () => `${upstreamBaseApiUrl}?getForwardDestinations`;
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
@@ -90,6 +88,6 @@ export const forwardedDestinations = () => `${upstreamBaseApiUrl}?getForwardDest
  * @remarks Authorization required
  * @returns API URL for upstream API
  */
-export const queryTypes = () => `${upstreamBaseApiUrl}?getQueryTypes`;
+export const queryTypesUrl = () => `${upstreamBaseApiUrl}?getQueryTypes`;
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
