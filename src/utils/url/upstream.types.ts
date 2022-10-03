@@ -408,28 +408,27 @@ export interface ITopItems {
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
- * Data formatted needed when fetching 'getQuerySources'
- * Data needed for generating the Top Clients list
+ * Data format for top client queries
+ *
+ * @example
+ * ```json
+ * {
+ *   "desktop.local|192.168.1.2": 1440,
+ *   "android-a4.local|192.168.1.3": 609,
+ *   "localhost|127.0.0.1": 186,
+ *   "android-53.local|192.168.1.4": 120,
+ *   "android-86.local|192.168.1.5": 62
+ * }
+ * ```
+ */
+export type ITopClientsData = Record<string, number>;
+
+
+/**
+ * Data format when fetching from Pi-hole `topClients`
  */
 export interface ITopClients {
-  top_sources: {
-    /**
-     * Key is the domain
-     * Value is number of queries
-     *
-     * @example
-     * ```json
-     * {
-     *    "desktop.local|192.168.1.2": 1440,
-     *    "android-a4.local|192.168.1.3": 609,
-     *    "localhost|127.0.0.1": 186,
-     *    "android-53.local|192.168.1.4": 120,
-     *    "android-86.local|192.168.1.5": 62
-     * }
-     * ```
-     */
-    string: number;
-  };
+  top_sources: ITopClientsData;
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
