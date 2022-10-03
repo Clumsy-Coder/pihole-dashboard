@@ -22,6 +22,9 @@ declare namespace NodeJS {
      * @example a7d452f
      */
     NEXT_PUBLIC_BUILD_ID: string;
+
+    // ------------------------------------------------------------------------------------------ //
+
     /**
      * Password used to encrypt cookie using iron-session
      *
@@ -43,12 +46,16 @@ declare namespace NodeJS {
      */
     NEXT_PUBLIC_POLLING_AUTH_SESSION: number;
 
+    // ------------------------------------------------------------------------------------------ //
+
     /**
      * Fetch polling time when fetching data from api `/api/summary`
      *
      * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
      */
     NEXT_PUBLIC_POLLING_SUMMARY: number;
+
+    // ------------------------------------------------------------------------------------------ //
 
     /**
      * Fetch polling time when fetching data from api `/api/forwardedDestinations`
@@ -57,12 +64,16 @@ declare namespace NodeJS {
      */
     NEXT_PUBLIC_POLLING_FORWARDED_DESTINATIONS: number;
 
+    // ------------------------------------------------------------------------------------------ //
+
     /**
      * Fetch polling time when fetching data from api `/api/queryTypes`
      *
      * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
      */
     NEXT_PUBLIC_POLLING_QUERY_TYPES: number;
+
+    // ------------------------------------------------------------------------------------------ //
 
     /**
      * Fetch polling time when fetching data from api `/api/queries/topPermitted`
