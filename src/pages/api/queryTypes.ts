@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { withSessionRoute } from '@lib/AuthSession';
 import logger from '@utils/logger';
-import { queryTypes as queryTypesUrl } from '@utils/url/upstream';
+import { queryTypesUrl } from '@utils/url/upstream';
 import { IQueryTypes } from '@utils/url/upstream.types';
 
 const apiUrl = '/api/queryTypes';

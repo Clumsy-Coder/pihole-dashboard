@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { withSessionRoute } from '@lib/AuthSession';
 import logger from '@utils/logger';
-import { summaryRaw as summaryRawUrl, summary as summaryUrl } from '@utils/url/upstream';
+import { summaryRawUrl, summaryUrl } from '@utils/url/upstream';
 import { ISummary, ISummaryRaw } from '@utils/url/upstream.types';
 
 /**
