@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { withSessionRoute } from '@lib/AuthSession';
 import logger from '@utils/logger';
-import { forwardedDestinations as forwardedDestinationsUrl } from '@utils/url/upstream';
+import { forwardedDestinationsUrl } from '@utils/url/upstream';
 import { IForwardedDestinations } from '@utils/url/upstream.types';
 
 const apiUrl = '/api/forwardedDestinations';
