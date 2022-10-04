@@ -65,7 +65,7 @@ export const getTopPermittedQueriesUrl = 'queries/domains/topAllowed';
  * @remarks Authorization required
  * @remarks full URL `/api/queries/topBlocked`
  */
-export const getTopBlockedQueriesUrl = 'queries/topBlocked';
+export const getTopBlockedQueriesUrl = 'queries/domains/topBlocked';
 
 //-------------------------------------------------------------------------------------------------
 
