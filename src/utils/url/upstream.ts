@@ -66,6 +66,18 @@ export const topItemsUrl = (numEntries = 10) => `${upstreamBaseApiUrl}?topItems=
  */
 export const topClientsUrl = (numEntries = 10) => `${upstreamBaseApiUrl}?topClients=${numEntries}`;
 
+/**
+ * API url to fetch 'topClientsBlocked' to upstream API.
+ * Data needed for generating the Top Clients Blocked list
+ *
+ * @remarks Authorization required
+ * @see {@link ITopClientsBlocked} Data format returned
+ * @param numEntries - Number of entries to return. Default is 10
+ * @returns API URL for upstream API
+ */
+export const topBlockedClientsUrl = (numEntries = 10) =>
+  `${upstreamBaseApiUrl}?topClientsBlocked=${numEntries}`;
+
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
