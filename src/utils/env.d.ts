@@ -128,5 +128,12 @@ declare namespace NodeJS {
      * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
      */
     NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES: number;
+
+    /**
+     * Fetch polling time when fetching data from api `/api/queries/overtime`
+     *
+     * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
+     */
+    NEXT_PUBLIC_POLLING_QUERIES_OVERTIME: number;
   }
 }
