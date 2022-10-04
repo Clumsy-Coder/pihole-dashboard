@@ -9,6 +9,7 @@ import Summary from '@components/Summary';
 import TopPermittedQueriesTable from '@components/Tables/TopPermittedQueries';
 import TopBlockedQueriesTable from '@components/Tables/TopBlockedQueries';
 import TopAllowedClientsTable from '@components/Tables/Clients/TopAllowedClients';
+import TopBlockedClientsTable from '@components/Tables/Clients/TopBlockedClients';
 import { useGetForwardedDestinationsQuery } from '@redux/ForwardedDestinations';
 import { useGetQueryTypesQuery } from '@redux/QueryTypes';
 import { useGetSummaryQuery } from '@redux/Summary';
@@ -16,7 +17,7 @@ import {
   useGetTopPermittedQueriesQuery,
   useGetTopBlockedQueriesQuery,
 } from '@redux/Queries/TopQueries';
-import { useGetTopAllowedClientsQuery } from '@redux/Queries/Clients';
+import { useGetTopAllowedClientsQuery, useGetTopBlockedClientsQuery } from '@redux/Queries/Clients';
 
 const Home: NextPage = () => {
   const summaryQuery = useGetSummaryQuery(undefined, {
@@ -39,6 +40,10 @@ const Home: NextPage = () => {
   const topAllowedClientQueries = useGetTopAllowedClientsQuery(
     process.env.NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_ALLOWED_QUERIES,
     { pollingInterval: process.env.NEXT_PUBLIC_POLLING_TOP_CLIENTS_ALLOWED_QUERIES },
+  );
+  const topBlockedClientQueries = useGetTopBlockedClientsQuery(
+    process.env.NEXT_PUBLIC_POLLING_TOP_CLIENTS_BLOCKED_QUERIES,
+    { pollingInterval: process.env.NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES },
   );
 
   return (
@@ -78,6 +83,12 @@ const Home: NextPage = () => {
           <TopAllowedClientsTable
             data={topAllowedClientQueries.data}
             isLoading={topAllowedClientQueries.isLoading}
+          />
+        </Grid>
+        <Grid xs={12} md={6}>
+          <TopBlockedClientsTable
+            data={topBlockedClientQueries.data}
+            isLoading={topBlockedClientQueries.isLoading}
           />
         </Grid>
       </Grid>
