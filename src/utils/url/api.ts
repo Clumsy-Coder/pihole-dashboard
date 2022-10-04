@@ -57,7 +57,7 @@ export const getQueryTypesUrl = 'queryTypes';
  * @remarks Authorization required
  * @remarks full URL `/api/queries/topPermitted`
  */
-export const getTopPermittedQueriesUrl = 'queries/topPermitted';
+export const getTopPermittedQueriesUrl = 'queries/domains/topAllowed';
 
 /**
  * URL for fetching Pi-hole `Top Blocked queries`
