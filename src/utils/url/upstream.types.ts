@@ -287,6 +287,10 @@ export interface ISummary {
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
+export type DomainsOvertime = Record<string, number>;
+
+export type AdsOvertime = Record<string, number>;
+
 /**
  * Data formatted needed when fetching 'overTimeData10mins'
  * Data needed for generating the domains/ads over time graph on the Pi-hole web dashboard
@@ -294,34 +298,20 @@ export interface ISummary {
 export interface IOverTimeData10minutes {
   /**
    * the number of queries within the timeframe of 00:00:00 - 00:09:59 at this day.
+   * @example
+   * ```
+   * { "1488150000": 12 }
+   * ```
    */
-  domains_over_time: {
-    /**
-     * Key is unix time
-     * Value is number of queries
-     *
-     * @example
-     * ```
-     * { "1488150000": 12 }
-     * ```
-     */
-    string: number;
-  };
+  domains_over_time: DomainsOvertime;
   /**
    * the number of queries within the timeframe of 00:10:00 - 00:19:59 at this day.
+   * @example
+   * ```
+   * { "1488150000": 12 }
+   * ```
    */
-  ads_over_time: {
-    /**
-     * Key is unix time
-     * Value is number of queries
-     *
-     * @example
-     * ```
-     * { "1488150000": 12 }
-     * ```
-     */
-    string: number;
-  };
+  ads_over_time: AdsOvertime;
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
