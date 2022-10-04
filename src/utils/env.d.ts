@@ -109,10 +109,24 @@ declare namespace NodeJS {
     NEXT_PUBLIC_POLLING_TOP_CLIENTS_ALLOWED_QUERIES: number;
 
     /**
+     * Fetch polling time when fetching data from api `/api/queries/clients/topBlocked`
+     *
+     * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
+     */
+    NEXT_PUBLIC_POLLING_TOP_CLIENTS_BLOCKED_QUERIES: number;
+
+    /**
      * Number of entries to fetch from api `/api/queries/clients/topAllowed`
      *
      * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
      */
     NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_ALLOWED_QUERIES: number;
+
+    /**
+     * Number of entries to fetch from api `/api/queries/topClientsBlocked`
+     *
+     * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
+     */
+    NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES: number;
   }
 }
