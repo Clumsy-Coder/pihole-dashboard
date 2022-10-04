@@ -88,15 +88,19 @@ const TopPermittedQueriesTable: React.FC<Props> = (props: Props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {Object.entries(data).map(([client, hits]) => (
-                  <TableRowEntry
-                    key={`table-row-permitted-${client}`}
-                    client={client.split('|')[0]}
-                    ipAddress={client.split('|')[1]}
-                    hits={hits}
-                    totalPermittedQueries={totalPermittedQueries}
-                  />
-                ))}
+                {Object.entries(data).map(([client, hits]) => {
+                  const [clientName, ipAddress] = client.split('|');
+
+                  return (
+                    <TableRowEntry
+                      key={`table-row-permitted-${client}`}
+                      client={clientName}
+                      ipAddress={ipAddress || clientName}
+                      hits={hits}
+                      totalPermittedQueries={totalPermittedQueries}
+                    />
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
