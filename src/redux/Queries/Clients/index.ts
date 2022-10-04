@@ -1,6 +1,6 @@
 import apiSlice, { TagTypes, HttpQueryType } from '@redux/apiSlice';
-import { getTopAllowedClientsUrl } from '@utils/url/api';
-import { ITopClientsData } from '@utils/url/upstream.types';
+import { getTopAllowedClientsUrl, getTopBlockedClientsUrl } from '@utils/url/api';
+import { ITopClientsData, ITopBlockedClientsData } from '@utils/url/upstream.types';
 
 const clientsApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
@@ -12,8 +12,15 @@ const clientsApi = apiSlice.injectEndpoints({
       }),
       providesTags: () => [{ type: TagTypes.QUERY_CLIENTS_TOP_ALLOWED }],
     }),
+    getTopBlockedClients: build.query<ITopBlockedClientsData, number>({
+      query: (numEntries = 10) => ({
+        url: `${getTopBlockedClientsUrl}?numEntries=${numEntries}`,
+        method: HttpQueryType.GET,
+      }),
+      providesTags: () => [{ type: TagTypes.QUERY_CLIENTS_TOP_BLOCKED }],
+    }),
   }),
 });
 
 // eslint-disable-next-line import/prefer-default-export
-export const { useGetTopAllowedClientsQuery } = clientsApi;
+export const { useGetTopAllowedClientsQuery, useGetTopBlockedClientsQuery } = clientsApi;
