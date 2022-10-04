@@ -7,7 +7,7 @@ import ForwardedDestinationsChart from '@components/Charts/ForwardDestinations';
 import QueryTypesChart from '@components/Charts/QueryTypes';
 import Summary from '@components/Summary';
 import TopAllowedDomainsTable from '@components/Tables/Domains/TopAllowedDomains';
-import TopBlockedQueriesTable from '@components/Tables/TopBlockedQueries';
+import TopBlockedDomainsTable from '@components/Tables/Domains/TopBlockedDomains';
 import TopAllowedClientsTable from '@components/Tables/Clients/TopAllowedClients';
 import TopBlockedClientsTable from '@components/Tables/Clients/TopBlockedClients';
 import { useGetForwardedDestinationsQuery } from '@redux/ForwardedDestinations';
@@ -74,7 +74,7 @@ const Home: NextPage = () => {
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <TopBlockedQueriesTable
+          <TopBlockedDomainsTable
             data={topBlockedQueries.data}
             isLoading={topBlockedQueries.isLoading}
           />
