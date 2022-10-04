@@ -423,12 +423,31 @@ export interface ITopItems {
  */
 export type ITopClientsData = Record<string, number>;
 
+/**
+ * Data format for top client blocked queries
+ *
+ * @example
+ * ```json
+ * {
+ *   "Android-2.local|192.168.1.84": 1560,
+ *   "MacBook-Pro.local|192.168.1.73": 1161,
+ *   "Android.local|192.168.1.64": 988,
+ *   "iPad.local|192.168.1.77": 802,
+ *   "iPad-Air.local|192.168.1.85": 764
+ * }
+ * ```
+ */
+export type ITopBlockedClientsData = Record<string, number>;
 
 /**
  * Data format when fetching from Pi-hole `topClients`
  */
 export interface ITopClients {
   top_sources: ITopClientsData;
+}
+
+export interface ITopBlockedClients {
+  top_sources_blocked: ITopBlockedClientsData;
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
