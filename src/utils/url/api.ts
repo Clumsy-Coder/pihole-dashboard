@@ -47,7 +47,7 @@ export const getForwardedDestinationsUrl = 'forwardedDestinations';
  * @remarks Authorization required
  * @remarks full URL `/api/queryTypes`
  */
-export const getQueryTypesUrl = 'queryTypes';
+export const getQueryTypesUrl = 'queries/queryTypes';
 
 //-------------------------------------------------------------------------------------------------
 
