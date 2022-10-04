@@ -38,7 +38,7 @@ export const getSummaryRawUrl = 'summary?raw=true';
  * @remarks Authorization required
  * @remarks full URL `/api/forwardedDestinations`
  */
-export const getForwardedDestinationsUrl = 'forwardedDestinations';
+export const getForwardedDestinationsUrl = 'queries/forwardedDestinations';
 
 //-------------------------------------------------------------------------------------------------
 
