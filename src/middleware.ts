@@ -39,6 +39,7 @@ export const config = {
     '/api/queries/topPermitted',
     '/api/queries/topBlocked',
     '/api/queries/clients/topAllowed',
+    '/api/queries/clients/topBlocked',
 
     // page routes
     '/',
