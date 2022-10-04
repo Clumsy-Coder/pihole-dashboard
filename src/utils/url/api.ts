@@ -77,4 +77,12 @@ export const getTopBlockedQueriesUrl = 'queries/topBlocked';
  */
 export const getTopAllowedClientsUrl = 'queries/clients/topAllowed';
 
+/**
+ * URL for fetching Pi-hole `Top Client Blocked queries`
+ *
+ * @remarks Authorization required
+ * @remarks full URL `/api/queries/clients/topBlocked`
+ */
+export const getTopBlockedClientsUrl = 'queries/clients/topBlocked';
+
 //-------------------------------------------------------------------------------------------------
