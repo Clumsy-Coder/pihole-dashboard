@@ -42,8 +42,8 @@ const Home: NextPage = () => {
     { pollingInterval: process.env.NEXT_PUBLIC_POLLING_TOP_CLIENTS_ALLOWED_QUERIES },
   );
   const topBlockedClientQueries = useGetTopBlockedClientsQuery(
-    process.env.NEXT_PUBLIC_POLLING_TOP_CLIENTS_BLOCKED_QUERIES,
-    { pollingInterval: process.env.NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES },
+    process.env.NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES,
+    { pollingInterval: process.env.NEXT_PUBLIC_POLLING_TOP_CLIENTS_BLOCKED_QUERIES },
   );
 
   return (
