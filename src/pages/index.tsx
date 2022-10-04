@@ -6,7 +6,7 @@ import Head from 'next/head';
 import ForwardedDestinationsChart from '@components/Charts/ForwardDestinations';
 import QueryTypesChart from '@components/Charts/QueryTypes';
 import Summary from '@components/Summary';
-import TopPermittedQueriesTable from '@components/Tables/TopPermittedQueries';
+import TopAllowedDomainsTable from '@components/Tables/Domains/TopAllowedDomains';
 import TopBlockedQueriesTable from '@components/Tables/TopBlockedQueries';
 import TopAllowedClientsTable from '@components/Tables/Clients/TopAllowedClients';
 import TopBlockedClientsTable from '@components/Tables/Clients/TopBlockedClients';
@@ -68,7 +68,7 @@ const Home: NextPage = () => {
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <TopPermittedQueriesTable
+          <TopAllowedDomainsTable
             data={topPermittedQueries.data}
             isLoading={topPermittedQueries.isLoading}
           />
