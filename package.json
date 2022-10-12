@@ -28,7 +28,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.9",
     "@mui/lab": "^5.0.0-alpha.102",
-    "@mui/material": "^5.10.8",
+    "@mui/material": "^5.10.9",
     "@reduxjs/toolkit": "^1.8.6",
     "axios": "^1.1.2",
     "clsx": "^1.2.1",
