@@ -34,12 +34,7 @@ export const config = {
   matcher: [
     // api routes
     '/api/summary',
-    '/api/forwardedDestinations',
-    '/api/queryTypes',
-    '/api/queries/topPermitted',
-    '/api/queries/topBlocked',
-    '/api/queries/clients/topAllowed',
-    '/api/queries/clients/topBlocked',
+    '/api/queries/:path*',
 
     // page routes
     '/',
