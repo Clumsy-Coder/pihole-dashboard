@@ -93,3 +93,12 @@ export const getTopBlockedClientsUrl = 'queries/clients/topBlocked';
  * @remarks full URL `/api/queries/overtime`
  */
 export const getQueriesOvertimeUrl = 'queries/overtime';
+
+//-------------------------------------------------------------------------------------------------
+
+/**
+ * URL for fetching Pi-hole `Clients overtime`
+ *
+ * @remarks full URL `/api/queries/clients/overtime`
+ */
+export const getClientsOvertimeUrl = `queries/clients/overtime`;
