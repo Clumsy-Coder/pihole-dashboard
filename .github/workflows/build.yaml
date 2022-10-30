@@ -113,13 +113,13 @@ jobs:
           echo "GIT_REF=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)" >> $GITHUB_ENV
           echo "GHCR_IMAGE=$(echo 'console.log("ghcr.io/${{ github.repository }}".toLowerCase())' | node -)" >> $GITHUB_ENV
 
-      - run: echo $GITHUB_ENV
+      - run: echo "$GITHUB_ENV"
 
       - name: Create .env.local for NextJS
         run: |
-          printf 'NEXT_PUBLIC_BUILD_VERSION=%s\n' '${{ env.NEXT_VERSION }}' >> .env.local
-          printf 'NEXT_PUBLIC_BUILD_ID=%s\n' $(echo ${{ github.sha }} | cut -c -7) >> .env.local
-          printf 'SECRET_COOKIE_PASSWORD=%s\n' '${{ secrets.SECRET_COOKIE_PASSWORD }}' >> .env.local
+          printf "NEXT_PUBLIC_BUILD_VERSION=%s\n"                           "${{ env.NEXT_VERSION }}"                                             >> .env.local
+          printf "NEXT_PUBLIC_BUILD_ID=%s\n"                                "$(echo ${{ github.sha }} | cut -c -7)"                               >> .env.local
+          printf "SECRET_COOKIE_PASSWORD=%s\n"                              "${{ secrets.SECRET_COOKIE_PASSWORD }}"                               >> .env.local
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
