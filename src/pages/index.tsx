@@ -6,6 +6,7 @@ import Head from 'next/head';
 import ForwardedDestinationsChart from '@components/Charts/ForwardDestinations';
 import QueryTypesChart from '@components/Charts/QueryTypes';
 import QueriesOvertimeChart from '@components/Charts/Bar/QueriesOvertime';
+import ClientsOvertimeChart from '@components/Charts/Bar/ClientsOvertime';
 import Summary from '@components/Summary';
 import TopAllowedDomainsTable from '@components/Tables/Domains/TopAllowedDomains';
 import TopBlockedDomainsTable from '@components/Tables/Domains/TopBlockedDomains';
@@ -19,7 +20,10 @@ import {
   useGetTopBlockedQueriesQuery,
 } from '@redux/Queries/TopQueries';
 import { useGetTopAllowedClientsQuery, useGetTopBlockedClientsQuery } from '@redux/Queries/Clients';
-import { useGetQueriesOvertimeFormattedQuery } from '@redux/Queries/Overtime';
+import {
+  useGetQueriesOvertimeFormattedQuery,
+  useGetClientsOvertimeFormattedQuery,
+} from '@redux/Queries/Overtime';
 
 const Home: NextPage = () => {
   const summaryQuery = useGetSummaryQuery(undefined, {
@@ -50,6 +54,9 @@ const Home: NextPage = () => {
   const queriesOvertime = useGetQueriesOvertimeFormattedQuery(undefined, {
     pollingInterval: process.env.NEXT_PUBLIC_POLLING_QUERIES_OVERTIME || 600000,
   });
+  const clientsOvertime = useGetClientsOvertimeFormattedQuery(undefined, {
+    pollingInterval: process.env.NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME || 600000,
+  });
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -65,6 +72,9 @@ const Home: NextPage = () => {
         </Grid>
         <Grid xs={12}>
           <QueriesOvertimeChart data={queriesOvertime.data} isLoading={queriesOvertime.isLoading} />
+        </Grid>
+        <Grid xs={12}>
+          <ClientsOvertimeChart data={clientsOvertime.data} isLoading={clientsOvertime.isLoading} />
         </Grid>
         <Grid xs={12} md={6}>
           <QueryTypesChart data={queryTypes.data} isLoading={queryTypes.isLoading} />
