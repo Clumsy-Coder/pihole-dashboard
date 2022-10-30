@@ -4,6 +4,7 @@ import { IGetQueriesOvertimeFormatted } from '@pages/api/queries/overtime';
 import { IOverTimeData10minutes } from '@utils/url/upstream.types';
 import {
   IGetClientsOvertimeResponseData as IGetClientsOvertimeRaw,
+  IGetClientsOvertimeFormatted,
 } from '@pages/api/queries/clients/overtime';
 
 const clientsApi = apiSlice.injectEndpoints({
@@ -32,6 +33,14 @@ const clientsApi = apiSlice.injectEndpoints({
       }),
       providesTags: () => [{ type: TagTypes.QUERY_CLIENTS_OVERTIME_RAW }],
     }),
+    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+    getClientsOvertimeFormatted: build.query<IGetClientsOvertimeFormatted, void>({
+      query: () => ({
+        url: `${getClientsOvertimeUrl}?formatted=true`,
+        method: HttpQueryType.GET,
+      }),
+      providesTags: () => [{ type: TagTypes.QUERY_CLIENTS_OVERTIME_FORMATTED }],
+    }),
   }),
 });
 
@@ -40,4 +49,5 @@ export const {
   useGetQueriesOvertimeRawQuery,
   useGetQueriesOvertimeFormattedQuery,
   useGetClientsOvertimeRawQuery,
+  useGetClientsOvertimeFormattedQuery,
 } = clientsApi;
