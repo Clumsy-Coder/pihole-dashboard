@@ -120,6 +120,20 @@ jobs:
           printf "NEXT_PUBLIC_BUILD_VERSION=%s\n"                           "${{ env.NEXT_VERSION }}"                                             >> .env.local
           printf "NEXT_PUBLIC_BUILD_ID=%s\n"                                "$(echo ${{ github.sha }} | cut -c -7)"                               >> .env.local
           printf "SECRET_COOKIE_PASSWORD=%s\n"                              "${{ secrets.SECRET_COOKIE_PASSWORD }}"                               >> .env.local
+          printf "NEXT_PUBLIC_POLLING_AUTH_SESSION=%s\n"                    "${{ secrets.NEXT_PUBLIC_POLLING_AUTH_SESSION }}"                     >> .env.local
+          printf "NEXT_PUBLIC_POLLING_SUMMARY=%s\n"                         "${{ secrets.NEXT_PUBLIC_POLLING_SUMMARY }}"                          >> .env.local
+          printf "NEXT_PUBLIC_POLLING_FORWARDED_DESTINATIONS=%s\n"          "${{ secrets.NEXT_PUBLIC_POLLING_FORWARDED_DESTINATIONS }}"           >> .env.local
+          printf "NEXT_PUBLIC_POLLING_QUERY_TYPES=%s\n"                     "${{ secrets.NEXT_PUBLIC_POLLING_QUERY_TYPES }}"                      >> .env.local
+          printf "NEXT_PUBLIC_POLLING_TOP_PERMITTED_QUERIES=%s\n"           "${{ secrets.NEXT_PUBLIC_POLLING_TOP_PERMITTED_QUERIES }}"            >> .env.local
+          printf "NEXT_PUBLIC_POLLING_TOP_BLOCKED_QUERIES=%s\n"             "${{ secrets.NEXT_PUBLIC_POLLING_TOP_BLOCKED_QUERIES }}"              >> .env.local
+          printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_PERMITTED_QUERIES=%s\n"       "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_PERMITTED_QUERIES }}"        >> .env.local
+          printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_BLOCKED_QUERIES=%s\n"         "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_BLOCKED_QUERIES }}"          >> .env.local
+          printf "NEXT_PUBLIC_POLLING_TOP_CLIENTS_ALLOWED_QUERIES=%s\n"     "${{ secrets.NEXT_PUBLIC_POLLING_TOP_CLIENTS_ALLOWED_QUERIES }}"      >> .env.local
+          printf "NEXT_PUBLIC_POLLING_TOP_CLIENTS_BLOCKED_QUERIES=%s\n"     "${{ secrets.NEXT_PUBLIC_POLLING_TOP_CLIENTS_BLOCKED_QUERIES }}"      >> .env.local
+          printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_ALLOWED_QUERIES=%s\n" "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_ALLOWED_QUERIES }}"  >> .env.local
+          printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES=%s\n" "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES }}"  >> .env.local
+          printf "NEXT_PUBLIC_POLLING_QUERIES_OVERTIME=%s\n"                "${{ secrets.NEXT_PUBLIC_POLLING_QUERIES_OVERTIME }}"                 >> .env.local
+          printf "NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME=%s\n"                "${{ secrets.NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME }}"                 >> .env.local
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
