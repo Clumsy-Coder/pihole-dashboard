@@ -24,12 +24,12 @@ export const getUnauthorizedUrl = 'auth/unauthorized';
 /**
  * URL for fetching Pi-hole summary with formatted data
  */
-export const getSummaryUrl = 'summary';
+export const getSummaryUrl = 'queries/summary';
 
 /**
  * URL for fetching Pi-hole summary with raw data
  */
-export const getSummaryRawUrl = 'summary?raw=true';
+export const getSummaryRawUrl = 'queries/summary?raw=true';
 
 //-------------------------------------------------------------------------------------------------
 
