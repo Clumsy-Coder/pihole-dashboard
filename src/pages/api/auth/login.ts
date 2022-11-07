@@ -7,6 +7,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { ErrorResponse, InternalServerError, UnreachableResponse } from '@lib/AxiosError';
 import { IAuthSession, withSessionRoute } from '@lib/AuthSession';
 import logger from '@utils/logger';
+import { postAuthSessionUrl as apiUrl } from '@utils/url/api';
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
@@ -43,7 +44,7 @@ axios.interceptors.response.use(
     const unreachableMsg = 'Pi-hole not reachable. Try a different IP address or port';
     // const { code } = error;
     const status = error.response?.status ?? 500;
-    const axiosErrorLogger = logger.scope('/api/auth/login', 'axios response', 'ERROR');
+    const axiosErrorLogger = logger.scope(apiUrl, 'axios response', 'ERROR');
 
     // The request was made but no response was received
     if (error.request) {
@@ -94,7 +95,7 @@ axios.interceptors.response.use(
  */
 const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponseData>) => {
   const { ipAddress, password, port } = req.body as PostRequestData;
-  const postLogger = logger.scope('/api/auth/login', 'POST');
+  const postLogger = logger.scope(apiUrl, 'POST');
 
   // validate serverIp
   if (!Address4.isValid(ipAddress)) {
@@ -147,7 +148,7 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
       await req.session.save();
 
       // user is authenticated
-      postLogger.complete(`sending response { message: 'success'}`);
+      postLogger.complete(`sending response`, { message: 'success' });
       res.status(200).json({
         message: 'success',
       });
@@ -186,7 +187,7 @@ const requestHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     }
     default: {
-      logger.error({ prefix: `/api/auth/login`, message: `invalid HTTP method type '${method}'` });
+      logger.error({ prefix: apiUrl, message: `invalid HTTP method type '${method}'` });
       res.setHeader('Allow', ['POST']);
       res.status(405).end(`Method ${method} Not Allowed`);
     }
