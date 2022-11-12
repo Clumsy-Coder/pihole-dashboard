@@ -1,6 +1,6 @@
 {
   "name": "pihole-dashboard",
-  "version": "1.0.0-development.3",
+  "version": "1.0.0-development.4",
   "private": true,
   "scripts": {
     "dev": "npm run generateEnv && next dev",
