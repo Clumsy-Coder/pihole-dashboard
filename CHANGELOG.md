@@ -1,3 +1,10 @@
+## [1.0.0-development.4](https://github.com/Clumsy-Coder/pihole-dashboard/compare/1.0.0-development.3...1.0.0-development.4) (2022-11-12)
+
+
+### :bug: Bug Fixes
+
+* **docker:** pass `.env.local` to the final stage of docker image building ([5ca3c65](https://github.com/Clumsy-Coder/pihole-dashboard/commit/5ca3c655855622a4c1a10bfd70ae0ac0fca7d225))
+
 ## [1.0.0-development.3](https://github.com/Clumsy-Coder/pihole-dashboard/compare/1.0.0-development.2...1.0.0-development.3) (2022-11-07)
 
 
