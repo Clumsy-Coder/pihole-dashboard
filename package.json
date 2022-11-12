@@ -14,7 +14,7 @@
     "generateVersion": "echo $(npm run -s repoLatestTag)-dev-\"$(npm run -s repoStatus)\"",
     "generateBuildId": "git rev-parse head | cut -c 1-7 2> /dev/null || echo 'development'",
     "generateEnv": "./generateEnvs.sh",
-    "docker:imagename": "echo 'imagename'",
+    "docker:imagename": "echo 'pihole-dashboard'",
     "docker:tagname": "echo $(npm run -s repoLatestTag)-dev-$(npm run -s generateBuildId)-$(npm run -s repoStatus)",
     "docker:build": "npm run generateEnv && docker build -t $(npm run -s docker:imagename):$(npm run -s docker:tagname) -f ./dockerfile .",
     "docker:run": "docker run --rm -e 'PORT=3000' -p 3000:3000 -d --name $(npm run -s docker:imagename) $(npm run -s docker:imagename):$(npm run -s docker:tagname) && echo '\nGo to http://localhost:3000'",
