@@ -39,7 +39,7 @@
     "date-fns": "^2.29.3",
     "ip-address": "^8.1.0",
     "iron-session": "^6.3.1",
-    "next": "^13.0.2",
+    "next": "^13.0.3",
     "react": "^18.2.0",
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.2.0",
