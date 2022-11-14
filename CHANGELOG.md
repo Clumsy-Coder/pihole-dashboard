@@ -1,3 +1,10 @@
+## [1.0.0-development.5](https://github.com/Clumsy-Coder/pihole-dashboard/compare/1.0.0-development.4...1.0.0-development.5) (2022-11-14)
+
+
+### :sparkles: Features
+
+* **page:** add `About` page ([0c0f5ae](https://github.com/Clumsy-Coder/pihole-dashboard/commit/0c0f5aee935645cc9398c4316d0a119aba509895))
+
 ## [1.0.0-development.4](https://github.com/Clumsy-Coder/pihole-dashboard/compare/1.0.0-development.3...1.0.0-development.4) (2022-11-12)
 
 
