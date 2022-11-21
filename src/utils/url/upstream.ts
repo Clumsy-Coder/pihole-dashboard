@@ -9,18 +9,6 @@ export const upstreamBaseApiUrl = '/admin/api.php';
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
- * API url to fetch 'summaryRaw' to upstream API.
- * Gives statistics in raw format (no number formatting applied).
- *
- * @remarks No Authorization required
- * @see {@link ISummaryRaw} Data format returned
- * @returns API URL for upstream API
- */
-export const summaryRawUrl = () => `${upstreamBaseApiUrl}?summaryRaw`;
-
-// ////////////////////////////////////////////////////////////////////////////////////////////// //
-
-/**
  * API url to fetch 'overTimeData10mins' to upstream API.
  * Data needed for generating the domains/ads over time graph on the Pi-hole web dashboard
  *
@@ -196,6 +184,18 @@ export class UpstreamApiUrl {
    */
   public summary() {
     return `${this.upstreamApiUrl()}&summary`;
+  }
+
+  /**
+   * API url to fetch 'summaryRaw' to upstream API.
+   * Gives statistics in raw format (no number formatting applied).
+   *
+   * @remarks No Authorization required
+   * @see {@link ISummaryRaw} Data format returned
+   * @returns API URL for upstream API
+   */
+  public summaryRaw() {
+    return `${this.upstreamApiUrl()}&summaryRaw`;
   }
 
   // ------------------------------------------------------------------------------------------- //
