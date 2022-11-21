@@ -9,18 +9,6 @@ export const upstreamBaseApiUrl = '/admin/api.php';
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
- * API url to fetch 'overTimeData10mins' to upstream API.
- * Data needed for generating the domains/ads over time graph on the Pi-hole web dashboard
- *
- * @remarks No Authorization required
- * @see {@link IOverTimeData10minutes} Data format returned
- * @returns API URL for upstream API
- */
-export const overTimeData10minsUrl = () => `${upstreamBaseApiUrl}?overTimeData10mins`;
-
-// ////////////////////////////////////////////////////////////////////////////////////////////// //
-
-/**
  * API url to fetch 'topItems' to upstream API.
  * Data needed for generating the Top Domain and Top Advertisers Lists
  *
@@ -196,6 +184,20 @@ export class UpstreamApiUrl {
    */
   public summaryRaw() {
     return `${this.upstreamApiUrl()}&summaryRaw`;
+  }
+
+  // ------------------------------------------------------------------------------------------- //
+
+  /**
+   * API url to fetch 'overTimeData10mins' to upstream API.
+   * Data needed for generating the domains/ads over time graph on the Pi-hole web dashboard
+   *
+   * @remarks No Authorization required
+   * @see {@link IOverTimeData10minutes} Data format returned
+   * @returns API URL for upstream API
+   */
+  overTimeData10mins() {
+    return `${this.upstreamApiUrl()}&overTimeData10mins`;
   }
 
   // ------------------------------------------------------------------------------------------- //
