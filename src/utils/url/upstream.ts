@@ -9,19 +9,6 @@ export const upstreamBaseApiUrl = '/admin/api.php';
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
- * API url to fetch 'topItems' to upstream API.
- * Data needed for generating the Top Domain and Top Advertisers Lists
- *
- * @remarks Authorization required
- * @see {@link ITopItems} Data format returned
- * @param numEntries - Number of entries to return. Default is 10
- * @returns API URL for upstream API
- */
-export const topItemsUrl = (numEntries = 10) => `${upstreamBaseApiUrl}?topItems=${numEntries}`;
-
-// ////////////////////////////////////////////////////////////////////////////////////////////// //
-
-/**
  * API url to fetch 'topClients' to upstream API.
  * Data needed for generating the Top Clients list
  *
@@ -198,6 +185,21 @@ export class UpstreamApiUrl {
    */
   overTimeData10mins() {
     return `${this.upstreamApiUrl()}&overTimeData10mins`;
+  }
+
+  // ------------------------------------------------------------------------------------------- //
+
+  /**
+   * API url to fetch 'topItems' to upstream API.
+   * Data needed for generating the Top Domain and Top Advertisers Lists
+   *
+   * @remarks Authorization required
+   * @see {@link ITopItems} Data format returned
+   * @param numEntries - Number of entries to return. Default is 10
+   * @returns API URL for upstream API
+   */
+  topItems(numEntries = 10) {
+    return `${this.upstreamApiUrl()}&topItems=${numEntries}`;
   }
 
   // ------------------------------------------------------------------------------------------- //

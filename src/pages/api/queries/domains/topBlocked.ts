@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { withSessionRoute } from '@lib/AuthSession';
 import logger from '@utils/logger';
-import { topItemsUrl } from '@utils/url/upstream';
+import { UpstreamApiUrl } from '@utils/url/upstream';
 import { ITopBlockedQueries, ITopItems } from '@utils/url/upstream.types';
 import { getTopBlockedQueriesUrl as apiUrl } from '@utils/url/api';
 
@@ -32,7 +32,7 @@ export interface IGetRequestData {
 export type IGetTopBlockedQueriesResponseData = ITopBlockedQueries;
 
 /**
- * GET endpoint for /api/queries/topBlocked
+ * GET endpoint for /api/queries/domains/topBlocked
  *
  * @remarks
  * Returns forwarded destinations query data
@@ -49,15 +49,15 @@ const handleGetTopBlockedQueries = (
   const { ipAddress, port, password } = req.session.authSession;
   const { numEntries = 10 } = req.query as IGetRequestData;
 
-  const requestUrl = `http://${ipAddress}:${port}/${topItemsUrl(numEntries)}&auth=${password}`;
+  const requestUrl = new UpstreamApiUrl(ipAddress, port, password).topItems(numEntries);
 
   axios
     .get<ITopItems>(requestUrl)
     .then((response) => {
       getLogger.info('data obtained from upstream');
-      getLogger.debug(`data: `, response.data.top_ads);
       res.status(200).json(response.data.top_ads);
       getLogger.complete(`sending response`);
+      getLogger.debug('response data: ', response.data.top_ads);
     })
     .catch((error) => {
       getLogger.error(`error returned when sending HTTP request to '${requestUrl}'`);
@@ -69,7 +69,7 @@ const handleGetTopBlockedQueries = (
  * Default method to run when executing this http api endpoint
  *
  * @remarks
- * HTTP API endpoint `/api/queries/topBlocked`
+ * HTTP API endpoint `/api/queries/domains/topBlocked`
  *
  * @remarks
  * HTTP method allowed: `GET`
