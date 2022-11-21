@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { withSessionRoute } from '@lib/AuthSession';
 import logger from '@utils/logger';
-import { summaryRawUrl, UpstreamApiUrl } from '@utils/url/upstream';
+import { UpstreamApiUrl } from '@utils/url/upstream';
 import { ISummary, ISummaryRaw } from '@utils/url/upstream.types';
 
 /**
@@ -51,13 +51,14 @@ const handleGetSummaryRaw = (
 ) => {
   const getLogger = logger.scope('/api/summary', 'GET', 'raw');
   const { ipAddress, port, password } = req.session.authSession;
-  const requestUrl = `http://${ipAddress}:${port}/${summaryRawUrl()}&auth=${password}`;
+  const requestUrl = new UpstreamApiUrl(ipAddress, port, password).summaryRaw();
 
   axios
     .get<ISummaryRaw>(requestUrl)
     .then((response) => {
       getLogger.info('data obtained from upstream');
-      getLogger.complete(`sending response: `, response.data);
+      getLogger.complete(`sending response: `);
+      getLogger.debug('response data: ', response.data);
       res.status(200).json(response.data);
     })
     .catch((error) => {
