@@ -18,16 +18,6 @@ export const upstreamBaseApiUrl = '/admin/api.php';
  */
 export const summaryRawUrl = () => `${upstreamBaseApiUrl}?summaryRaw`;
 
-/**
- * API url to fetch 'summary' to upstream API.
- * Gives statistics in formatted style
- *
- * @remarks No Authorization required
- * @see {@link ISummary} Data format returned
- * @returns API URL for upstream API
- */
-export const summaryUrl = () => `${upstreamBaseApiUrl}?summary`;
-
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
@@ -137,3 +127,76 @@ export const clientsOvertimeUrl = () => `${upstreamBaseApiUrl}?overTimeDataClien
 export const clientOvertimeAndNamesUrl = () =>
   `${upstreamBaseApiUrl}?overTimeDataClients&getClientNames`;
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
+
+/**
+ * Upstream API class used for generating URL for fetching data from Pi-hole API.
+ *
+ * The intended use is to abstract the url used to make a request to Pi-hole API.
+ *
+ * This will be used in NextJS API
+ *
+ */
+export class UpstreamApiUrl {
+  /**
+   * Upstream base url for contacting Pi-hole API
+   */
+  readonly #upstreamBaseApiUrl = 'admin/api.php';
+
+  /**
+   * IP address of Pi-hole
+   */
+  #ipAddress = '';
+
+  /**
+   * Port number of Pi-hole Admin portal
+   */
+  #port = '';
+
+  /**
+   * Password for Pi-hole Admin portal authentication
+   */
+  #password = '';
+
+  // /////////////////////////////////////////////////////////////////////////////////////////// //
+
+  /**
+   * Constructor for this class.
+   *
+   * Sets `ipAddress` to empty strings
+   * Sets `port` to empty strings
+   * Sets `password` to empty strings
+   */
+  public constructor(ipAddress: string, port: string, password: string) {
+    this.#ipAddress = ipAddress;
+    this.#port = port;
+    this.#password = password;
+  }
+
+  // /////////////////////////////////////////////////////////////////////////////////////////// //
+
+  /**
+   * API url used to contact Pi-hole API
+   */
+  private upstreamApiUrl() {
+    return `http://${this.#ipAddress}:${this.#port}/${this.#upstreamBaseApiUrl}?auth=${
+      this.#password
+    }`;
+  }
+
+  // /////////////////////////////////////////////////////////////////////////////////////////// //
+  // Upstream url builder
+
+  /**
+   * API url to fetch 'summary' to upstream API.
+   * Gives statistics in formatted style
+   *
+   * @remarks No Authorization required
+   * @see {@link ISummary} Data format returned
+   * @returns API URL for upstream API
+   */
+  public summary() {
+    return `${this.upstreamApiUrl()}&summary`;
+  }
+
+  // ------------------------------------------------------------------------------------------- //
+}
