@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { withSessionRoute } from '@lib/AuthSession';
 import logger from '@utils/logger';
-import { topClientsUrl } from '@utils/url/upstream';
+import { UpstreamApiUrl } from '@utils/url/upstream';
 import { ITopClientsData, ITopClients } from '@utils/url/upstream.types';
 import { getTopAllowedClientsUrl as apiUrl } from '@utils/url/api';
 
@@ -32,7 +32,7 @@ export interface IGetRequestData {
 export type IGetTopClientsResponseData = ITopClientsData;
 
 /**
- * GET endpoint for `/api/queries/clients/topClients`
+ * GET endpoint for `/api/queries/clients/topAllowed`
  *
  * @remarks
  * Returns forwarded destinations query data
@@ -49,15 +49,15 @@ const handleGetTopClients = (
   const { ipAddress, port, password } = req.session.authSession;
   const { numEntries = 10 } = req.query as IGetRequestData;
 
-  const requestUrl = `http://${ipAddress}:${port}/${topClientsUrl(numEntries)}&auth=${password}`;
+  const requestUrl = new UpstreamApiUrl(ipAddress, port, password).topClients(numEntries);
 
   axios
     .get<ITopClients>(requestUrl)
     .then((response) => {
       getLogger.info('data obtained from upstream');
-      getLogger.debug(`data: `, response.data.top_sources);
       res.status(200).json(response.data.top_sources);
       getLogger.complete(`sending response`);
+      getLogger.debug(`response data: `, response.data.top_sources);
     })
     .catch((error) => {
       getLogger.error(`error returned when sending HTTP request to '${requestUrl}'`);
@@ -69,7 +69,7 @@ const handleGetTopClients = (
  * Default method to run when executing this http api endpoint
  *
  * @remarks
- * HTTP API endpoint `/api/queries/clients/topClients`
+ * HTTP API endpoint `/api/queries/clients/topAllowed`
  *
  * @remarks
  * HTTP method allowed: `GET`
