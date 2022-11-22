@@ -9,17 +9,6 @@ export const upstreamBaseApiUrl = '/admin/api.php';
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
- * API url to fetch 'topClients' to upstream API.
- * Data needed for generating the Top Clients list
- *
- * @remarks Authorization required
- * @see {@link ITopClients} Data format returned
- * @param numEntries - Number of entries to return. Default is 10
- * @returns API URL for upstream API
- */
-export const topClientsUrl = (numEntries = 10) => `${upstreamBaseApiUrl}?topClients=${numEntries}`;
-
-/**
  * API url to fetch 'topClientsBlocked' to upstream API.
  * Data needed for generating the Top Clients Blocked list
  *
@@ -200,6 +189,21 @@ export class UpstreamApiUrl {
    */
   topItems(numEntries = 10) {
     return `${this.upstreamApiUrl()}&topItems=${numEntries}`;
+  }
+
+  // ------------------------------------------------------------------------------------------- //
+
+  /**
+   * API url to fetch 'topClients' to upstream API.
+   * Data needed for generating the Top Clients list
+   *
+   * @remarks Authorization required
+   * @see {@link ITopClients} Data format returned
+   * @param numEntries - Number of entries to return. Default is 10
+   * @returns API URL for upstream API
+   */
+  topClients(numEntries = 10) {
+    return `${this.upstreamApiUrl()}&topClients=${numEntries}`;
   }
 
   // ------------------------------------------------------------------------------------------- //
