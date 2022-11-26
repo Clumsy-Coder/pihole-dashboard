@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { withSessionRoute } from '@lib/AuthSession';
 import logger from '@utils/logger';
-import { forwardedDestinationsUrl } from '@utils/url/upstream';
+import { UpstreamApiUrl } from '@utils/url/upstream';
 import { IForwardedDestinations } from '@utils/url/upstream.types';
 
 const apiUrl = '/api/forwardedDestinations';
@@ -21,7 +21,7 @@ interface ErrorMessage {
 export type IGetForwardedDestinationsResponseData = IForwardedDestinations;
 
 /**
- * GET endpoint for /api/forwardedDestinations
+ * GET endpoint for /api/queries/forwardedDestinations
  *
  * @remarks
  * Returns forwarded destinations query data
@@ -36,7 +36,7 @@ const handleGetForwardedDestinations = (
 ) => {
   const getLogger = logger.scope(apiUrl, 'GET');
   const { ipAddress, port, password } = req.session.authSession;
-  const requestUrl = `http://${ipAddress}:${port}/${forwardedDestinationsUrl()}&auth=${password}`;
+  const requestUrl = new UpstreamApiUrl(ipAddress, port, password).forwardedDestinations();
 
   axios
     .get<IForwardedDestinations>(requestUrl)
@@ -55,7 +55,7 @@ const handleGetForwardedDestinations = (
  * Default method to run when executing this http api endpoint
  *
  * @remarks
- * HTTP API endpoint `/api/forwardedDestinations`
+ * HTTP API endpoint `/api/queries/forwardedDestinations`
  *
  * @remarks
  * HTTP method allowed: `GET`
