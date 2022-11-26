@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { withSessionRoute } from '@lib/AuthSession';
 import logger from '@utils/logger';
-import { topBlockedClientsUrl } from '@utils/url/upstream';
+import { UpstreamApiUrl } from '@utils/url/upstream';
 import { ITopBlockedClientsData, ITopBlockedClients } from '@utils/url/upstream.types';
 import { getTopBlockedClientsUrl as apiUrl } from '@utils/url/api';
 
@@ -49,17 +49,15 @@ const handleGetTopBlockedClients = (
   const { ipAddress, port, password } = req.session.authSession;
   const { numEntries = 10 } = req.query as IGetRequestData;
 
-  const requestUrl = `http://${ipAddress}:${port}/${topBlockedClientsUrl(
-    numEntries,
-  )}&auth=${password}`;
+  const requestUrl = new UpstreamApiUrl(ipAddress, port, password).topBlockedClients(numEntries);
 
   axios
     .get<ITopBlockedClients>(requestUrl)
     .then((response) => {
       getLogger.info('data obtained from upstream');
-      getLogger.debug(`data: `, response.data.top_sources_blocked);
       res.status(200).json(response.data.top_sources_blocked);
       getLogger.complete(`sending response`);
+      getLogger.debug(`response data: `, response.data.top_sources_blocked);
     })
     .catch((error) => {
       getLogger.error(`error returned when sending HTTP request to '${requestUrl}'`);

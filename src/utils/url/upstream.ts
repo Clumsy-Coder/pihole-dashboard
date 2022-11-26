@@ -9,20 +9,6 @@ export const upstreamBaseApiUrl = '/admin/api.php';
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
- * API url to fetch 'topClientsBlocked' to upstream API.
- * Data needed for generating the Top Clients Blocked list
- *
- * @remarks Authorization required
- * @see {@link ITopClientsBlocked} Data format returned
- * @param numEntries - Number of entries to return. Default is 10
- * @returns API URL for upstream API
- */
-export const topBlockedClientsUrl = (numEntries = 10) =>
-  `${upstreamBaseApiUrl}?topClientsBlocked=${numEntries}`;
-
-// ////////////////////////////////////////////////////////////////////////////////////////////// //
-
-/**
  * API url to fetch 'getForwardDestinations' from upstream API.
  * Data needed for generating forwarded destination queries
  *
@@ -204,6 +190,19 @@ export class UpstreamApiUrl {
    */
   topClients(numEntries = 10) {
     return `${this.upstreamApiUrl()}&topClients=${numEntries}`;
+  }
+
+  /**
+   * API url to fetch 'topClientsBlocked' to upstream API.
+   * Data needed for generating the Top Clients Blocked list
+   *
+   * @remarks Authorization required
+   * @see {@link ITopClientsBlocked} Data format returned
+   * @param numEntries - Number of entries to return. Default is 10
+   * @returns API URL for upstream API
+   */
+  topBlockedClients(numEntries = 10) {
+    return `${this.upstreamApiUrl()}&topClientsBlocked=${numEntries}`;
   }
 
   // ------------------------------------------------------------------------------------------- //
