@@ -9,18 +9,6 @@ export const upstreamBaseApiUrl = '/admin/api.php';
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
- * API url to fetch 'getForwardDestinations' from upstream API.
- * Data needed for generating forwarded destination queries
- *
- * @see {@link IForwardDestination } Data format returned
- * @remarks Authorization required
- * @returns API URL for upstream API
- */
-export const forwardedDestinationsUrl = () => `${upstreamBaseApiUrl}?getForwardDestinations`;
-
-// ////////////////////////////////////////////////////////////////////////////////////////////// //
-
-/**
  * API url to fetch `getQueryTypes` from upstream API
  * Data needed for generating Query Types
  *
@@ -203,6 +191,20 @@ export class UpstreamApiUrl {
    */
   topBlockedClients(numEntries = 10) {
     return `${this.upstreamApiUrl()}&topClientsBlocked=${numEntries}`;
+  }
+
+  // ------------------------------------------------------------------------------------------- //
+
+  /**
+   * API url to fetch 'getForwardDestinations' from upstream API.
+   * Data needed for generating forwarded destination queries
+   *
+   * @see {@link IForwardDestination } Data format returned
+   * @remarks Authorization required
+   * @returns API URL for upstream API
+   */
+  forwardedDestinations() {
+    return `${this.upstreamApiUrl()}&getForwardDestinations`;
   }
 
   // ------------------------------------------------------------------------------------------- //
