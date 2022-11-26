@@ -9,18 +9,6 @@ export const upstreamBaseApiUrl = '/admin/api.php';
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
- * API url to fetch `getQueryTypes` from upstream API
- * Data needed for generating Query Types
- *
- * @see {@link IQueryTypes }
- * @remarks Authorization required
- * @returns API URL for upstream API
- */
-export const queryTypesUrl = () => `${upstreamBaseApiUrl}?getQueryTypes`;
-
-// ////////////////////////////////////////////////////////////////////////////////////////////// //
-
-/**
  * API url to fetch `getClientNames` from upstream API
  *
  * @see {@link IClientNames}
@@ -205,6 +193,20 @@ export class UpstreamApiUrl {
    */
   forwardedDestinations() {
     return `${this.upstreamApiUrl()}&getForwardDestinations`;
+  }
+
+  // ------------------------------------------------------------------------------------------- //
+
+  /**
+   * API url to fetch `getQueryTypes` from upstream API
+   * Data needed for generating Query Types
+   *
+   * @see {@link IQueryTypes }
+   * @remarks Authorization required
+   * @returns API URL for upstream API
+   */
+  queryTypes() {
+    return `${this.upstreamApiUrl()}&getQueryTypes`;
   }
 
   // ------------------------------------------------------------------------------------------- //
