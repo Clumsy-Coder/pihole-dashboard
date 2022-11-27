@@ -9,17 +9,6 @@ export const upstreamBaseApiUrl = '/admin/api.php';
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
- * API url to fetch `getClientNames` from upstream API
- *
- * @see {@link IClientNames}
- * @remarks Authorization required
- * @returns API url for upstream API
- */
-export const clientNamesUrl = () => `${upstreamBaseApiUrl}?getClientNames`;
-
-// ////////////////////////////////////////////////////////////////////////////////////////////// //
-
-/**
  * API url to fetch `overTimeDataClients` from upstream API
  *
  * @see {@link IClientsOvertime}
@@ -207,6 +196,19 @@ export class UpstreamApiUrl {
    */
   queryTypes() {
     return `${this.upstreamApiUrl()}&getQueryTypes`;
+  }
+
+  // ------------------------------------------------------------------------------------------- //
+
+  /**
+   * API url to fetch `getClientNames` from upstream API
+   *
+   * @see {@link IClientNames}
+   * @remarks Authorization required
+   * @returns API url for upstream API
+   */
+  clientNames() {
+    return `${this.upstreamApiUrl()}&getClientNames`;
   }
 
   // ------------------------------------------------------------------------------------------- //
