@@ -5,7 +5,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { withSessionRoute } from '@lib/AuthSession';
 import { chartThemeColours } from '@utils/darkTheme';
 import logger from '@utils/logger';
-import { clientOvertimeAndNamesUrl } from '@utils/url/upstream';
+import { UpstreamApiUrl } from '@utils/url/upstream';
 import { IClientNames, IClientsOvertime } from '@utils/url/upstream.types';
 import { getClientsOvertimeUrl as apiUrl } from '@utils/url/api';
 
@@ -50,7 +50,7 @@ const handleGetClientsOvertimeRaw = (
   const getLogger = logger.scope(apiUrl, 'GET');
   const { ipAddress, port, password } = req.session.authSession;
 
-  const requestUrl = `http://${ipAddress}:${port}/${clientOvertimeAndNamesUrl()}&auth=${password}`;
+  const requestUrl = new UpstreamApiUrl(ipAddress, port, password).clientOvertimeAndNames();
 
   axios
     .get<IGetClientsOvertimeResponseData>(requestUrl)
@@ -58,6 +58,7 @@ const handleGetClientsOvertimeRaw = (
       getLogger.info('data obtained from upstream');
       res.status(200).json(response.data);
       getLogger.complete(`sending response`);
+      getLogger.debug(`response data: `, response.data);
     })
     .catch((error) => {
       getLogger.error(`error returned when sending HTTP request to '${requestUrl}'`);
@@ -82,7 +83,7 @@ const handleGetClientsOvertimeFormatted = (
   const getLogger = logger.scope(apiUrl, 'GET');
   const { ipAddress, port, password } = req.session.authSession;
 
-  const requestUrl = `http://${ipAddress}:${port}/${clientOvertimeAndNamesUrl()}&auth=${password}`;
+  const requestUrl = new UpstreamApiUrl(ipAddress, port, password).clientOvertimeAndNames();
   const responseData: IGetClientsOvertimeFormatted = {
     labels: [], // unix time
     datasets: [],
