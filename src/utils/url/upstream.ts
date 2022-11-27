@@ -9,18 +9,6 @@ export const upstreamBaseApiUrl = '/admin/api.php';
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
- * API url to fetch `overTimeDataClients` and `getClientNames` from upstream API
- *
- * @see {@link clientNamesUrl}
- * @see {@link clientsOvertimeUrl}
- * @remarks Authorization required
- * @returns API url for upstream API
- */
-export const clientOvertimeAndNamesUrl = () =>
-  `${upstreamBaseApiUrl}?overTimeDataClients&getClientNames`;
-// ////////////////////////////////////////////////////////////////////////////////////////////// //
-
-/**
  * Upstream API class used for generating URL for fetching data from Pi-hole API.
  *
  * The intended use is to abstract the url used to make a request to Pi-hole API.
@@ -214,4 +202,18 @@ export class UpstreamApiUrl {
   }
 
   // ------------------------------------------------------------------------------------------- //
+
+  /**
+   * API url to fetch `overTimeDataClients` and `getClientNames` from upstream API
+   *
+   * @see {@link clientNamesUrl}
+   * @see {@link clientsOvertimeUrl}
+   * @remarks Authorization required
+   * @returns API url for upstream API
+   */
+  clientOvertimeAndNames() {
+    return `${this.upstreamApiUrl()}&overTimeDataClients&getClientNames`;
+  }
 }
+
+// ////////////////////////////////////////////////////////////////////////////////////////////// //
