@@ -6,12 +6,10 @@ import { Signale, SignaleOptions } from 'signale';
 export const options: SignaleOptions = {
   disabled: false,
   interactive: false,
-  // logLevel: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
-  logLevel: 'info',
+  // https://github.com/klaudiosinani/signale#loglevel
+  logLevel: process.env.NODE_ENV === 'production' ? 'warn' : 'info',
   stream: process.stdout,
 };
-
-// console.log(options);
 
 /**
  * Signale logger instantiated
