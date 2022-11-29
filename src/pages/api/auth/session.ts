@@ -16,30 +16,27 @@ const handleGet = (req: NextApiRequest, res: NextApiResponse<IAuthSession>) => {
 
   getLogger.info(`checking is auth session exists`);
 
+  const response: IAuthSession = {
+    ipAddress: '',
+    port: '',
+    password: '',
+  };
+
   if (req.session.authSession) {
     const { ipAddress, port } = req.session.authSession;
-    const resObj: IAuthSession = {
-      ipAddress,
-      port,
-      password: '',
-    };
 
-    getLogger.complete(`auth session found. returning '${JSON.stringify(resObj, null, 2)}'`);
+    response.ipAddress = ipAddress;
+    response.port = port;
 
-    // in a real world application you might read the user id from the session and then do a database request
-    // to get more information on the user if needed
-    res.status(200).json(resObj);
+    getLogger.info(`auth session found`);
   } else {
-    const resObj: IAuthSession = {
-      ipAddress: '',
-      port: '',
-      password: '',
-    };
-
-    getLogger.complete(`auth session NOT found. returning ${JSON.stringify(resObj, null, 2)}`);
-
-    res.status(200).json(resObj);
+    getLogger.info(`auth session NOT found`);
   }
+
+  getLogger.complete(`sending response`);
+  getLogger.debug(`response data`, response);
+
+  res.status(200).json(response);
 };
 
 /**
