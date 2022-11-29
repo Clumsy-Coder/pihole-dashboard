@@ -95,6 +95,11 @@ axios.interceptors.response.use(
  */
 const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponseData>) => {
   const { ipAddress, password, port } = req.body as PostRequestData;
+
+  // check if password works with the api
+  const hash = crypto.createHash('sha256').update(password).digest('hex');
+  logger.addSecrets([password, hash]);
+
   const postLogger = logger.scope(apiUrl, 'POST');
 
   // validate serverIp
@@ -112,9 +117,6 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
     res.status(400).json({ message: `invalid port number. '${port}'` });
     return;
   }
-
-  // check if password works with the api
-  const hash = crypto.createHash('sha256').update(password).digest('hex');
 
   // check if credentials work
   // if it works, data should be returned
