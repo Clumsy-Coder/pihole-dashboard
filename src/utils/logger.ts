@@ -8,6 +8,7 @@ export const options: SignaleOptions = {
   interactive: false,
   // https://github.com/klaudiosinani/signale#loglevel
   logLevel: process.env.NODE_ENV === 'production' ? 'warn' : 'info',
+  secrets: [process.env.SECRET_COOKIE_PASSWORD],
   stream: process.stdout,
 };
 
