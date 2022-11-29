@@ -1,3 +1,5 @@
+import logger from '@utils/logger';
+
 // upstream API obtained from
 // https://discourse.pi-hole.net/t/pi-hole-api/1863
 //
@@ -50,6 +52,12 @@ export class UpstreamApiUrl {
     this.#ipAddress = ipAddress;
     this.#port = port;
     this.#password = password;
+
+    // this is to hide hashed password when printing a log
+    // check link
+    //   https://github.com/klaudiosinani/signale#secrets-filtering
+    //   https://github.com/klaudiosinani/signale#signaleaddsecretssecrets
+    logger.addSecrets([password]);
   }
 
   // /////////////////////////////////////////////////////////////////////////////////////////// //
