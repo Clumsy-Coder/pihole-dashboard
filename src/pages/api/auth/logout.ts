@@ -30,7 +30,8 @@ const handleDelete = (req: NextApiRequest, res: NextApiResponse<DeleteResponseDa
   const responseMessage: DeleteResponseData = {
     message: 'success',
   };
-  deleteLogger.complete(`Returning response: ${JSON.stringify(responseMessage)}`);
+  deleteLogger.complete(`sending response`);
+  deleteLogger.debug(`response data`, responseMessage);
   res.status(200).json(responseMessage);
 };
 
