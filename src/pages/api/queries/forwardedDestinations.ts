@@ -42,7 +42,8 @@ const handleGetForwardedDestinations = (
     .get<IForwardedDestinations>(requestUrl)
     .then((response) => {
       getLogger.info('data obtained from upstream');
-      getLogger.complete(`sending response: `, response.data);
+      getLogger.complete('sending response');
+      getLogger.debug('response data', response.data);
       res.status(200).json(response.data);
     })
     .catch((error) => {
