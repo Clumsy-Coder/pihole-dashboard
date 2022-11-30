@@ -132,10 +132,13 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
     .then(async (response: AxiosResponse<PostResponseData>) => {
       // if user provided invalid credentials
       if (Array.isArray(response.data)) {
+        const responseMessage = { message: 'invalid credentials' };
         postLogger.error(`invalid credentials`);
-        postLogger.complete(`sending response 'invalid credentials'`);
-        // console.log(`sending to user: 'invalid credentials'`);
-        res.status(400).json({ message: 'invalid credentials' });
+        postLogger.complete(`sending response`);
+        postLogger.debug('response data: ', responseMessage);
+
+        res.status(400).json(responseMessage);
+
         return;
       }
 
@@ -150,7 +153,8 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
       await req.session.save();
 
       // user is authenticated
-      postLogger.complete(`sending response`, { message: 'success' });
+      postLogger.complete(`sending response`);
+      postLogger.debug(`response data`, { message: 'success' });
       res.status(200).json({
         message: 'success',
       });
@@ -160,9 +164,8 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
         `error returned when sending HTTP request to 'http://${ipAddress}:${port}/admin/api_db.php'`,
       );
       postLogger.info(`upstream response message: '${error.message}'`);
-      postLogger.complete(
-        `sending response: { message: '${error.message}', status: ${error.status ?? 500} }`,
-      );
+      postLogger.complete(`sending response`);
+      postLogger.debug('response data', { message: error.message, status: error.status ?? 500 });
 
       res.status(error.status ? Number(error.status) : 500).json({ message: error.message });
     });
