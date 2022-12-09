@@ -54,7 +54,7 @@ module.exports = {
   rules: {
     'react/jsx-one-expression-per-line': ['off'],
     'max-len': [
-      'error',
+      'warn',
       {
         code: 100,
         tabWidth: 2,
