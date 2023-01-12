@@ -34,7 +34,7 @@
     "@reduxjs/toolkit": "^1.9.1",
     "axios": "^1.2.2",
     "chart.js": "^4.1.2",
-    "chartjs-adapter-date-fns": "^2.0.1",
+    "chartjs-adapter-date-fns": "^3.0.0",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "ip-address": "^8.1.0",
