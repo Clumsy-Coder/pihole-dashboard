@@ -15,6 +15,7 @@ import {
   BarElement,
   Tooltip,
   TimeScale,
+  TimeSeriesScale,
   TooltipItem,
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
@@ -22,7 +23,7 @@ import 'chartjs-adapter-date-fns';
 
 import { IGetQueriesOvertimeFormatted } from '@pages/api/queries/overtime';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, TimeScale);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, TimeScale, TimeSeriesScale);
 
 interface Props {
   data: IGetQueriesOvertimeFormatted | undefined;
@@ -97,7 +98,7 @@ const options: ChartOptions<'bar'> = {
   scales: {
     x: {
       stacked: true,
-      type: 'time',
+      type: 'timeseries',
       time: {
         unit: 'hour',
         displayFormats: {
@@ -108,7 +109,7 @@ const options: ChartOptions<'bar'> = {
       grid: {
         color: '#36393a',
         offset: false,
-        drawBorder: false,
+        display: false,
       },
       ticks: {
         color: '#e8e6e3',
@@ -123,7 +124,7 @@ const options: ChartOptions<'bar'> = {
       },
       grid: {
         color: '#36393a',
-        drawBorder: false,
+        display: false,
       },
     },
   },
@@ -173,6 +174,7 @@ const QueriesOvertime: React.FC<Props> = (props: Props) => {
       const from = label / 1000 - 300;
       const until = label / 1000 + 300;
       const url = `/queries?from=${from}&until=${until}`;
+      // eslint-disable-next-line no-console
       console.log(url);
       // router.push(url)
     }
