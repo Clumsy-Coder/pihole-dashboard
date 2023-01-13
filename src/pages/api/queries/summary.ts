@@ -50,8 +50,8 @@ const handleGetSummaryRaw = (
   res: NextApiResponse<IGetSummaryRawResponseData | ErrorMessage>,
 ) => {
   const getLogger = logger.scope('/api/summary', 'GET', 'raw');
-  const { ipAddress, port } = req.session.authSession;
-  const requestUrl = `http://${ipAddress}:${port}/${summaryRawUrl()}`;
+  const { ipAddress, port, password } = req.session.authSession;
+  const requestUrl = `http://${ipAddress}:${port}/${summaryRawUrl()}&auth=${password}`;
 
   axios
     .get<ISummaryRaw>(requestUrl)
@@ -81,8 +81,8 @@ const handleGetSummary = (
   res: NextApiResponse<IGetSummaryResponseData | ErrorMessage>,
 ) => {
   const getLogger = logger.scope('/api/summary', 'GET', 'formatted');
-  const { ipAddress, port } = req.session.authSession;
-  const requestUrl = `http://${ipAddress}:${port}/${summaryUrl()}`;
+  const { ipAddress, port, password } = req.session.authSession;
+  const requestUrl = `http://${ipAddress}:${port}/${summaryUrl()}&auth=${password}`;
 
   axios
     .get<ISummary>(requestUrl)
