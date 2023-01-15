@@ -102,8 +102,9 @@ const LoginForm: React.FC = () => {
 
     try {
       await postAuthSession({ ipAddress, password, port }).unwrap();
-      // eslint-disable-next-line no-console
-      router.push('/').catch(console.error);
+      // replaced `router.push('/').catch(console.error);` because it would not navigate to another page.
+      // not sure why this is happening.
+      router.reload()
     } catch (err: unknown) {
       setAuthMessage((err as { data: { message: string } }).data.message);
     }
