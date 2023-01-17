@@ -1,14 +1,6 @@
+/* eslint-disable import/prefer-default-export  */
+
 import logger from '@utils/logger';
-
-// upstream API obtained from
-// https://discourse.pi-hole.net/t/pi-hole-api/1863
-//
-// To be able to fetch from endpoint that requires Authentication
-// https://discourse.pi-hole.net/t/how-to-auth-when-accessing-the-pihole-api-from-python/4254/2
-
-export const upstreamBaseApiUrl = '/admin/api.php';
-
-// ////////////////////////////////////////////////////////////////////////////////////////////// //
 
 /**
  * Upstream API class used for generating URL for fetching data from Pi-hole API.
@@ -21,6 +13,12 @@ export const upstreamBaseApiUrl = '/admin/api.php';
 export class UpstreamApiUrl {
   /**
    * Upstream base url for contacting Pi-hole API
+   *
+   * upstream API obtained from
+   * https://discourse.pi-hole.net/t/pi-hole-api/1863
+   *
+   * To be able to fetch from endpoint that requires Authentication
+   * https://discourse.pi-hole.net/t/how-to-auth-when-accessing-the-pihole-api-from-python/4254/2
    */
   readonly #upstreamBaseApiUrl = 'admin/api.php';
 
