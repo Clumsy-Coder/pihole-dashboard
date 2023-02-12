@@ -8,10 +8,7 @@ import QueryTypesChart from '@components/Charts/QueryTypes';
 import QueriesOvertimeChart from '@components/Charts/Bar/QueriesOvertime';
 import ClientsOvertimeChart from '@components/Charts/Bar/ClientsOvertime';
 import Summary from '@components/Summary';
-import TopAllowedDomainsTable from '@components/Tables/Domains/TopAllowedDomains';
-import TopBlockedDomainsTable from '@components/Tables/Domains/TopBlockedDomains';
-import TopAllowedClientsTable from '@components/Tables/Clients/TopAllowedClients';
-import TopBlockedClientsTable from '@components/Tables/Clients/TopBlockedClients';
+import TopQueriesTable, { QueryType } from '@components/Tables/TopQueries';
 import { useGetForwardedDestinationsQuery } from '@redux/ForwardedDestinations';
 import { useGetQueryTypesQuery } from '@redux/QueryTypes';
 import { useGetSummaryQuery } from '@redux/Summary';
@@ -86,27 +83,37 @@ const Home: NextPage = () => {
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <TopAllowedDomainsTable
+          <TopQueriesTable
             data={topPermittedQueries.data}
             isLoading={topPermittedQueries.isLoading}
+            queryType={QueryType.DOMAIN_QUERIES}
+            title='Top Permitted Domains'
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <TopBlockedDomainsTable
+          <TopQueriesTable
             data={topBlockedQueries.data}
             isLoading={topBlockedQueries.isLoading}
+            queryType={QueryType.DOMAIN_QUERIES}
+            title='Top Blocked Domains'
+            showBlockedQueries
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <TopAllowedClientsTable
+          <TopQueriesTable
             data={topAllowedClientQueries.data}
             isLoading={topAllowedClientQueries.isLoading}
+            queryType={QueryType.CLIENT_QUERIES}
+            title='Top Clients'
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <TopBlockedClientsTable
+          <TopQueriesTable
             data={topBlockedClientQueries.data}
             isLoading={topBlockedClientQueries.isLoading}
+            queryType={QueryType.CLIENT_QUERIES}
+            title='Top Clients (blocked only)'
+            showBlockedQueries
           />
         </Grid>
       </Grid>
