@@ -1,6 +1,8 @@
 # pihole-dashboard
 
-Pi-hole Admin portal written in [NextJS](https://nextjs.org/) and styled with [Material-UI](https://mui.com/)
+3rd party Pi-hole Admin portal written in [NextJS](https://nextjs.org/) and styled with [Material-UI](https://mui.com/)
+
+Based on [Pi-Hole Admin portal](https://github.com/pi-hole/AdminLTE), but written in ReactJS using [NextJS](https://nextjs.org/)
 
 ## Getting Started
 
