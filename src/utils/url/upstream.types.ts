@@ -321,7 +321,13 @@ export interface IOverTimeData10minutes {
  *
  * @example
  * ```json
- * "www.msftncsi.com": 3185,
+ * {
+ *   "www.msftncsi.com": 3185,
+ *   "ping.ring.com": 2929,
+ *   "captive.apple.com": 2114,
+ *   "es.ring.com": 1440,
+ *   "dns.google.com": 316
+ * }
  * ```
  */
 export type ITopPermittedQueries = Record<string, number>;
@@ -331,7 +337,13 @@ export type ITopPermittedQueries = Record<string, number>;
  *
  * @example
  * ```json
- * "xp.itunes-apple.com.akadns.net": 1791,
+ * {
+ *   "xp.itunes-apple.com.akadns.net": 1791,
+ *   "xp.apple.com": 231,
+ *   "app-measurment.com": 201,
+ *   "mask.icloud.com": 126,
+ *   "www.google-analytics.com": 75
+ * }
  * ```
  */
 export type ITopBlockedQueries = Record<string, number>;
