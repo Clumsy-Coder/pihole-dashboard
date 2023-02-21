@@ -55,7 +55,7 @@
     "@types/react-dom": "18.0.11",
     "@types/signale": "^1.4.4",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
-    "@typescript-eslint/parser": "^5.52.0",
+    "@typescript-eslint/parser": "^5.53.0",
     "conventional-changelog": "^3.1.25",
     "eslint": "^8.34.0",
     "eslint-config-airbnb": "^19.0.4",
