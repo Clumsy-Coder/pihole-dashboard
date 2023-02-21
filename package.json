@@ -49,8 +49,8 @@
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.2",
     "@semantic-release/git": "^10.0.1",
-    "@types/node": "18.14.0",
     "@svgr/webpack": "^6.5.1",
+    "@types/node": "18.14.0",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
     "@types/signale": "^1.4.4",
@@ -63,6 +63,7 @@
     "eslint-config-next": "^13.1.6",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-tsdoc": "^0.2.17",
     "husky": "^8.0.3",
     "prettier": "^2.8.4",
