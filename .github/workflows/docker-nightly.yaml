@@ -1,0 +1,76 @@
+---
+name: Nightly Docker image build
+
+on:
+  push:
+    branches:
+      - development
+
+env:
+  FORCE_COLOR: true
+
+jobs:
+  # docker-build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
+  #
+  #     - name: Set Environment Variables
+  #       run: |
+  #         echo "GHCR_IMAGE=$(echo 'console.log("ghcr.io/${{ github.repository }}".toLowerCase())' | node -)" >> $GITHUB_ENV
+  #
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v2
+  #
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v2
+  #
+  #     - name: Login to Github container registry
+  #       uses: docker/login-action@v2
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.repository_owner }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
+  #
+  #     - name: Build nightly docker image
+  #       uses: docker/build-push-action@v3
+  #       with:
+  #         context: .
+  #         file: ./dockerfile
+  #         pull: true
+  #         load: true
+  #         tags: |
+  #           ${{ env.GHCR_IMAGE }}:nightly
+  #         # cache-from: type=local,src=/tmp/.buildx-cache
+  #         # cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+  #         labels: |
+  #           org.opencontainers.image.authors=${{ github.repository_owner }}
+  #           org.opencontainers.image.created=${{ env.BUILD_DATE }}
+  #           org.opencontainers.image.description=Created from commit ${{ env.GIT_SHA }} and ref ${{ env.GIT_REF }}
+  #           org.opencontainers.image.ref.name=${{ env.GIT_REF }}
+  #           org.opencontainers.image.revision=${{ github.sha }}
+  #           org.opencontainers.image.source=https://github.com/${{ github.repository }}
+  #           org.opencontainers.image.version=nightly
+  #
+  #     - name: View current docker images
+  #       run: docker images
+  #
+  #     - name: Push `nightly` Docker image to Github Container Registry
+  #       run: docker push ${{ env.GHCR_IMAGE }}:nightly
+
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup env
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          file_name: .env.local
+          fail_on_empty: true
+          envkey_NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME: ${{ secrets.NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME }}
+      # - name: create env with echo
+      # run: |
+      #   echo "${{ secrets.NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME }}" > .env.local
+      - name: print env file
+        run: cat .env.local
