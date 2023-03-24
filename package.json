@@ -47,7 +47,7 @@
     "signale": "^1.4.0"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^6.0.2",
+    "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@svgr/webpack": "^6.5.1",
     "@types/node": "18.15.5",
