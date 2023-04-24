@@ -50,7 +50,7 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@svgr/webpack": "^7.0.0",
-    "@types/node": "18.15.13",
+    "@types/node": "18.16.0",
     "@types/react": "18.0.38",
     "@types/react-dom": "18.0.11",
     "@types/signale": "^1.4.4",
