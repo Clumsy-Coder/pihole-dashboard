@@ -27,7 +27,7 @@
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.16",
-    "@mui/lab": "^5.0.0-alpha.127",
+    "@mui/lab": "^5.0.0-alpha.128",
     "@mui/material": "^5.12.2",
     "@nivo/core": "^0.80.0",
     "@nivo/pie": "^0.80.0",
