@@ -29,7 +29,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.128",
     "@mui/material": "^5.12.2",
-    "@nivo/core": "^0.80.0",
+    "@nivo/core": "^0.81.0",
     "@nivo/pie": "^0.80.0",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
