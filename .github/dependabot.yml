@@ -13,3 +13,6 @@ updates:
       prefix: 'build(deps): '
       prefix-development: 'build(devDep): '
     target-branch: 'development'
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
