@@ -43,7 +43,7 @@
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
-    "react-redux": "^8.0.7",
+    "react-redux": "^8.1.0",
     "signale": "^1.4.0"
   },
   "devDependencies": {
