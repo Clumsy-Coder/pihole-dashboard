@@ -16,3 +16,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+    groups:
+      nivo-charts:
+        patterns:
+          - "@nivo/*"
