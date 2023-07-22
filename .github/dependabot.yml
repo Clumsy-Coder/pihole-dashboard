@@ -14,9 +14,9 @@ updates:
       prefix-development: 'build(devDep): '
     target-branch: 'development'
     ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
     groups:
       nivo-charts:
         patterns:
-          - "@nivo/*"
+          - '@nivo/*'
