@@ -4,10 +4,14 @@ import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
-import { ResponsivePie } from '@nivo/pie';
+import dynamic from 'next/dynamic';
 
 import { nivoChartsDarkTheme, chartThemeColours } from '@utils/darkTheme';
 import { IForwardedDestinations } from '@utils/url/upstream.types';
+
+const ResponsivePie = dynamic(() => import('@nivo/pie').then((m) => m.ResponsivePie), {
+  ssr: false,
+});
 
 interface Props {
   data: IForwardedDestinations | undefined;
