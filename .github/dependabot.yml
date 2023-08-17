@@ -22,3 +22,14 @@ updates:
       nivo-charts:
         patterns:
           - '@nivo/*'
+
+  # auto update github action used in workflows
+  # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    open-pull-requests-limit: 20
+    commit-message:
+      prefix: 'ci(github-action): '
+    target-branch: 'development'
