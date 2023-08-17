@@ -1,3 +1,10 @@
+## [1.0.0-development.6](https://github.com/Clumsy-Coder/pihole-dashboard/compare/1.0.0-development.5...1.0.0-development.6) (2023-08-17)
+
+
+### :bug: Bug Fixes
+
+* **nextjs:** building nextjs app by dynamic importing nivo chart ([c4762e1](https://github.com/Clumsy-Coder/pihole-dashboard/commit/c4762e1ad96eb62d9111633d7be67e95cd152788)), closes [/github.com/plouc/nivo/issues/2310#issuecomment-1552663752](https://github.com/Clumsy-Coder//github.com/plouc/nivo/issues/2310/issues/issuecomment-1552663752)
+
 ## [1.0.0-development.5](https://github.com/Clumsy-Coder/pihole-dashboard/compare/1.0.0-development.4...1.0.0-development.5) (2022-11-14)
 
 
