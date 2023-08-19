@@ -1,7 +1,6 @@
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { useRouter } from 'next/router';
 
 import Link from '@components/Link';
 import { IpageLinks, pageLinks } from '@components/Drawer/pageLinks';
@@ -13,16 +12,17 @@ import { useDeleteAuthSessionMutation } from '@redux/AuthSession';
 const AuthDrawerListItems: React.FC = () => {
   const { home, logout } = pageLinks;
   const [deleteAuthSession] = useDeleteAuthSessionMutation();
-  const router = useRouter();
 
   const drawerLinks: IpageLinks[] = [home];
 
   const handleLogoutOnclick = () => {
-    deleteAuthSession()
-      .then(() => {
-        router.push('/login').catch(console.error);
-      })
-      .catch(console.error);
+    // no need to redirect to login page after logging out.
+    // the router in @components/AppBar/index.tsx in the useEffect function will redirect to the login page.
+    // this is possible because when using the `deleteAuthSession` redux hook,
+    //    it invalidates the tag that stores the IP address,
+    //    causing it to fetch a new ip address using the `useGetAuthSessionQuery` redux hook.
+    //    once the new data is fetched, it find ip address is empty, causing it to redirect to the login page.
+    deleteAuthSession().catch(console.error);
   };
 
   return (
