@@ -1,3 +1,10 @@
+## [1.0.0-development.7](https://github.com/Clumsy-Coder/pihole-dashboard/compare/1.0.0-development.6...1.0.0-development.7) (2023-08-20)
+
+
+### :bug: Bug Fixes
+
+* **component:** tooltip clipping for ClientsOvertime bar chart ([e14aa18](https://github.com/Clumsy-Coder/pihole-dashboard/commit/e14aa18766186873ac28586e45a6dc39162654d2)), closes [/github.com/pi-hole/AdminLTE/blob/41682f17b72d3fb83837a7a08fa68b3e37cd35b7/scripts/pi-hole/js/index.js#L33-L214](https://github.com/Clumsy-Coder//github.com/pi-hole/AdminLTE/blob/41682f17b72d3fb83837a7a08fa68b3e37cd35b7/scripts/pi-hole/js/index.js/issues/L33-L214) [#546](https://github.com/Clumsy-Coder/pihole-dashboard/issues/546)
+
 ## [1.0.0-development.6](https://github.com/Clumsy-Coder/pihole-dashboard/compare/1.0.0-development.5...1.0.0-development.6) (2023-08-17)
 
 
