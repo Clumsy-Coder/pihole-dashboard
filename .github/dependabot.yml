@@ -33,3 +33,14 @@ updates:
     commit-message:
       prefix: 'ci(github-action): '
     target-branch: 'development'
+
+  # auto update docker images used in the dockerfile
+  # https://dev.to/oracle2025/how-to-keep-a-dockerfile-updated-with-dependabot-1mdn
+  - package-ecosystem: 'docker'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    open-pull-requests-limit: 20
+    commit-message:
+      prefix: 'ci(docker): '
+    target-branch: 'development'
