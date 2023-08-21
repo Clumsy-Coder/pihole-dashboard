@@ -160,7 +160,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: ./dockerfile
@@ -183,7 +183,7 @@ jobs:
       # adding a duplicate run for building docker image is because,
       # the nightly build will have a different value for the label `org.opencontainers.image.version`
       - name: Build `nightly` docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: ./dockerfile
