@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import moment from 'moment';
 
 const About: NextPage = () => {
   return (
@@ -27,6 +28,11 @@ const About: NextPage = () => {
         <Grid item xs={12}>
           <Typography variant='h4' color='textSecondary'>
             Build ID: {process.env.NEXT_PUBLIC_BUILD_ID}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant='h4' color='textSecondary'>
+            Build date: {moment.unix(process.env.NEXT_PUBLIC_BUILD_TIME).format('LLL [GMT] Z')}
           </Typography>
         </Grid>
       </Grid>
