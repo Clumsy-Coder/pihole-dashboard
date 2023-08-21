@@ -14,29 +14,18 @@ jobs:
   # install npm packages and store them as cache.
   install:
     runs-on: ubuntu-latest
-    outputs:
-      npm-cache-dir: ${{ steps.npm-cache-dir.outputs.dir }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: latest
 
-      - name: Get npm cache directory
-        id: npm-cache-dir
-        run: |
-          echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
-
       - name: Cache node modules
         uses: actions/cache@v3
-        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
         with:
-          path: |
-            **/node_modules
-            ${{ steps.npm-cache-dir.outputs.dir }}
+          path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          restore-keys: ${{ runner.os }}-node-
 
       - name: Install npm dependencies
         run: npm install --production=false
@@ -53,15 +42,12 @@ jobs:
         with:
           node-version: latest
 
-      - uses: actions/cache@v3
-        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+      - name: Cache node modules
+        uses: actions/cache@v3
         with:
-          path: |
-            **/node_modules
-            ${{ needs.install.outputs.npm-cache-dir }}
+          path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          restore-keys: ${{ runner.os }}-node-
 
       - name: Lint project
         run: npm run lint
@@ -84,15 +70,12 @@ jobs:
         with:
           node-version: latest
 
-      - uses: actions/cache@v3
-        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+      - name: Cache node modules
+        uses: actions/cache@v3
         with:
-          path: |
-            **/node_modules
-            ${{ needs.install.outputs.npm-cache-dir }}
+          path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          restore-keys: ${{ runner.os }}-node-
 
       - name: Extract next semantic-release version
         # run: npx semantic-release --dry-run --branches="*"
@@ -232,15 +215,12 @@ jobs:
         with:
           node-version: latest
 
-      - uses: actions/cache@v3
-        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+      - name: Cache node modules
+        uses: actions/cache@v3
         with:
-          path: |
-            **/node_modules
-            ${{ needs.install.outputs.npm-cache-dir }}
+          path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          restore-keys: ${{ runner.os }}-node-
 
       - run: npm install --production=false
 
