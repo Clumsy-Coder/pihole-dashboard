@@ -23,6 +23,15 @@ declare namespace NodeJS {
      */
     NEXT_PUBLIC_BUILD_ID: string;
 
+    /**
+     * Build date in unix time.
+     *
+     * Unix time obtained with command `date +%s`
+     *
+     * @example 1692545583
+     */
+    NEXT_PUBLIC_BUILD_TIME: number;
+
     // ------------------------------------------------------------------------------------------ //
 
     /**
