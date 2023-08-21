@@ -1,3 +1,10 @@
+## [1.1.0-development.1](https://github.com/Clumsy-Coder/pihole-dashboard/compare/1.0.0...1.1.0-development.1) (2023-08-21)
+
+
+### :sparkles: Features
+
+* **page:** display build time in the `about` page ([4cb30d8](https://github.com/Clumsy-Coder/pihole-dashboard/commit/4cb30d8108a886d12eb8e2b276b96ac806bb6399))
+
 ## 1.0.0 (2023-08-20)
 
 
