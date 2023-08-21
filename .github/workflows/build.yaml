@@ -145,6 +145,7 @@ jobs:
           printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES=%s\n" "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES }}"  >> .env.local
           printf "NEXT_PUBLIC_POLLING_QUERIES_OVERTIME=%s\n"                "${{ secrets.NEXT_PUBLIC_POLLING_QUERIES_OVERTIME }}"                 >> .env.local
           printf "NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME=%s\n"                "${{ secrets.NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME }}"                 >> .env.local
+          printf "NEXT_PUBLIC_BUILD_TIME=%s\n"                              "$(date +%s)"                                                         >> .env.local
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
