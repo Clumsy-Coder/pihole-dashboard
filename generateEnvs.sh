@@ -41,3 +41,7 @@ echo "NEXT_PUBLIC_POLLING_QUERIES_OVERTIME=600000" >> .env.local              # 
 
 # clients overtime (for bar chart)
 echo "NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME=600000" >> .env.local              # time in milliseconds
+
+# built date and time
+# using unix time
+echo "NEXT_PUBLIC_BUILD_TIME=$(date +%s)" >> .env.local
