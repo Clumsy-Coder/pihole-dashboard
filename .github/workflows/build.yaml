@@ -143,6 +143,11 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract Docker image metadata
+        uses: docker/metadata-action@v4.6.0
+        with:
+          images: ${{ env.CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}
+
       - name: Build docker image
         uses: docker/build-push-action@v4
         with:
