@@ -128,7 +128,7 @@ jobs:
   # build docker image
   docker-build:
     # needs: extract-envs
-    needs: install
+    needs: prepare-docker-build
     runs-on: ubuntu-latest
     outputs:
       NEXT_VERSION: ${{ steps.dockerBuild-output.outputs.NEXT_VERSION }}
