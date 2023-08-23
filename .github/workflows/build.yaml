@@ -7,6 +7,8 @@ env:
   FORCE_COLOR: true # display terminal colors
   # APP_NAME: app_name
   # GHCR_IMAGE: ghcr.io/<user>/<repo name>
+  CONTAINER_REGISTRY: ghcr.io
+  IMAGE_NAME: clumsy-coder/pihole-dashboard
 
 ####################################################################################################
 
@@ -239,8 +241,8 @@ jobs:
           pull: true
           load: true
           tags: |
-            ${{ env.GHCR_IMAGE }}:latest
-            ${{ env.GHCR_IMAGE }}:${{ env.NEXT_VERSION }}
+            ${{ env.CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.NEXT_VERSION }}
           # cache-from: type=local,src=/tmp/.buildx-cache
           # cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
           labels: |
@@ -262,7 +264,7 @@ jobs:
           pull: true
           load: true
           tags: |
-            ${{ env.GHCR_IMAGE }}:nightly
+            ${{ env.CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:nightly
           # cache-from: type=local,src=/tmp/.buildx-cache
           # cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
           labels: |
