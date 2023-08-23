@@ -149,6 +149,17 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-node-
 
+      - name: extract values from job prepare-docker-build to GITHUB_ENV
+        run: |
+          {
+            echo "NEXT_VERSION=${{ needs.prepare-docker-build.outputs.next_version }}"
+            echo "PUBLISH=${{ needs.prepare-docker-build.outputs.publish }}"
+            echo "BUILD_DATE=${{ needs.prepare-docker-build.outputs.build_date }}"
+            echo "GIT_SHA=${{ needs.prepare-docker-build.outputs.git_sha }}"
+            echo "GIT_REF=${{ needs.prepare-docker-build.outputs.git_ref }}"
+          } >> "$GITHUB_ENV"
+          echo "$GITHUB_ENV"
+
       - name: Extract next semantic-release version
         # run: npx semantic-release --dry-run --branches="*"
         run: npx semantic-release --dry-run
