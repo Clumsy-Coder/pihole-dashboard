@@ -160,34 +160,34 @@ jobs:
           } >> "$GITHUB_ENV"
           echo "$GITHUB_ENV"
 
-      - name: Extract next semantic-release version
-        # run: npx semantic-release --dry-run --branches="*"
-        run: npx semantic-release --dry-run
-        id: get-next-version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # needed in case semantic-release doesn't run on branches other than 'master' or 'development'
-      - name: Set NEXT_VERSION if there's NO new release
-        if: |
-          steps.get-next-version.outputs.new-release-published == '' ||
-          steps.get-next-version.outputs.new-release-published == 'false'
-        run: |
-          echo $(node -p "require('./package').version")
-          node -p "require('./package').version" |  awk '{print "NEXT_VERSION=" $1}' >> $GITHUB_ENV
-
-      - name: Set NEXT_VERSION if there's a NEW release
-        if: steps.get-next-version.outputs.new-release-published == 'true'
-        run: |
-          echo ${{ steps.get-next-version.outputs.new-release-version }}
-          echo "NEXT_VERSION=${{ steps.get-next-version.outputs.new-release-version }}" >> $GITHUB_ENV
-
-      - name: Set Environment Variables
-        run: |
-          echo "BUILD_DATE=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
-          echo "GIT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
-          echo "GIT_REF=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)" >> $GITHUB_ENV
-          echo "GHCR_IMAGE=$(echo 'console.log("ghcr.io/${{ github.repository }}".toLowerCase())' | node -)" >> $GITHUB_ENV
+      # - name: Extract next semantic-release version
+      #   # run: npx semantic-release --dry-run --branches="*"
+      #   run: npx semantic-release --dry-run
+      #   id: get-next-version
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #
+      # # needed in case semantic-release doesn't run on branches other than 'master' or 'development'
+      # - name: Set NEXT_VERSION if there's NO new release
+      #   if: |
+      #     steps.get-next-version.outputs.new-release-published == '' ||
+      #     steps.get-next-version.outputs.new-release-published == 'false'
+      #   run: |
+      #     echo $(node -p "require('./package').version")
+      #     node -p "require('./package').version" |  awk '{print "NEXT_VERSION=" $1}' >> $GITHUB_ENV
+      #
+      # - name: Set NEXT_VERSION if there's a NEW release
+      #   if: steps.get-next-version.outputs.new-release-published == 'true'
+      #   run: |
+      #     echo ${{ steps.get-next-version.outputs.new-release-version }}
+      #     echo "NEXT_VERSION=${{ steps.get-next-version.outputs.new-release-version }}" >> $GITHUB_ENV
+      #
+      # - name: Set Environment Variables
+      #   run: |
+      #     echo "BUILD_DATE=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+      #     echo "GIT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
+      #     echo "GIT_REF=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)" >> $GITHUB_ENV
+      #     echo "GHCR_IMAGE=$(echo 'console.log("ghcr.io/${{ github.repository }}".toLowerCase())' | node -)" >> $GITHUB_ENV
 
       - run: echo "$GITHUB_ENV"
 
@@ -284,7 +284,7 @@ jobs:
 
       - name: Push Docker images to GitHub Container Registry
         # only push if on master branch AND there's a new version to push
-        if: steps.get-next-version.outputs.new-release-published == 'true'
+        if: env.PUBLISH == 'true'
         run: |
           docker push ${{ env.GHCR_IMAGE }}:latest
           docker push ${{ env.GHCR_IMAGE }}:${{ env.NEXT_VERSION }}
