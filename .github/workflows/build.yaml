@@ -127,11 +127,12 @@ jobs:
       - run: echo "$GITHUB_ENV"
 
   ################################################################################################
-
-  test-reusable-workflow:
+  # build docker images using reusable workflow and github action matrix
+  docker-build-image:
     needs: prepare-docker-build
     strategy:
       matrix:
+        # using paired matrix values
         # obtained from
         # https://stackoverflow.com/a/76547617/3053548
         include:
