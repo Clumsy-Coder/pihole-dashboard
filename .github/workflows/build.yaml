@@ -130,10 +130,24 @@ jobs:
 
   test-reusable-workflow:
     needs: prepare-docker-build
+    strategy:
+      matrix:
+        # obtained from
+        # https://stackoverflow.com/a/76547617/3053548
+        include:
+          - version: latest
+            publish: ${{ needs.prepare-docker-build.outputs.publish == 'true' }}
+          # next version
+          - version: ${{ needs.prepare-docker-build.outputs.next_version }}
+            publish: ${{ needs.prepare-docker-build.outputs.publish == 'true' }}
+          # nightly
+          - version: nightly
+            publish: ${{ github.ref == 'refs/heads/development' }}
+
     uses: ./.github/workflows/reusable-docker-build.yml
     with:
-      publish: ${{ needs.prepare-docker-build.outputs.publish == 'true' }}
-      tags: 'latest'
+      publish: ${{ matrix.publish }}
+      tags: ${{ matrix.version }}
       labels: 'testing label'
     secrets: inherit
 
@@ -145,6 +159,7 @@ jobs:
   #     labels: 'testing label'
   #   secrets: inherit
 
+  ################################################################################################
   # build docker image
   docker-build:
     # needs: extract-envs
