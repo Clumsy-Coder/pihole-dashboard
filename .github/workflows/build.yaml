@@ -127,6 +127,24 @@ jobs:
       - run: echo "$GITHUB_ENV"
 
   ################################################################################################
+
+  test-reusable-workflow:
+    needs: prepare-docker-build
+    uses: ./.github/workflows/reusable-docker-build.yml
+    with:
+      publish: ${{ needs.prepare-docker-build.outputs.publish == 'true' }}
+      tags: 'latest'
+      labels: 'testing label'
+    secrets: inherit
+
+  # - name: test running workflow on call
+  #   uses: ./.github/workflows/reusable-docker-build.yml
+  #   with:
+  #     publish: ${{ env.publish == 'true' }}
+  #     tags: 'latest'
+  #     labels: 'testing label'
+  #   secrets: inherit
+
   # build docker image
   docker-build:
     # needs: extract-envs
