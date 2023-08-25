@@ -18,10 +18,10 @@ on:
         type: string
         required: true
         description: docker image version
-      labels:
-        type: string
-        required: true
-        description: docker image labels
+      # labels:
+      #   type: string
+      #   required: true
+      #   description: docker image labels
 
 env:
   FORCE_COLOR: true
