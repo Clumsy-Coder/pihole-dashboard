@@ -1,0 +1,55 @@
+---
+
+# remove docker image that's NOT from `master` or `development`
+#
+# branch created from `development` will create docker image with the tagname of the branch name
+# after a pull request is merged to the `development` branch, this github action will remove
+# docker image with the tagname of the `development` branch
+#
+# Ex:
+# - branch name `620` from `development` branch is created
+# - committed some code
+#   - github action creates docker image with tagname `620`
+# - created a pull request
+# - after pull request closed and merged, this github action will remove the docker image with tagname `620`
+name: Cleanup docker image on PR merge
+on:
+  pull_request:
+    types:
+      - closed
+      # - opened
+    branches-ignore:
+      - master
+
+env:
+  FORCE_COLOR: true
+  CONTAINER_REGISTRY: ghcr.io
+  IMAGE_NAME: clumsy-coder/pihole-dashboard
+  PACKAGE_NAME: pihole-dashboard
+
+jobs:
+  remove-dev-image:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    env:
+      HEAD_REF: ${{ github.event.pull_request.head.ref }}
+    steps:
+      - name: Get Version ID of docker image
+        run: |
+          curl -L \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/users/${{ github.repository_owner }}/packages/container/${{ env.PACKAGE_NAME }}/versions >> containerMeta.json ;
+          echo "VERSION_ID=$(jq -r '.[] | select(.metadata.container.tags[] == "${{ env.HEAD_REF }}").id' containerMeta.json)" >> "$GITHUB_ENV" ;
+
+      - name: Print version ID
+        run: echo ${{ env.VERSION_ID }}
+
+      - name: Remove pull request image from container registry
+        uses: actions/delete-package-versions@v4
+        if: ${{ env.VERSION_ID != '' }}
+        with:
+          package-name: ${{ env.PACKAGE_NAME }}
+          package-type: 'container'
+          package-version-ids: "${{ env.VERSION_ID }}"
