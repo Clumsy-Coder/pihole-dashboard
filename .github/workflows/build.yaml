@@ -154,6 +154,8 @@ jobs:
   ################################################################################################
 
   semantic-release:
+    # prerequisite of a job that uses matrix
+    # https://github.com/orgs/community/discussions/42010#discussioncomment-4439644
     needs: docker-build-image
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
