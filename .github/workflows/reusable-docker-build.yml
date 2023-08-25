@@ -46,25 +46,27 @@ jobs:
 
       - name: Create .env.local for NextJS
         run: |
-          printf "NEXT_PUBLIC_BUILD_VERSION=%s\n"                           "${{ env.NEXT_VERSION }}"                                             >> .env.local
-          printf "NEXT_PUBLIC_BUILD_ID=%s\n"                                "$(echo ${{ github.sha }} | cut -c -7)"                               >> .env.local
-          printf "SECRET_COOKIE_PASSWORD=%s\n"                              "${{ secrets.SECRET_COOKIE_PASSWORD }}"                               >> .env.local
-          printf "SECURE_COOKIE_TTL=%s\n"                                   "${{ secrets.SECURE_COOKIE_TTL }}"                                    >> .env.local
-          printf "NEXT_PUBLIC_POLLING_AUTH_SESSION=%s\n"                    "${{ secrets.NEXT_PUBLIC_POLLING_AUTH_SESSION }}"                     >> .env.local
-          printf "NEXT_PUBLIC_POLLING_SUMMARY=%s\n"                         "${{ secrets.NEXT_PUBLIC_POLLING_SUMMARY }}"                          >> .env.local
-          printf "NEXT_PUBLIC_POLLING_FORWARDED_DESTINATIONS=%s\n"          "${{ secrets.NEXT_PUBLIC_POLLING_FORWARDED_DESTINATIONS }}"           >> .env.local
-          printf "NEXT_PUBLIC_POLLING_QUERY_TYPES=%s\n"                     "${{ secrets.NEXT_PUBLIC_POLLING_QUERY_TYPES }}"                      >> .env.local
-          printf "NEXT_PUBLIC_POLLING_TOP_PERMITTED_QUERIES=%s\n"           "${{ secrets.NEXT_PUBLIC_POLLING_TOP_PERMITTED_QUERIES }}"            >> .env.local
-          printf "NEXT_PUBLIC_POLLING_TOP_BLOCKED_QUERIES=%s\n"             "${{ secrets.NEXT_PUBLIC_POLLING_TOP_BLOCKED_QUERIES }}"              >> .env.local
-          printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_PERMITTED_QUERIES=%s\n"       "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_PERMITTED_QUERIES }}"        >> .env.local
-          printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_BLOCKED_QUERIES=%s\n"         "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_BLOCKED_QUERIES }}"          >> .env.local
-          printf "NEXT_PUBLIC_POLLING_TOP_CLIENTS_ALLOWED_QUERIES=%s\n"     "${{ secrets.NEXT_PUBLIC_POLLING_TOP_CLIENTS_ALLOWED_QUERIES }}"      >> .env.local
-          printf "NEXT_PUBLIC_POLLING_TOP_CLIENTS_BLOCKED_QUERIES=%s\n"     "${{ secrets.NEXT_PUBLIC_POLLING_TOP_CLIENTS_BLOCKED_QUERIES }}"      >> .env.local
-          printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_ALLOWED_QUERIES=%s\n" "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_ALLOWED_QUERIES }}"  >> .env.local
-          printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES=%s\n" "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES }}"  >> .env.local
-          printf "NEXT_PUBLIC_POLLING_QUERIES_OVERTIME=%s\n"                "${{ secrets.NEXT_PUBLIC_POLLING_QUERIES_OVERTIME }}"                 >> .env.local
-          printf "NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME=%s\n"                "${{ secrets.NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME }}"                 >> .env.local
-          printf "NEXT_PUBLIC_BUILD_TIME=%s\n"                              "$(date +%s)"                                                         >> .env.local
+          {
+            printf "NEXT_PUBLIC_BUILD_VERSION=%s\n"                           "${{ env.NEXT_VERSION }}"
+            printf "NEXT_PUBLIC_BUILD_ID=%s\n"                                "$(echo ${{ github.sha }} | cut -c -7)"
+            printf "SECRET_COOKIE_PASSWORD=%s\n"                              "${{ secrets.SECRET_COOKIE_PASSWORD }}"
+            printf "SECURE_COOKIE_TTL=%s\n"                                   "${{ secrets.SECURE_COOKIE_TTL }}"
+            printf "NEXT_PUBLIC_POLLING_AUTH_SESSION=%s\n"                    "${{ secrets.NEXT_PUBLIC_POLLING_AUTH_SESSION }}"
+            printf "NEXT_PUBLIC_POLLING_SUMMARY=%s\n"                         "${{ secrets.NEXT_PUBLIC_POLLING_SUMMARY }}"
+            printf "NEXT_PUBLIC_POLLING_FORWARDED_DESTINATIONS=%s\n"          "${{ secrets.NEXT_PUBLIC_POLLING_FORWARDED_DESTINATIONS }}"
+            printf "NEXT_PUBLIC_POLLING_QUERY_TYPES=%s\n"                     "${{ secrets.NEXT_PUBLIC_POLLING_QUERY_TYPES }}"
+            printf "NEXT_PUBLIC_POLLING_TOP_PERMITTED_QUERIES=%s\n"           "${{ secrets.NEXT_PUBLIC_POLLING_TOP_PERMITTED_QUERIES }}"
+            printf "NEXT_PUBLIC_POLLING_TOP_BLOCKED_QUERIES=%s\n"             "${{ secrets.NEXT_PUBLIC_POLLING_TOP_BLOCKED_QUERIES }}"
+            printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_PERMITTED_QUERIES=%s\n"       "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_PERMITTED_QUERIES }}"
+            printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_BLOCKED_QUERIES=%s\n"         "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_BLOCKED_QUERIES }}"
+            printf "NEXT_PUBLIC_POLLING_TOP_CLIENTS_ALLOWED_QUERIES=%s\n"     "${{ secrets.NEXT_PUBLIC_POLLING_TOP_CLIENTS_ALLOWED_QUERIES }}"
+            printf "NEXT_PUBLIC_POLLING_TOP_CLIENTS_BLOCKED_QUERIES=%s\n"     "${{ secrets.NEXT_PUBLIC_POLLING_TOP_CLIENTS_BLOCKED_QUERIES }}"
+            printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_ALLOWED_QUERIES=%s\n" "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_ALLOWED_QUERIES }}"
+            printf "NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES=%s\n" "${{ secrets.NEXT_PUBLIC_NUM_ENTRIES_TOP_CLIENTS_BLOCKED_QUERIES }}"
+            printf "NEXT_PUBLIC_POLLING_QUERIES_OVERTIME=%s\n"                "${{ secrets.NEXT_PUBLIC_POLLING_QUERIES_OVERTIME }}"
+            printf "NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME=%s\n"                "${{ secrets.NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME }}"
+            printf "NEXT_PUBLIC_BUILD_TIME=%s\n"                              "$(date +%s)"
+          } >> .env.local
           cat .env.local
 
       - name: Set up QEMU
