@@ -27,6 +27,7 @@ env:
   FORCE_COLOR: true
   CONTAINER_REGISTRY: ghcr.io
   IMAGE_NAME: clumsy-coder/pihole-dashboard
+  PACKAGE_NAME: pihole-dashboard
 
 jobs:
   build-and-push:
@@ -112,3 +113,11 @@ jobs:
       - name: Push docker image
         if: ${{ inputs.publish }}
         run: docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.tags }}
+
+      - name: Remove untagged image on container registry
+        if: ${{ inputs.publish }}
+        uses: actions/delete-package-versions@v4
+        with:
+          package-name: ${{ env.PACKAGE_NAME }}
+          package-type: 'container'
+          delete-only-untagged-versions: 'true'
