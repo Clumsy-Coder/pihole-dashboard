@@ -29,14 +29,6 @@ env:
   IMAGE_NAME: clumsy-coder/pihole-dashboard
 
 jobs:
-  test-input-values:
-    runs-on: ubuntu-latest
-    steps:
-      - name: print input values
-        run: |
-          echo "PUBLISH=${{ inputs.publish }}"
-          echo "TAGS=${{ inputs.tags }}"
-          echo "LABELS=${{ inputs.labels }}"
   test-secrets-values:
     runs-on: ubuntu-latest
     steps:
