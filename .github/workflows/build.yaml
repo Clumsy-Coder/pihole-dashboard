@@ -151,14 +151,6 @@ jobs:
       tags: ${{ matrix.version }}
     secrets: inherit
 
-  # - name: test running workflow on call
-  #   uses: ./.github/workflows/reusable-docker-build.yml
-  #   with:
-  #     publish: ${{ env.publish == 'true' }}
-  #     tags: 'latest'
-  #     labels: 'testing label'
-  #   secrets: inherit
-
   ################################################################################################
 
   semantic-release:
