@@ -149,7 +149,6 @@ jobs:
     with:
       publish: ${{ matrix.publish }}
       tags: ${{ matrix.version }}
-      labels: 'testing label'
     secrets: inherit
 
   # - name: test running workflow on call
