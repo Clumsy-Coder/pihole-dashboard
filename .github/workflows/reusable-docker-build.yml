@@ -101,7 +101,7 @@ jobs:
           pull: true
           push: ${{ inputs.publish }}
           load: true
-          tags: ${{ inputs.tags }}
+          tags: ${{ env.CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
