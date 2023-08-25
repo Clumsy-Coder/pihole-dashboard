@@ -99,7 +99,7 @@ jobs:
           context: .
           file: ./dockerfile
           pull: true
-          push: ${{ inputs.publish }}
+          # push: ${{ inputs.publish }}
           load: true
           tags: ${{ env.CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -108,3 +108,7 @@ jobs:
 
       - name: View current docker images
         run: docker images
+
+      - name: Push docker image
+        if: ${{ inputs.publish }}
+        run: docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.tags }}
