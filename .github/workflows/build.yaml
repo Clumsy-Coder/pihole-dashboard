@@ -144,6 +144,10 @@ jobs:
           # nightly
           - version: nightly
             publish: ${{ github.ref == 'refs/heads/development' }}
+          # branches that are not `development` or `master`
+          # used for testing code of development branches
+          - version: ${{ github.ref_name }}
+            publish: ${{ github.ref != 'refs/heads/development' && github.ref != 'refs/heads/master' }}
 
     uses: ./.github/workflows/reusable-docker-build.yml
     with:
