@@ -331,7 +331,7 @@ jobs:
   ################################################################################################
 
   semantic-release:
-    needs: docker-build
+    needs: docker-build-image
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
     steps:
