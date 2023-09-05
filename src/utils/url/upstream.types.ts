@@ -535,4 +535,72 @@ export interface IClientsOvertime {
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////// //
+
+/**
+ * Data contained when when fetching data for `getAllQueries`
+ *
+ * The data structure returned is all strings.
+ *
+ * @remarks
+ * Data order returned
+ *
+ * - time                   : unix time
+ * - type                   : query type. Ex: A, AAAA, HTTPS
+ * - domain                 : domain name
+ * - client                 : client that made DNS query
+ * - status                 : is it blocked or allowed.
+ * - dnssecStatus
+ * - reply type             : SECURE, INSECURE, BOGUS, ABANDONED or UNKNOWN
+ * - response_time          : time taken to respond in milliseconds
+ * - CNAMEDomain
+ * - regexID
+ * - upstream destination   : who's handling the Query. Blocked, allowed, or forwarded
+ * - edge                    : Extended DNS Error
+ *
+ * @see {@link https://github.com/pi-hole/AdminLTE/blob/b29a423b9553654f113bcdc8a82296eb6e4613d7/api_FTL.php#L278-L337}
+ * @see {@link https://github.com/pi-hole/AdminLTE/blob/master/scripts/pi-hole/js/queries.js}
+ *
+ * @example
+ * ```json
+ * [
+ *   "1676818763",
+ *   "A",
+ *   "es.ring.com",
+ *   "apollo-prime.local",
+ *   "2",
+ *   "2",
+ *   "3",
+ *   "18",
+ *   "N/A",
+ *   "-1",
+ *   "localhost#5335",
+ *   ""
+ * ]
+ * ```
+ */
+export type IQueryData = Array<string>;
+
+export interface IQueryDataTransformed {
+  time: number;
+  type: string;
+  domain: string;
+  client: string;
+  status: number;
+  dnssecStatus: number;
+  reply: number;
+  response_time: number;
+  CNAMEDomain: string;
+  regexID: string;
+  upstreamDestination: number;
+  edge: string;
+}
+
+export interface IGetAllQueries {
+  data: IQueryData[];
+}
+
+export interface IGetAllQueriesTransformed {
+  data: IQueryDataTransformed[];
+}
+
 // ////////////////////////////////////////////////////////////////////////////////////////////// //

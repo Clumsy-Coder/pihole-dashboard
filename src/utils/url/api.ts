@@ -102,3 +102,12 @@ export const getQueriesOvertimeUrl = 'queries/overtime';
  * @remarks full URL `/api/queries/clients/overtime`
  */
 export const getClientsOvertimeUrl = `queries/clients/overtime`;
+
+//-------------------------------------------------------------------------------------------------
+
+/**
+ * URL for fetching Pi-hole `All Queries`
+ *
+ * @remarks full URL `/api/queries/allQueries`
+ */
+export const getAllQueriesUrl = `queries/allQueries`;

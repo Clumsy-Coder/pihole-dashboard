@@ -64,9 +64,8 @@ export class UpstreamApiUrl {
    * API url used to contact Pi-hole API
    */
   private upstreamApiUrl() {
-    return `http://${this.#ipAddress}:${this.#port}/${this.#upstreamBaseApiUrl}?auth=${
-      this.#password
-    }`;
+    return `http://${this.#ipAddress}:${this.#port}/${this.#upstreamBaseApiUrl}?auth=${this.#password
+      }`;
   }
 
   // /////////////////////////////////////////////////////////////////////////////////////////// //
@@ -219,6 +218,49 @@ export class UpstreamApiUrl {
    */
   clientOvertimeAndNames() {
     return `${this.upstreamApiUrl()}&overTimeDataClients&getClientNames`;
+  }
+
+  // ------------------------------------------------------------------------------------------- //
+
+  /**
+   * API url to fetch `getAllQueries` from upstream API
+   *
+   * @remarks Authorization required
+   * @returns API url for upstream API
+   *
+   * @see {@link https://github.com/pi-hole/AdminLTE/blob/b29a423b9553654f113bcdc8a82296eb6e4613d7/scripts/pi-hole/js/queries.js#L55-L76}
+   * @see {@link https://github.com/pi-hole/AdminLTE/blob/b29a423b9553654f113bcdc8a82296eb6e4613d7/api_FTL.php#L278-L337}
+   *
+   * @param numEntries - Number of entries to return
+   * @param from - fetch queries starting from a date/time. Format in Unix time
+   * @param until - fetch queries before a date/time. Format in Unix time
+   * @param client - fetch queries from a client. Ex: iPad.local
+   * @param domain - fetch queries of a domain name. Ex: google.com
+   * @param queryType - fetch queries of a specific query type. Ex: A, AAAA, HTTPS
+   * @param forwardDest - fetch queries that have been forwarded to. Ex: `blocked (gravity)`, `blocked(exact blacklist)`
+   */
+  allQueries(
+    numEntries = 100,
+    from?: string,
+    until?: string,
+    client?: string,
+    domain?: string,
+    queryType?: string,
+    forwardDest?: string,
+    // type: string,
+  ) {
+    let url = `${this.upstreamApiUrl()}&getAllQueries`;
+
+    url += numEntries ? `=${numEntries}` : '';
+    url += from ? `&from=${from}` : '';
+    url += until ? `&until=${until}` : '';
+    url += client ? `&client=${client}` : '';
+    url += domain ? `&domain=${domain}` : '';
+    url += queryType ? `&querytype=${queryType}` : '';
+    url += forwardDest ? `&forwarddest=${forwardDest}` : '';
+    // url += type ? `&type=${forwardDest}` : ''
+
+    return url;
   }
 }
 
