@@ -42,6 +42,20 @@ jobs:
     env:
       HEAD_REF: ${{ github.event.pull_request.head.ref }}
     steps:
+      - name: replace `/` with `-` in branch name
+        # mainly used for branches created by dependabot. they contain `/` which docker tagname cannot have
+        #   https://docs.docker.com/engine/reference/commandline/tag/#description
+        #   https://stackoverflow.com/a/73799519/3053548
+        #   https://stackoverflow.com/a/73467468/3053548
+        # check issue:
+        # - #649
+        # check commit
+        # - 1548272
+        # - cc87aba
+        run: echo "HEAD_REF=${HEAD_REF//\//-}" >> "$GITHUB_ENV"
+
+      - run: echo "$GITHUB_ENV"
+
       - name: Get Version ID of docker image
         run: |
           curl -L \
