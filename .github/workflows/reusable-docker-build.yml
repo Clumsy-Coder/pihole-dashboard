@@ -29,6 +29,21 @@ env:
   IMAGE_NAME: clumsy-coder/pihole-dashboard
   PACKAGE_NAME: pihole-dashboard
 
+permissions:
+  # needed for pushing docker images from branches created by dependabot[bot].
+  # check
+  # - https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs#defining-access-for-the-github_token-scopes
+  # - https://github.blog/changelog/2021-10-06-github-actions-workflows-triggered-by-dependabot-prs-will-respect-permissions-key-in-workflows/
+  # - https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions#responding-to-events
+  #
+  # check issue
+  # - #649
+  # check commit
+  # - 1548272
+  # - cc87aba
+  # - 5f9737d
+  packages: write
+
 jobs:
   build-and-push:
     name: Docker Build and Push
