@@ -120,7 +120,12 @@ jobs:
             echo "PUBLISH=$PUBLISH"
             echo "BUILD_DATE=$(date +'%Y-%m-%d %H:%M:%S')"
             echo "GIT_SHA=$(echo ${{ github.sha }} | cut -c1-7)"
-            echo "GIT_REF=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)"
+            # replace `/` with `-`
+            # mainly used for branches created by dependabot. they contain `/` which docker tagname cannot have
+            #   https://docs.docker.com/engine/reference/commandline/tag/#description
+            #   https://stackoverflow.com/a/73799519/3053548
+            #   https://stackoverflow.com/a/73467468/3053548
+            echo "GIT_REF=${GITHUB_REF_NAME//\//-}"
             # echo "GHCR_IMAGE=$(echo 'console.log("ghcr.io/${{ github.repository }}".toLowerCase())' | node -)" >> $GITHUB_ENV
           } | tee -a "$GITHUB_ENV" "$GITHUB_OUTPUT"
 
@@ -146,7 +151,7 @@ jobs:
             publish: ${{ github.ref == 'refs/heads/development' }}
           # branches that are not `development` or `master`
           # used for testing code of development branches
-          - version: ${{ github.ref_name }}
+          - version: ${{ needs.prepare-docker-build.outputs.git_ref  }}
             publish: ${{ github.ref != 'refs/heads/development' && github.ref != 'refs/heads/master' }}
 
     uses: ./.github/workflows/reusable-docker-build.yml
