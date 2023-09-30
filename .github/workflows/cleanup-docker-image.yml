@@ -23,8 +23,8 @@
 name: Cleanup docker image on PR merge
 on:
   pull_request_target:
-    types:
-      - closed
+    # types:
+    #   - closed
       # - opened
     branches-ignore:
       - master
