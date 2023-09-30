@@ -14,8 +14,11 @@ jobs:
       pull-requests: write
       contents: write
     if: |
-      startsWith(github.event.pull_request.title, 'build(deps):') ||
-      startsWith(github.event.pull_request.title, 'build(devDep):')
+      github.actor != 'dependabot[bot]' &&
+      (
+        startsWith(github.event.pull_request.title, 'build(deps):') ||
+        startsWith(github.event.pull_request.title, 'build(devDep):')
+      )
     steps:
       - name: Dependabot metadata
         id: metadata
