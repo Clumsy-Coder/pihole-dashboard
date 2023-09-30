@@ -17,7 +17,9 @@ jobs:
       github.actor != 'dependabot[bot]' &&
       (
         startsWith(github.event.pull_request.title, 'build(deps):') ||
-        startsWith(github.event.pull_request.title, 'build(devDep):')
+        startsWith(github.event.pull_request.title, 'build(devDep):') ||
+        startsWith(github.event.pull_request.title, 'ci(github-action):') ||
+        startsWith(github.event.pull_request.title, 'ci(docker):')
       )
     steps:
       - name: Dependabot metadata
