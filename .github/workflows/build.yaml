@@ -152,7 +152,7 @@ jobs:
           # branches that are not `development` or `master`
           # used for testing code of development branches
           - version: ${{ needs.prepare-docker-build.outputs.git_ref  }}
-            publish: ${{ github.ref != 'refs/heads/development' && github.ref != 'refs/heads/master' }}
+            publish: ${{ github.ref != 'refs/heads/development' && github.ref != 'refs/heads/master' && github.actor != 'dependabot[bot]' }}
 
     uses: ./.github/workflows/reusable-docker-build.yml
     with:
