@@ -49,6 +49,7 @@ permissions:
   # - cc87aba
   # - 5f9737d
   packages: write
+  pull-requests: write
 
 jobs:
   remove-dev-image:
