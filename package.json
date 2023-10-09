@@ -53,7 +53,7 @@
     "@svgr/webpack": "^8.1.0",
     "@types/node": "20.8.2",
     "@types/react": "18.2.25",
-    "@types/react-dom": "18.2.10",
+    "@types/react-dom": "18.2.11",
     "@types/signale": "^1.4.5",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
