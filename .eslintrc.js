@@ -71,5 +71,13 @@ module.exports = {
     // 'object-curly-newline': ["error", { "multiline": true }
     'prettier/prettier': 'warn',
     'max-classes-per-file': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      },
+    ],
   },
 };
