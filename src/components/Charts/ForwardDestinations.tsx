@@ -92,7 +92,7 @@ const ForwardedDestinationsChart: React.FC<Props> = (props: Props) => {
             //
             // interactivity
             activeInnerRadiusOffset={15}
-            onClick={(arcData, event) => {
+            onClick={(arcData, _event) => {
               alert(`onClick arc: '${arcData.id}'`);
             }}
             //
