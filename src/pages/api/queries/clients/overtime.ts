@@ -25,7 +25,7 @@ export interface IGetRequestData {
    *
    * @defaultValue `false`
    */
-  formatted?: string | 'false';
+  formatted?: string;
 }
 
 /**
