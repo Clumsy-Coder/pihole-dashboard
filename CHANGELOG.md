@@ -1,3 +1,10 @@
+## [1.1.0-development.2](https://github.com/Clumsy-Coder/pihole-dashboard/compare/1.1.0-development.1...1.1.0-development.2) (2023-11-10)
+
+
+### :sparkles: Features
+
+* **component:** use `react-hook-form` for validation ([1ea8f34](https://github.com/Clumsy-Coder/pihole-dashboard/commit/1ea8f34e9e05878bc0a6c55e8f804bbf9581ed30)), closes [#754](https://github.com/Clumsy-Coder/pihole-dashboard/issues/754)
+
 ## [1.1.0-development.1](https://github.com/Clumsy-Coder/pihole-dashboard/compare/1.0.0...1.1.0-development.1) (2023-08-21)
 
 
