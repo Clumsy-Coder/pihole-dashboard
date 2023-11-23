@@ -36,7 +36,13 @@ export interface PostResponseData {
 //    https://dev.to/charlintosh/setting-up-axios-interceptors-react-js-typescript-12k5
 //    https://stackoverflow.com/a/73062433/3053548
 //    https://dev.to/darkmavis1980/how-to-use-axios-interceptors-to-handle-api-error-responses-2ij1
-axios.interceptors.response.use(
+//
+// creating an axios instance because without it, the interceptor would be applied in api endpoint `/api/auth/[...nextauth]`
+// clearing the interceptor would break the axios interceptor in this file, because this file is not reloaded
+const axiosRequest = axios.create({
+  baseURL: '',
+});
+axiosRequest.interceptors.response.use(
   // onFulfilled
   (response: AxiosResponse<PostRequestData>) => response,
   // onRejected
@@ -121,7 +127,7 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
   // check if credentials work
   // if it works, data should be returned
   // if it doesn't work, empty array is returned
-  await axios
+  await axiosRequest
     .get(`http://${ipAddress}:${port}/admin/api_db.php`, {
       params: {
         status: true,
