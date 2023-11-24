@@ -93,15 +93,16 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    jwt({ token, user, session }) {
+    // jwt({ token, user, session }) {
+    jwt(props) {
       // const jwtLogger = logger.scope('next-auth/credentials-provider/', 'callback', 'jwt');
 
       // jwt(props) {
       // const { token, user } = props;
       // eslint-disable-next-line prefer-destructuring
-      // const token = props.token;
+      const token = props.token;
       // eslint-disable-next-line prefer-destructuring
-      // const user: IUser = props.user as unknown as IUser;
+      const user: IUser = props.user as unknown as IUser;
 
       // jwtLogger.debug('token: ', token);
       // jwtLogger.debug('user: ', user);
