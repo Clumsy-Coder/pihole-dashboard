@@ -8,8 +8,12 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
 
 import { SessionState, usePostAuthSessionMutation } from '@redux/AuthSession';
+import { providerName } from '@pages/api/auth/[...nextauth]';
+import { useAppDispatch } from '@redux/store';
+import api, { TagTypes } from '@redux/apiSlice';
 
 type FormValues = {
   ipAddress: string;
@@ -38,7 +42,8 @@ const schema = z.object({
  */
 const LoginForm: React.FC = () => {
   const [authMessage, setAuthMessage] = useState<SessionState['message']>('');
-  const [postAuthSession, { isLoading }] = usePostAuthSessionMutation();
+  // const [postAuthSession, { isLoading }] = usePostAuthSessionMutation();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const form = useForm<FormValues>({
     // https://react-hook-form.com/docs/useform#defaultValues
@@ -65,11 +70,36 @@ const LoginForm: React.FC = () => {
     const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
     try {
-      await postAuthSession({ ipAddress, password: hashedPassword, port: `${port}` }).unwrap();
+      // await postAuthSession({ ipAddress, password: hashedPassword, port: `${port}` }).unwrap();
       // replaced `router.push('/').catch(console.error);` because it would not navigate to another page.
       // not sure why this is happening.
       // router.push('/').catch(console.error);
-      router.reload();
+      // router.reload();
+
+      const res = await signIn(providerName, {
+        ipAddress,
+        port,
+        password: hashedPassword,
+        redirect: false,
+      });
+
+      console.log('signIn result: ', res);
+      // if auth fail
+      if (res && !res.ok) {
+        setAuthMessage(res.error as string);
+      } else {
+        setAuthMessage('');
+
+        // this is needed to update the RTK query cache when logging out.
+        // since logging out is now handled by NextAuth, RTK query needs to invalidate the cached tag `AUTH`.
+        // This will cause RTK query hook for getting session to refetch from the api
+        //
+        // obtained from
+        // https://redux-toolkit.js.org/rtk-query/usage/manual-cache-updates#general-updates
+        dispatch(api.util.invalidateTags([TagTypes.AUTH]));
+
+        await router.push('/').catch(console.error);
+      }
     } catch (err: unknown) {
       setAuthMessage((err as { data: { message: string } }).data.message);
     }
@@ -120,7 +150,7 @@ const LoginForm: React.FC = () => {
             variant='contained'
             type='submit'
             disabled={!isDirty || !isValid}
-            loading={isLoading}
+            // loading={isLoading}
           >
             Log in
           </LoadingButton>
