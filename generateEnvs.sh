@@ -17,6 +17,8 @@ echo "NEXT_PUBLIC_POLLING_AUTH_SESSION=1000" >> .env.local
 
 # next-auth
 echo "NEXTAUTH_SECRET=cteBV25ymu4HnVAvhDVf46JbGxZePA6Q" >> .env.local
+echo "NEXTAUTH_URL=http://localhost:3000" >> .env.local
+
 # fetching from /api/summary
 echo "NEXT_PUBLIC_POLLING_SUMMARY=2000" >> .env.local                         # time in milliseconds
 
