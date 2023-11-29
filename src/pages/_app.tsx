@@ -6,6 +6,8 @@ import Toolbar from '@mui/material/Toolbar';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Provider } from 'react-redux';
+import { SessionProvider } from 'next-auth/react';
+import type { Session } from 'next-auth';
 
 import AppBar from '@components/AppBar';
 import { drawerWidth } from '@components/Drawer';
@@ -25,34 +27,41 @@ const clientSideEmotionCache = createEmotionCache();
 
 interface MyAppProps extends AppProps {
   emotionCache: EmotionCache;
+  session: Session;
 }
 
-const App = ({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) => (
-  <Provider store={store}>
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <meta name='viewport' content='initial-scale=1, width=device-width' />
-      </Head>
-      <ThemeProvider theme={muiDarkTheme}>
-        <CssBaseline />
-        <AppBar />
-        <Toolbar /> {/* Used as a spacer for the AppBar. Has no functional use */}
-        {/* obtained from https://mui.com/material-ui/react-drawer/#responsive-drawer */}
-        <Box
-          component='main'
-          sx={{
-            flexGrow: 1,
-            p: 1,
-            width: { lg: `calc(100% - ${drawerWidth}px)` },
-            /* offset the entire main content by the drawerWidth set in AppBar.tsx */
-            ml: { lg: `${drawerWidth}px` },
-          }}
-        >
-          <Component {...pageProps} />
-        </Box>
-      </ThemeProvider>
-    </CacheProvider>
-  </Provider>
+const App = ({
+  Component,
+  pageProps: { session, ...pageProps },
+  emotionCache = clientSideEmotionCache,
+}: MyAppProps) => (
+  <SessionProvider session={session as Session}>
+    <Provider store={store}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <meta name='viewport' content='initial-scale=1, width=device-width' />
+        </Head>
+        <ThemeProvider theme={muiDarkTheme}>
+          <CssBaseline />
+          <AppBar />
+          <Toolbar /> {/* Used as a spacer for the AppBar. Has no functional use */}
+          {/* obtained from https://mui.com/material-ui/react-drawer/#responsive-drawer */}
+          <Box
+            component='main'
+            sx={{
+              flexGrow: 1,
+              p: 1,
+              width: { lg: `calc(100% - ${drawerWidth}px)` },
+              /* offset the entire main content by the drawerWidth set in AppBar.tsx */
+              ml: { lg: `${drawerWidth}px` },
+            }}
+          >
+            <Component {...pageProps} />
+          </Box>
+        </ThemeProvider>
+      </CacheProvider>
+    </Provider>
+  </SessionProvider>
 );
 
 export default App;
