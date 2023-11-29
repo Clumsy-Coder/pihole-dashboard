@@ -151,5 +151,12 @@ declare namespace NodeJS {
      * @remarks Used by Redux toolkit Query React hook when providing `pollingInterval`
      */
     NEXT_PUBLIC_POLLING_CLIENTS_OVERTIME: number;
+
+    /**
+     * used for encrypting NextAuth JWT and to hash email
+     *
+     * @see {@link https://next-auth.js.org/configuration/options#nextauth_secret}
+     */
+    NEXTAUTH_SECRET: string;
   }
 }
