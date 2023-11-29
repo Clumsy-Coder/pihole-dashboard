@@ -15,6 +15,8 @@ echo "SECRET_COOKIE_PASSWORD=cteBV25ymu4HnVAvhDVf46JbGxZePA6Q" >> .env.local;
 echo "SECURE_COOKIE_TTL=$(expr 5 \* 60 \* 60)" >> .env.local;                 # time in seconds
 echo "NEXT_PUBLIC_POLLING_AUTH_SESSION=1000" >> .env.local
 
+# next-auth
+echo "NEXTAUTH_SECRET=cteBV25ymu4HnVAvhDVf46JbGxZePA6Q" >> .env.local
 # fetching from /api/summary
 echo "NEXT_PUBLIC_POLLING_SUMMARY=2000" >> .env.local                         # time in milliseconds
 
