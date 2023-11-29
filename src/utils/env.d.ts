@@ -158,5 +158,12 @@ declare namespace NodeJS {
      * @see {@link https://next-auth.js.org/configuration/options#nextauth_secret}
      */
     NEXTAUTH_SECRET: string;
+
+    /**
+     * used for setting canonical URL for NextAuth in production setting
+     *
+     * @see {@link https://next-auth.js.org/configuration/options#nextauth_url}
+     */
+    NEXTAUTH_URL: string;
   }
 }
