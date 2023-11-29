@@ -5,7 +5,10 @@ import { Address4 } from 'ip-address';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { ErrorResponse, InternalServerError, UnreachableResponse } from '@lib/AxiosError';
-import { IAuthSession, withSessionRoute } from '@lib/AuthSession';
+import {
+  IAuthSession,
+  // withSessionRoute
+} from '@lib/AuthSession';
 import logger from '@utils/logger';
 import { postAuthSessionUrl as apiUrl } from '@utils/url/api';
 
@@ -135,7 +138,7 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
       },
       timeout: 1000, // the request shouldn't take longer than 1 seconds
     })
-    .then(async (response: AxiosResponse<PostResponseData>) => {
+    .then((response: AxiosResponse<PostResponseData>) => {
       // if user provided invalid credentials
       if (Array.isArray(response.data)) {
         const responseMessage = { message: 'invalid credentials' };
@@ -151,12 +154,12 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<PostResponse
       postLogger.info(`saving credentials as encrypted cookie`);
       // create encrypted cookie session to store ipAddress, port and password. Check iron-session
       // obtained from https://github.com/vercel/next.js/blob/canary/examples/with-iron-session/pages/api/login.ts
-      req.session.authSession = {
-        ipAddress,
-        port,
-        password: hash,
-      };
-      await req.session.save();
+      // req.session.authSession = {
+      //   ipAddress,
+      //   port,
+      //   password: hash,
+      // };
+      // await req.session.save();
 
       // user is authenticated
       postLogger.complete(`sending response`);
@@ -205,4 +208,5 @@ const requestHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default withSessionRoute(requestHandler);
+// export default withSessionRoute(requestHandler);
+export default requestHandler;
