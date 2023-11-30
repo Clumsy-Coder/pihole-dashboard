@@ -94,18 +94,33 @@ const handleGetSummaryRaw = async (
  * @param req - HTTP request provided by NextJS
  * @param res - HTTP response provided by NextJS
  */
-const handleGetSummary = (
+const handleGetSummary = async (
   req: NextApiRequest,
   res: NextApiResponse<IGetSummaryResponseData | ErrorMessage>,
 ) => {
   const getLogger = logger.scope('/api/summary', 'GET', 'formatted');
-  const { ipAddress, port, password } = req.session.authSession;
-  const requestUrl = new UpstreamApiUrl(ipAddress, port, password).summary();
 
+  const jwt = (await getToken({ req })) as IUser | null;
+
+  getLogger.log('checking if jwt is set');
+  if (!jwt || !jwt.ipAddress || !jwt.port || !jwt.password) {
+    getLogger.error('jwt is NULL. Redirecting to /api/auth/unauthorized');
+    res.redirect('/api/auth/unauthorized');
+    return;
+  }
+
+  getLogger.info('pi-hole credentials are set in JWT');
+  const { ipAddress, port, password } = jwt;
+
+  getLogger.log('building url for upstream Pi-Hole api');
+  const requestUrl = new UpstreamApiUrl(ipAddress, port, password).summary();
+  getLogger.debug('upstream url: ', requestUrl);
+
+  getLogger.log('sending request to upstream Pi-Hole api');
   axios
     .get<ISummary>(requestUrl)
     .then((response) => {
-      getLogger.info('data obtained from upstream');
+      getLogger.success('data obtained from upstream');
       getLogger.complete(`sending response: `);
       getLogger.debug('response data: ', response.data);
       res.status(200).json(response.data);
@@ -137,7 +152,7 @@ const requestHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         await handleGetSummaryRaw(req, res);
         break;
       } else {
-        handleGetSummary(req, res);
+        await handleGetSummary(req, res);
         break;
       }
     }
