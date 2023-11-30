@@ -39,6 +39,9 @@ const PageLogin: NextPage = () => (
  * Server side rendering function.
  *
  * If the user is logged in, it will redirect to the home page
+ *
+ * obtained from
+ * @see {@link https://next-auth.js.org/configuration/nextjs#in-getserversideprops}
  */
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext,
