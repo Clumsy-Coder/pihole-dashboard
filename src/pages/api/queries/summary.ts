@@ -1,7 +1,9 @@
 import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { getToken } from 'next-auth/jwt';
 
 import { withSessionRoute } from '@lib/AuthSession';
+import { IUser } from '@lib/types/next-auth';
 import logger from '@utils/logger';
 import { UpstreamApiUrl } from '@utils/url/upstream';
 import { ISummary, ISummaryRaw } from '@utils/url/upstream.types';
@@ -45,18 +47,33 @@ export type IGetSummaryResponseData = ISummary;
  * @param res - HTTP response provided by NextJS
  */
 
-const handleGetSummaryRaw = (
+const handleGetSummaryRaw = async (
   req: NextApiRequest,
   res: NextApiResponse<IGetSummaryRawResponseData | ErrorMessage>,
 ) => {
   const getLogger = logger.scope('/api/summary', 'GET', 'raw');
-  const { ipAddress, port, password } = req.session.authSession;
-  const requestUrl = new UpstreamApiUrl(ipAddress, port, password).summaryRaw();
 
+  const jwt = (await getToken({ req })) as IUser | null;
+
+  getLogger.log('checking if jwt is set');
+  if (!jwt || !jwt.ipAddress || !jwt.port || !jwt.password) {
+    getLogger.error('jwt is NULL. Redirecting to /api/auth/unauthorized');
+    res.redirect('/api/auth/unauthorized');
+    return;
+  }
+
+  getLogger.info('pi-hole credentials are set in JWT');
+  const { ipAddress, port, password } = jwt;
+
+  getLogger.log('building url for upstream Pi-Hole api');
+  const requestUrl = new UpstreamApiUrl(ipAddress, port, password).summaryRaw();
+  getLogger.debug('upstream url: ', requestUrl);
+
+  getLogger.log('sending request to upstream Pi-Hole api');
   axios
     .get<ISummaryRaw>(requestUrl)
     .then((response) => {
-      getLogger.info('data obtained from upstream');
+      getLogger.success('data obtained from upstream');
       getLogger.complete(`sending response: `);
       getLogger.debug('response data: ', response.data);
       res.status(200).json(response.data);
@@ -108,7 +125,7 @@ const handleGetSummary = (
  * @remarks
  * HTTP method allowed: `GET`
  */
-const requestHandler = (req: NextApiRequest, res: NextApiResponse) => {
+const requestHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method = '' } = req;
 
   // limit which HTTP methods are allowed
@@ -117,7 +134,7 @@ const requestHandler = (req: NextApiRequest, res: NextApiResponse) => {
       const { raw = false } = req.query as IGetRequestData;
 
       if (raw) {
-        handleGetSummaryRaw(req, res);
+        await handleGetSummaryRaw(req, res);
         break;
       } else {
         handleGetSummary(req, res);
