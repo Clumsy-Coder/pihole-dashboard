@@ -28,7 +28,7 @@
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.3.2",
     "@mui/icons-material": "^5.14.19",
-    "@mui/lab": "^5.0.0-alpha.154",
+    "@mui/lab": "^5.0.0-alpha.155",
     "@mui/material": "^5.14.19",
     "@nivo/core": "^0.83.0",
     "@nivo/pie": "^0.83.0",
